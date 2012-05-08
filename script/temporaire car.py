@@ -9,12 +9,27 @@ USE_MOUSE_STEERING = False
 import bge
 	
 #BEGIN SETUP
-from r_vehicle import *
+from physicVehicle_math import *
 
 class vehicleSimulation:
-	def __init__():
-		gear=[[,]]
+	def __init__( ):
+		gear=[[]]
 		boostPower=int()
+	
+	def __init__( vehicle_type, wheel_type, keys ):
+		self.__init__( )
+		
+		try:
+			propertieFile = open("../objects/vehicles/"+vehicle_type+".cfg", "r")
+			for line in fichier:
+				if "gear = " in ligne:
+					gear=eval(ligne[7:])
+				if "boostPower = "
+					boostPower=int(ligne[13:])
+		except:
+			print("fichier de configuration ../objects/vehicles/"+vehicle_type+".cfg non trouvé")
+			print("paramètres par défaut utilisé")
+
 	def simulate():
 		cont = bge.logic.getCurrentController()
 		

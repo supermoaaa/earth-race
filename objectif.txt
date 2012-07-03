@@ -1,9 +1,9 @@
 réécrire les scripts pour la voiture de façon modulaire (un blend)
-	définir un id unique à la création des voitures dans le jeu
+	définir un nom unique à la création des voitures dans le jeu
 
 recréer le système de départ, checkpoint, arrivé de façon modulaire
-	lors du passage d'un voiture par un checkpoint, le checkpoint envoi son id et celui de la voiture à l'arrivé qui y stock dans un tableau.
-	définir un id unique pour chaque checkpoint à leurs création
+	lors du passage d'un voiture par un checkpoint, le checkpoint envoi son nom et celui de la voiture à l'arrivé qui y stock dans un tableau.
+	définir un nom unique pour chaque checkpoint à leurs création
 
 recréer les menus
 	menu principal
@@ -22,7 +22,7 @@ recréer le système de musique de façon modulaire
 
 multijoueur sur le même pc
 
-réécrire les scripts du créateur de map, de façon modulaire en utilisant un tableau à la place d'un dictionnaire
+
 
 multijoueur en réseau
 

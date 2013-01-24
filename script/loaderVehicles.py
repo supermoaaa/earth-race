@@ -1,34 +1,159 @@
 from bge import logic as gl
-import xml.dom.minidom as minidom
-import sys
-sys.path.append(gl.expandPath("//")+'script')
-from xmlHelper import getText
-import vehicle
+from bge import events as events
+from bge import render as render
+import confParser as conf
+from vehicleLinker import vehicleLinker
+import objects
 
-def addVehicleLoader( source, vehicleType, wheelsType, keys ):
+def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	scene = gl.getCurrentScene()
-	child = scene.addObject( source, source, 1 )
-	child['id']=source['id']+1
-	child['vehicleType']=vehicleType
-	child['wheelsType']=wheelsType
-	child['keys']=keys
-	try:
-		gl.cars.append([child['id'],child])
-	except :
-		gl.cars=[[child['id'],child]]
+	child = scene.addObject( 'Car', source, 0 )
+	child['id'] = id
+	child['vehicleType'] = vehicleType
+	child['wheelsType'] = wheelsType
+	child['kph'] = 0.0
+	child['mph'] = 0.0
+	child['accelerate'] = 0.0
+	child['reverse'] = 0.0
+	child['brake'] = 0.0
+	child['boost'] = 0.0
+	child['left'] = 0.0
+	child['right'] = 0.0
+	child['upGear'] = False
+	child['downGear'] = False
+	child['simulate'] = False
+	child['arrived'] = False
+	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType )
+	gl.cars.append([child['id'],child])
 	print(child.get('id'))
+	return child
+
+def autoViewport( cam, playerName ):
+	if not hasattr(gl,"dispPlayers") or playerName in gl.dispPlayers:
+		gl.cams.append(cam)
+		scene = gl.getCurrentScene()
+		if not hasattr(gl,"dispPlayers") or gl.dispPlayers[0]==0:
+			gl.getCurrentScene().active_camera = cam
+			camCompteur = scene.objects.get('Camera 1')
+			camCompteur.setViewport( 0, 0, render.getWindowWidth(),render.getWindowHeight() )
+			camCompteur.useViewport = True
+			camCompteur.setOnTop()
+		else:
+			mode=gl.dispPlayers[0]
+			id=gl.dispPlayers.index(playerName)
+			if (mode==1 or mode==4) and id==1:
+				cam.setViewport( 0, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en haut
+				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+			elif (mode==1 or mode==3) and id==1:
+				cam.setViewport( 0, 0, render.getWindowWidth, render.getWindowHeight/2 ) #en bas
+				scene.objects.get('Camera 2').setViewport( 0, 0, render.getWindowWidth, render.getWindowHeight/2 )
+			elif (mode==2 or mode==5) and id==0:
+				cam.setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight ) #à gauche
+				scene.objects.get('Camera 1').setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight )
+			elif (mode==2 or mode==6) and id==1:
+				cam.setViewport( render.getWindowWidth/2, 0, render.getWindowWidth, render.getWindowHeight ) #à droite
+				scene.objects.get('Camera 2').setViewport( render.getWindowWidth/2, 0, render.getWindowWidth, render.getWindowHeight )
+			elif (mode==3 or mode==6 or mode==7) and id==0:
+				cam.setViewport( 0, render.getWindowHeight/2, render.getWindowWidth/2, render.getWindowHeight ) #en haut à gauche
+				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight/2, render.getWindowWidth/2, render.getWindowHeight )
+			elif (mode==3 or mode==5 or mode==7) and id==1:
+				cam.setViewport( render.getWindowHeight/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en haut à droite
+				scene.objects.get('Camera 2').setViewport( render.getWindowHeight/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+			elif ((mode==4 or mode==6) and id==1) or (mode==7 and id==2):
+				cam.setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight/2 ) #en bas à gauche
+				scene.objects.get('Camera '+str(id+1)).setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight/2 )
+			elif ((mode==4 or mode==5) and id==2) or (mode==7 and id==3):
+				cam.setViewport( render.getWindowWidth/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en bas à droite
+				scene.objects.get('Camera '+str(id+1)).setViewport( render.getWindowWidth/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+			if ((mode==1 or mode==2) and id==1) or ((mode==3 or mode==4 or mode==5 or mode==6) and id==2) or (mode==7 and id==3):
+				j=0
+				while j < len(gl.cams):
+					gl.cams[j].useViewport = True
+					camCompteur = scene.objects.get('Camera '+str(j+1))
+					camCompteur.useViewport = True
+					camCompteur.setOnTop()
+
+def speedometer( id, gear, speed):
+	scene = gl.getCurrentScene()
+	id=str(id+1)
+	scene.objects.get('gear Counter '+id)['DFrame'] = gear
+	scene.objects.get('pointer Counter '+id)['kmh'] = int(speed)
+	cursor = scene.objects.get('pointer Counter '+id)
+	rot = cursor.localOrientation.to_euler()
+	speed = abs(speed)
+	if speed>340:
+		speed=340
+	rot[2] = float((-speed + 156) / 297 * 0.876470588 * 6.28318531)
+	cursor.localOrientation = rot.to_matrix()
 
 def load():
-	own = gl.getCurrentController().owner
-	if own['id']==0:
+	cont = gl.getCurrentController()
+	own = cont.owner
+	scene = gl.getCurrentScene()
+	#~ print("load",own['id'])
+	if own['simulate']==False:
+		gl.cars = []
+		gl.objectsCars = []
+		gl.cams = []
 		vehicles = []
 		wheels = []
-		propertieFile = minidom.parse(gl.expandPath("//")+"players.xml")
-		for player in propertieFile.getElementsByTagName("player") :
-			vehicleType = player.getElementsByTagName("vehicle")[0]
-			wheelsType = player.getElementsByTagName("wheels")[0]
-			addVehicleLoader( own, getText(vehicleType), getText(wheelsType), [] )
+		gl.keys = [[]]
+		i = 0
+		j = 0
+		x = False
+		objects.libLoad(gl.expandPath("//")+"counter.blend", "Scene")
+		#conf.loadPlayer() #rechargement des configurations players
+		while i < len(gl.conf[0]) :
+			if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
+				child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
+				child['cam']=child.children['Camera']
+				if gl.conf[0][j][1]=='human':
+					autoViewport( child['cam'], gl.conf[0][i][0] )
+				child['cam'].removeParent()
+				if x:
+					own.localPosition[0] += 2
+					own.localPosition[1] += 2
+					x = False
+				else:
+					own.localPosition[0] -= 2
+					own.localPosition[1] += 2
+					x = True
+				j = j+1
+			i = i+1
+		del x
+		own['simulate']=True
+		for actualCar in gl.cars:
+			actualCar[1]['car'].start()
+			print('start car'+str(actualCar[1]['id']))
+			actualCar[1]['simulate']=True
+		gl.carArrived=[]
 	else:
-		print(own['vehicleType'])
-		print(own['wheelsType'])
-		car = vehicle.vehicleSimulation( own['vehicleType'], own['wheelsType'], own['keys'] )
+		keyboard = gl.keyboard
+		ACTIVE = gl.KX_INPUT_ACTIVE
+		JUST_ACTIVATED = gl.KX_INPUT_JUST_ACTIVATED
+		nbCar=len(gl.cars)
+		for actualCar in gl.cars:
+			if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived:
+				gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
+			else:
+				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]:
+					if currentKey[0] != 'upGear' and currentKey[0] != 'downGear' and keyboard.events[int(currentKey[1])] == ACTIVE:
+						print( actualCar[1], ' : ', currentKey[0] )
+						actualCar[1][currentKey[0]] = 1
+					elif (currentKey[0] == 'upGear' or currentKey[0] == 'downGear') and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
+						actualCar[1][currentKey[0]] = 1
+					else:
+						actualCar[1][currentKey[0]] = 0
+		if len(gl.carArrived)==nbCar:
+			scene.replace('stat')
+
+def simulate():
+	cont = gl.getCurrentController()
+	own = cont.owner
+	if own['simulate']:
+		print("owner : ",own," id : ",own['id'])
+		own['car'].simulate()
+	cont.actuators['Camera'].object = gl.objectsCars[own['id']-1]
+	cont.activate('Camera')
+	speedometer( own['id'], own['gear'], own['kph'])
+	print( int(own['kph']), ' kph' )

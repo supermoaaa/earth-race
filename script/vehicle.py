@@ -39,7 +39,7 @@ class vehicleSimulation(object):
 			gl.nbTours = 1
 		self.simulated = False
 		self.physic = physic
-		boostPower = int()
+		self.boostPower = int()
 		print('vehicle init')
 		print('type du véhicule : '+vehicle_type)
 		print('touches : ',end='')
@@ -59,13 +59,11 @@ class vehicleSimulation(object):
 			elif param[0] == "boostPower":
 				self.boostPower=int(param[1])
 			elif param[0] == "mass":
-				print("mass"+param[1])
+				print("mass "+param[1])
 				owner.mass = float(param[1])
 		self.main.suspendDynamics()
 
 	def __del__(self):
-		if hasattr(self,"main") and not self.main is None:
-			self.main.endObject()
 		self.unloadWheel()
 
 	def setParent( self, parent ):
@@ -86,7 +84,7 @@ class vehicleSimulation(object):
 		wheelsConf=[]
 		for param in gl.conf[1][self.vehicle_type]:
 			if param[0] == "wheel":
-				wheelsConf.append([ self.main.children.get(param[3]), param[1], param[2]])
+				wheelsConf.append([ self.main.children.get(param[4]), param[1], param[2], param[3] ])
 		return wheelsConf
 
 	def getMainObject(self):
@@ -124,7 +122,7 @@ class vehicleSimulation(object):
 		return child
 
 	def simulate( self ):
-		if self.simulated and self.physic:
+		if self.simulated and self.physic and len(self.wheels)>0:
 			print("-----------------------------\nsimulate")
 			cont = gl.getCurrentController()
 
@@ -157,25 +155,6 @@ class vehicleSimulation(object):
 			print("gear", self.gearSelect)
 			if u: gas += eval(self.gearCalcs[self.gearSelect]) * u
 			if d: gas -= 800 + boost*300
-
-			wheels[0].e_torque = gas
-			wheels[1].e_torque = gas
-			wheels[2].e_torque = gas
-			wheels[3].e_torque = gas
-
-			brake = 0
-			if b: brake = 800
-			for w in wheels:
-				w.w_brake = brake
-
-			for w in wheels:
-				if w.w_grip < -0.4 and w.hit:
-					pass
-					#~ skid = sce.addObject("skid", "evo_main", 500)
-					#~ skid.worldPosition = w.hpos+w.hmat.col[2]*0.01
-					#~ o = vectrack(w.hmat.col[2], w.hvel)
-					#~ o[1].length = w.hvel.length/24
-					#~ skid.worldOrientation = o
 
 			#Camera-steering
 			#~ cambase = main.children["camera"]
@@ -221,15 +200,21 @@ class vehicleSimulation(object):
 
 			steer = input_steer + drift_steer + ydamp_steer
 
-
-			wheels[0].w_steer = -steer
-			wheels[1].w_steer = -steer
-			wheels[2].w_steer = steer
-			wheels[3].w_steer = steer
+			for w in wheels:
+				w.e_torque = gas
+				w.w_handbrake = b
+				w.setSteer(steer)
+				if w.w_grip < -0.4 and w.hit:
+					pass
+					#~ skid = sce.addObject("skid", "evo_main", 500)
+					#~ skid.worldPosition = w.hpos+w.hmat.col[2]*0.01
+					#~ o = vectrack(w.hmat.col[2], w.hvel)
+					#~ o[1].length = w.hvel.length/24
+					#~ skid.worldOrientation = o
 
 			#Simulate the vehicle
-			self.run()
-			self.checkCheckpoint()
+			self.__run()
+			self.__checkCheckpoint()
 
 			#Turn the steering wheel
 			#~ sw = main.children["evo_hull"].children["evo_steeringwheel"]
@@ -237,28 +222,39 @@ class vehicleSimulation(object):
 
 			main['steer'] = steer
 			print('voiture :',main)
-			main['kph'] = (wheels[0].kph + wheels[1].kph + wheels[2].kph + wheels[3].kph)/4
-			main['mph'] = (wheels[0].mph + wheels[1].mph + wheels[2].mph + wheels[3].mph)/4
+			main['kph'] = 0
+			main['mph'] = 0
+			for wheel in self.wheels:
+				main['kph'] += wheel.kph
+				main['mph'] += wheel.mph
+			main['kph'] /= len(self.wheels)
+			main['mph'] /= len(self.wheels)
 			main['gear'] = self.gearSelect
 
 			if respawn:
-				self.respawn()
+				self.__respawn()
 
-	def run(self):
-		main = self.main
+	def __run(self):
+		if len(self.wheels)>0:
+			main = self.main
 
-		dt = (1/self.framerate)
+			dt = (1/self.framerate)
 
-		lin_f = Vector([0,0,0])
-		ang_f = Vector([0,0,0])
+			lin_f = Vector([0,0,0])
+			ang_f = Vector([0,0,0])
 
-		for wheel in self.wheels:
-			wheel.step(dt)
-			lin_f += wheel.force
-			ang_f += wheel.force_pos.cross(wheel.force)
+			#~ physics engine's' compensation
+			groundContact=len(self.wheels)
+			for wheel in self.wheels:
+				wheel.step(dt)
+				lin_f += wheel.force
+				ang_f += wheel.force_pos.cross(wheel.force)
+				if wheel.hit:
+					groundContact-=1
+			lin_f[2]+=-10*self.main.mass*groundContact/len(self.wheels)
 
-		main.applyForce(lin_f)
-		main.applyTorque(ang_f)
+			main.applyForce(lin_f)
+			main.applyTorque(ang_f)
 
 	def start(self):
 		self.simulated = True
@@ -271,20 +267,28 @@ class vehicleSimulation(object):
 		self.setPhysic(False)
 		self.owner['arrived'] = True
 
-	def checkCheckpoint(self):
+	def __checkCheckpoint(self):
 		main = self.main
 		print(str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
-		print(self.distance( main, gl.checkpoints[self.nextIdCheckpoint] ))
-		if self.nextIdCheckpoint < len(gl.checkpoints) and self.distance( main, gl.checkpoints[self.nextIdCheckpoint] )<5:
+		if self.nextIdCheckpoint < len(gl.checkpoints) and main.getDistanceTo( gl.checkpoints[self.nextIdCheckpoint] )<5:
 			self.nextIdCheckpoint += 1
 			print("pass")
 		if self.nextIdCheckpoint >= len(gl.checkpoints):
 			self.nbTours += 1
+			self.nextIdCheckpoint = 0
 		if self.nbTours == gl.nbTours:
 			self.stop()
 			print("arrived")
 
-	def respawn(self):
+		#~ positionning of the objectif for IA
+		if self.nextIdCheckpoint+1 < len(gl.checkpoints):
+			self.owner['AI'].worldPosition = gl.checkpoints[self.nextIdCheckpoint+1].worldPosition
+		elif self.nbTours<=gl.nbTours:
+			self.owner['AI'].worldPosition = gl.checkpoints[0].worldPosition
+		else:
+			self.owner['AI'].worldPosition = gl.checkpoints[gl.checkpoints-1]
+
+	def __respawn(self):
 		main = self.main
 		zeroVector = Vector([0,0,0])
 		main.applyForce(zeroVector)
@@ -297,17 +301,8 @@ class vehicleSimulation(object):
 			main.worldPosition = gl.checkpoints[len(gl.checkpoints)-1].worldPosition
 			main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
 
-	def distance(self, obj0, obj1):
-		pos0 = obj0.worldPosition
-		pos1 = obj1.worldPosition
-
-		cotex = +(pos0[0] - pos1[0])
-		cotey = +(pos0[1] - pos1[1])
-		cotez = +(pos0[2] - pos1[2])
-
-		dist = sqrt(cotex**2 + cotey**2 + cotez**2)
-
-		return dist
+	def getAI(self):
+		return self.owner['AI']
 
 	def getRaceDuration(self):
 		try:

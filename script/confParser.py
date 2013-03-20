@@ -14,16 +14,18 @@ def lineParse(line):
 	param.remove("")
 	return param
 
-def loadVehicle(vehicleType):
+def loadVehicle(vehicleType, endFunction):
 	path = gl.expandPath("//")+"objects"+os.sep+"vehicles"+os.sep+vehicleType+os.sep
 	if vehicleType not in gl.conf[1] or path+vehicleType+".blend" not in objects.libList():
 
 		# load vehicle scene
-		objects.libLoad(path+vehicleType+".blend", "Scene")
+		gl.conf[1][vehicleType] = []
+		gl.conf[1][vehicleType].append(['loaded',False])
+		#~ objects.libLoad(path+vehicleType+".blend", "Scene", load_actions=True, load_scripts=True, async=False ).onFinish = fonc
+		gl.LibLoad(path+vehicleType+".blend", "Scene", load_actions=True, load_scripts=True, async=True ).onFinish = endFunction
 
 		# load vehicle properties
 		propertieFile = open(path+vehicleType+".cfg", "r")
-		gl.conf[1][vehicleType] = []
 		for line in propertieFile:
 			gl.conf[1][vehicleType].append( lineParse(line) )
 		gl.conf[1][vehicleType].append(['users',1])
@@ -33,6 +35,15 @@ def loadVehicle(vehicleType):
 		for param in gl.conf[1][vehicleType]:
 			if param[0]=="users":
 				param[1]+=1
+
+def setFinishLoadedVehicle(vehicleType):
+	gl.conf[1][vehicleType][0][1] = True
+
+def isLoadedVehicle(vehicleType):
+	if vehicleType in gl.conf[1] and gl.conf[1][vehicleType][0][0]=='loaded':
+		return gl.conf[1][vehicleType][0][1]
+	else:
+		return False
 
 def freeVehicle(vehicleType):
 	if hasattr(gl,"conf"):
@@ -45,16 +56,18 @@ def freeVehicle(vehicleType):
 					del(gl.conf[1][vehicleType])
 					print("freeVehicle "+vehicleType)
 
-def loadWheel(wheelsType):
+def loadWheel(wheelsType,endFunction):
 	path = gl.expandPath("//")+"objects"+os.sep+"wheels"+os.sep+wheelsType+os.sep
 	if wheelsType not in gl.conf[2] or path+wheelsType+".blend" not in objects.libList():
 
 		# load wheel scene
-		objects.libLoad(path+wheelsType+".blend","Scene")
+		gl.conf[2][wheelsType] = []
+		gl.conf[2][wheelsType].append(['loaded',False])
+		#~ objects.libLoad(path+wheelsType+".blend","Scene", load_actions=True, load_scripts=True, async=True).onFinish = endFunction
+		gl.LibLoad(path+wheelsType+".blend", "Scene", load_actions=True, load_scripts=True, async=True).onFinish = endFunction
 
 		# load wheel properties
 		propertieFile = open(path+wheelsType+".cfg", "r")
-		gl.conf[2][wheelsType] = []
 		for line in propertieFile:
 			if line!="\n":
 				gl.conf[2][wheelsType].append( lineParse(line) )
@@ -65,6 +78,15 @@ def loadWheel(wheelsType):
 		for param in gl.conf[2][wheelsType]:
 			if param[0]=="users":
 				param[1]+=1
+
+def setFinishLoadedWheel(wheelsType):
+	gl.conf[2][wheelsType][0][1] = True
+
+def isLoadedWheel(wheelsType):
+	if wheelsType in gl.conf[2] and gl.conf[2][wheelsType][0][0]=='loaded':
+		return gl.conf[2][wheelsType][0][1]
+	else:
+		return False
 
 def freeWheels(wheelsType):
 	if hasattr(gl,"conf"):
@@ -99,7 +121,8 @@ def checkConf():
 					[ 'brake', '32' ],
 					[ 'boost', '129' ],
 					[ 'upGear', '101' ],
-					[ 'downGear', '97' ]
+					[ 'downGear', '97' ],
+					[ 'respawn', '114' ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -115,7 +138,8 @@ def checkConf():
 					[ 'brake', '32' ],
 					[ 'boost', '129' ],
 					[ 'upGear', '101' ],
-					[ 'downGear', '97' ]
+					[ 'downGear', '97' ],
+					[ 'respawn', '114' ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -131,7 +155,8 @@ def checkConf():
 					[ 'brake', '32' ],
 					[ 'boost', '129' ],
 					[ 'upGear', '101' ],
-					[ 'downGear', '97' ]
+					[ 'downGear', '97' ],
+					[ 'respawn', '114' ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -147,7 +172,8 @@ def checkConf():
 					[ 'brake', '32' ],
 					[ 'boost', '129' ],
 					[ 'upGear', '101' ],
-					[ 'downGear', '97' ]
+					[ 'downGear', '97' ],
+					[ 'respawn', '114' ]
 				],
 				'caisse',
 				'rouepleine1'

@@ -1,9 +1,9 @@
 from bge import logic as gl
 
-def libLoad( filePath, dataType ):
+def libLoad( filePath, dataType, **args ):
 	try:
 		if filePath not in gl.LibList():
-			gl.LibLoad( filePath, dataType )
+			gl.LibLoad( filePath, dataType, **args )
 	except:
 		print("impossible d'ouvrir le fichier "+filePath)
 		print("heu… ben ça vas faire un bordel monstre")

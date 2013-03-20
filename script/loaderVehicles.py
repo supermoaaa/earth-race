@@ -11,6 +11,7 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['id'] = id
 	child['vehicleType'] = vehicleType
 	child['wheelsType'] = wheelsType
+	child['gear'] = 1
 	child['kph'] = 0.0
 	child['mph'] = 0.0
 	child['accelerate'] = 0.0
@@ -19,11 +20,13 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['boost'] = 0.0
 	child['left'] = 0.0
 	child['right'] = 0.0
+	child['respawn'] = 0.0
 	child['upGear'] = False
 	child['downGear'] = False
 	child['simulate'] = False
 	child['arrived'] = False
-	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType )
+	child['cam'] = child.children['Camera']
+	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])
 	print(child.get('id'))
 	return child
@@ -91,7 +94,13 @@ def load():
 	own = cont.owner
 	scene = gl.getCurrentScene()
 	#~ print("load",own['id'])
-	if own['simulate']==False:
+	if own['simulate']==False and own['load']==False:
+		# graphisme
+		try:
+			render.setAnisotropicFiltering(gl.generalConf[0])
+		except:
+			pass
+		# vehicules
 		gl.cars = []
 		gl.objectsCars = []
 		gl.cams = []
@@ -106,10 +115,10 @@ def load():
 		while i < len(gl.conf[0]) :
 			if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
 				child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
-				child['cam']=child.children['Camera']
+				child['AI']=child.children['AI']
+				child['AI'].removeParent()
 				if gl.conf[0][j][1]=='human':
 					autoViewport( child['cam'], gl.conf[0][i][0] )
-				child['cam'].removeParent()
 				if x:
 					own.localPosition[0] += 2
 					own.localPosition[1] += 2
@@ -121,12 +130,19 @@ def load():
 				j = j+1
 			i = i+1
 		del x
-		own['simulate']=True
-		for actualCar in gl.cars:
-			actualCar[1]['car'].start()
-			print('start car'+str(actualCar[1]['id']))
-			actualCar[1]['simulate']=True
 		gl.carArrived=[]
+		own['load']=True
+	elif own['load']==True:
+		own['load']=False
+		for actualCar in gl.cars:
+			if actualCar[1]['car'].isLoaded()==False:
+				own['load']=True
+		if own['load']==False:
+			own['simulate']=True
+			for actualCar in gl.cars:
+				actualCar[1]['car'].start()
+				print('start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
+				actualCar[1]['simulate']=True
 	else:
 		keyboard = gl.keyboard
 		ACTIVE = gl.KX_INPUT_ACTIVE
@@ -147,13 +163,25 @@ def load():
 		if len(gl.carArrived)==nbCar:
 			scene.replace('stat')
 
+def placeStart(position,orientation,scaling):
+	# set car loader
+	gl.getCurrentScene().objects.get('Loader').position = position
+	gl.getCurrentScene().objects.get('Loader').orientation = orientation
+	gl.getCurrentScene().objects.get('Loader').scaling = scaling
+
+	# set camera
+	gl.getCurrentScene().objects.get('Camera').position = position
+	gl.getCurrentScene().objects.get('Camera').localPosition[1] -= 20
+	gl.getCurrentScene().objects.get('Camera').position[2] += 6
+
+	# start car loader
+	gl.getCurrentScene().objects.get('Loader')['start'] = True
+
 def simulate():
 	cont = gl.getCurrentController()
 	own = cont.owner
 	if own['simulate']:
 		print("owner : ",own," id : ",own['id'])
 		own['car'].simulate()
-	cont.actuators['Camera'].object = gl.objectsCars[own['id']-1]
-	cont.activate('Camera')
 	speedometer( own['id'], own['gear'], own['kph'])
 	print( int(own['kph']), ' kph' )

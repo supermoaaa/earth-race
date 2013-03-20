@@ -6,12 +6,15 @@ import objects
 import os
 
 class r_wheel:
-	def __def_init(self, main_ob, wheel_ob, steer):
+	def __def_init(self, main_ob, wheel_ob, steer, powered=True, handbrake=0):
 
 		self.e_torque = 0.0				#Engine torque (connect directly to gas pedal!)
 		self.e_backtorque = 5			#A drag factor on the engine that serves to limit the maximum speed of the wheel.
 		self.e_gearing = 1				#Engine gearing ratio. This affects both torque and backtorque; higher gears have lower torque, but less backforce, allowing the wheel to reach a higher speed.. just like a real gearbox.
-		self.w_brake = 0.0				#Braking torque (always attempts to stop the wheel)
+		self.w_brake = 0.0				#Braking state
+		self.w_brake_force = 2500.0		#Braking torque (always attempts to stop the wheel)
+		self.w_handbrake_state = int(handbrake)
+		self.w_handbrake = 0.0
 
 		self.w_vel = 0.0				#Angular velocity of the wheel (radians per second)
 		self.w_radius = 0.20			#Wheel radius (Note that this is like a second gearing factor!)
@@ -21,13 +24,15 @@ class r_wheel:
 		self.w_edgef = 0.5				#Wheel coefficient of friction when it is running on the rim- i.e. if the wheel is tilted, there is less rubber on the road. Friction is interpolated between w_friction at 0 degrees and w_edge_friction at 90 degrees.
 		self.w_dynf = 3.0				#Dynamic coefficient of friction
 		self.w_grip = 0					#Whether or not the wheel is skidding
+		self.powered = powered			#Is the wheel powered
 		self.w_steer = 0.0				#Wheel steering angle (in radians). Positive angles rotate to the right.
 		self.w_steer_current = 0.0		#The current steering angle.
-		if int(steer)>=1:
+		self.w_steer_state = int(steer)
+		if self.w_steer_state!=1:
 			print('steer ',steer)
-			self.w_steer_rate = 2.0			#Rate at which the wheel turns towards the target angle. (Radians/second)
-		else:
 			self.w_steer_rate = 0			#Rate at which the wheel turns towards the target angle. (Radians/second)
+		else:
+			self.w_steer_rate = 2.0			#Rate at which the wheel turns towards the target angle. (Radians/second)
 		self.w_steer_limit = 0.5		#Maximum steering angle
 
 		self.w_axelf = 10				#The friction torque on the axle. Like a brake force that is always on.
@@ -67,13 +72,18 @@ class r_wheel:
 		self.kph = 0.0
 		self.mph = 0.0
 
-	def __init__(self, main_ob, pos_ob, wheel_type, steer, powered):
+	def __init__(self, main_ob, pos_ob, wheel_type, steer, powered=True, handbrake=False):
 
 		# load wheel scene
 		scene = gl.getCurrentScene()
 		path = gl.expandPath("//")+"objects"+os.sep+"wheels"+os.sep+wheel_type+os.sep
 		if path+wheel_type+".blend" not in gl.LibList():
 			objects.libLoad(path+wheel_type+".blend","Scene")
+
+		if powered=="1" or powered==1 or powered==True:
+			powered=True
+		else:
+			powered=False
 
 		self.childs = []
 		for param in gl.conf[2][wheel_type]:
@@ -84,7 +94,7 @@ class r_wheel:
 				print(child)
 				if child!=None:
 					print('default init')
-					self.__def_init(main_ob, child, steer)
+					self.__def_init(main_ob, child, steer, powered, handbrake)
 			elif param[0] == "decoration":
 				if param[1] in self.wheel.children:
 					self.childs.append(self.wheel.children.get(param[1]))
@@ -94,6 +104,8 @@ class r_wheel:
 				#~ newOri[0] = 0
 				#~ child.orientation = newOri.to_matrix()
 				#~ child.scaling = mainObject.scaling
+			elif param[0] == "brake":
+				self.w_brake_force = float(param[1])
 			elif param[0] == "radius":
 				self.w_radius = float(param[1])
 			elif param[0] == "mass":
@@ -127,6 +139,9 @@ class r_wheel:
 			self.wheel.endObject()
 		#~ for child in self.childs:
 			#~ child.endObject()
+
+	def setSteer(self, steer):
+		self.w_steer = -steer*self.w_steer_state
 
 	def step(self, dt):
 
@@ -249,12 +264,15 @@ class r_wheel:
 
 		#Engine torque
 		self.e_gearing = max(0.0000001, self.e_gearing)
-		Tengine = self.e_torque/self.e_gearing - self.w_vel*self.e_backtorque/self.e_gearing
+		if self.powered:
+			Tengine = self.e_torque/self.e_gearing - self.w_vel*self.e_backtorque/self.e_gearing
 
-		self.w_vel += (Tengine/self.w_mass)*dt
+			self.w_vel += (Tengine/self.w_mass)*dt
 
 		#Brake torque
-		Tbrake = self.w_brake + self.w_axelf
+		if self.w_brake+self.w_handbrake>1:
+			self.w_brake=1-self.w_handbrake
+		Tbrake = self.w_brake_force * self.w_brake + self.w_brake_force * self.w_handbrake * self.w_handbrake_state + self.w_axelf
 
 		self.w_vel = towards(self.w_vel, 0, (Tbrake/self.w_mass)*dt)
 
@@ -277,11 +295,11 @@ class r_wheel:
 		newOri = self.wheel.worldOrientation.to_euler()
 		newOri[0] = 0.001
 		#newOri[1]=
-		print(self.wheel.worldOrientation.to_euler())
+		#print(self.wheel.worldOrientation.to_euler())
 		for currentChild in self.childs:
 			currentChild.worldOrientation = newOri.to_matrix()
 			newOri = currentChild.worldOrientation.to_euler()
-			print(currentChild.worldOrientation.to_euler())
+			#print(currentChild.worldOrientation.to_euler())
 
 		#Calculate ground speed
 		self.kph = self.w_vel*self.w_radius*3.6

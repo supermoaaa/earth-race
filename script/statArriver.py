@@ -43,7 +43,7 @@ class StatSys(bgui.System):
 				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 		self.main_stat.visible = True
 
-		self.main_stat.img = bgui.Image(self.main_stat, 'image', 'menu.jpg', size=[1.0, 1.0],
+		self.main_stat.img = bgui.Image(self.main_stat, 'image', 'menuItems/menu.jpg', size=[1.0, 1.0],
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 #############bouton retour au menu############################
@@ -65,6 +65,15 @@ class StatSys(bgui.System):
 
 		# Setup an on_click callback
 		self.relancer_button.on_click = self.relancer
+#--------------frame tableau----------------#
+#
+#
+#
+		self.tableau = bgui.Frame(self.main_stat, 'tableau', border=None, size=[0.64, 0.75], pos=[0.02, 0.04], sub_theme='stat',
+				options=bgui.BGUI_DEFAULT)
+
+		self.tableau.img = bgui.Image(self.tableau, 'imagetableau', 'menuItems/fondStat.png', size=[1.0, 1.0],
+			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Create a keymap for keyboard input
 		self.keymap = {getattr(bge.events, val): getattr(bgui, val) for val in dir(bge.events) if val.endswith('KEY') or val.startswith('PAD')}

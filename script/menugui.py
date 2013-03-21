@@ -201,7 +201,7 @@ class MenuSelectionCircuitGui(BaseGui):
 
 		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.15, 0.7], options=bgui.BGUI_DEFAULT)
 		self.selection_circuit = bgui.Frame(self.frame, 'selection_circuit', sub_theme='ecran', border=1, size=[0.2, 0.3], pos=[0.15, 0.38], options=bgui.BGUI_DEFAULT)
-		self.selection_circuitVideo = bgui.Video(self.selection_circuit, 'selection_circuitVideo', 'menuItems/vidNonTrouver.avi', play_audio=False, repeat=-1, size=[1, 1], pos=[0, 0], options=bgui.BGUI_DEFAULT)
+		self.selection_circuitVideo = bgui.Video(self.selection_circuit, 'menuItems/vidNonTrouver.avi', play_audio=False, repeat=-1, size=[1, 1], pos=[0, 0], options=bgui.BGUI_DEFAULT)
 
 
 
@@ -239,12 +239,12 @@ class MenuSelectionCircuitGui(BaseGui):
 ############/////////// grillePosJoueurs \\\\\\\\\\\\\\#################
 
 		self.grillePosJoueurs = bgui.Frame(self.frame, 'grillePosJoueurs', sub_theme='ecran', border=1, size=[0.19, 0.55], pos=[0.6, 0.22], options=bgui.BGUI_DEFAULT)
-		self.grillePosJoueurs.img = bgui.Image(self.grillePosJoueurs , 'grilleDepart', 'menuItems/grille de depart.jpg', size=[1.0, 1.0], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.grillePosJoueurs.img = bgui.Image(self.grillePosJoueurs , 'menuItems/grille de depart.jpg', size=[1.0, 1.0], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 		self.grillePosJoueurs_label = bgui.Label(self.frame, 'grillePosJoueurs_label', text="position des joueurs", pt_size=24, pos=[0.6, 0.78], options=bgui.BGUI_DEFAULT)
 
 ############|||||||position 1||||||||########################
 		self.gPosJoueur1 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur1', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.75], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur1.img = bgui.Image(self.gPosJoueur1 , 'img1', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur1.img = bgui.Image(self.gPosJoueur1 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Setup an on_click callback
 		#self.gPosJoueur1.on_click = self.leftTours
@@ -252,35 +252,35 @@ class MenuSelectionCircuitGui(BaseGui):
 
 ############|||||||position 2||||||||########################
 		self.gPosJoueur2 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur2', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.63], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur2.img = bgui.Image(self.gPosJoueur2 , 'img2', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur2.img = bgui.Image(self.gPosJoueur2 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Setup an on_click callback
 		#self.gPosJoueur2.on_click = self.leftTours
 
 ############|||||||position 3||||||||########################
 		self.gPosJoueur3 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur3', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.49], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur3.img = bgui.Image(self.gPosJoueur3 , 'img3', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur3.img = bgui.Image(self.gPosJoueur3 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Setup an on_click callback
 		#self.gPosJoueur3.on_click = self.leftTours
 
 ############|||||||position 4||||||||########################
 		self.gPosJoueur4 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur4', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.36], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur4.img = bgui.Image(self.gPosJoueur4 , 'img4', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur4.img = bgui.Image(self.gPosJoueur4 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Setup an on_click callback
 		#self.gPosJoueur4.on_click = self.leftTours
 
 ############|||||||position 5||||||||########################
 		self.gPosJoueur5 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur5', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.23], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur5.img = bgui.Image(self.gPosJoueur5 , 'img5', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur5.img = bgui.Image(self.gPosJoueur5 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Setup an on_click callback
 		#self.gPosJoueur5.on_click = self.leftTours
 
 ############|||||||position 6||||||||########################
 		self.gPosJoueur6 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur6', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.09], options=bgui.BGUI_DEFAULT)
-		self.gPosJoueur6.img = bgui.Image(self.gPosJoueur6 , 'img6', 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+		self.gPosJoueur6.img = bgui.Image(self.gPosJoueur6 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 
 

@@ -373,16 +373,16 @@ class MenuEcranSpliterGui(BaseGui):
 
 		#Horizontal
 		self.deuxjoueurs_ecranHorizontal = bgui.Frame(self.frame, 'deuxjoueurs_ecranHorizontal', sub_theme='ecran', border=1, size=[0.4, 0.45], pos=[0.13, 0.19], options=bgui.BGUI_DEFAULT)
-		self.deuxjoueurs_ecranHorizontal.img = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'image1', 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
-		self.deuxjoueurs_ecranHorizontal.img2 = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'image2', 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)			
+		self.deuxjoueurs_ecranHorizontal.img = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
+		self.deuxjoueurs_ecranHorizontal.img2 = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)			
 		self.posJoueurHH_label = bgui.Label(self.deuxjoueurs_ecranHorizontal, 'posJoueurHH', text=str(gl.conf[0][0][0]), pt_size=24, pos=[0.5, 0.9], options=bgui.BGUI_DEFAULT)
 		self.posJoueurHB_label = bgui.Label(self.deuxjoueurs_ecranHorizontal, 'posJoueurHB', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.5, 0.4], options=bgui.BGUI_DEFAULT)
 
 
 		#Vertical
 		self.deuxjoueurs_ecranVertical = bgui.Frame(self.frame, 'deuxjoueurs_ecranVertical', sub_theme='ecran', border=1, size=[0.4, 0.45], pos=[0.13, 0.19], options=bgui.BGUI_DEFAULT)
-		self.deuxjoueurs_ecranVertical.img = bgui.Image(self.deuxjoueurs_ecranVertical, 'image1', 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
-		self.deuxjoueurs_ecranVertical.img2 = bgui.Image(self.deuxjoueurs_ecranVertical, 'image2', 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
+		self.deuxjoueurs_ecranVertical.img = bgui.Image(self.deuxjoueurs_ecranVertical, 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
+		self.deuxjoueurs_ecranVertical.img2 = bgui.Image(self.deuxjoueurs_ecranVertical, 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
 		self.posJoueurVH_label = bgui.Label(self.deuxjoueurs_ecranVertical, 'posJoueurVH', text=str(gl.conf[0][0][0]), pt_size=24, pos=[0.25, 0.9], options=bgui.BGUI_DEFAULT)
 		self.posJoueurVB_label = bgui.Label(self.deuxjoueurs_ecranVertical, 'posJoueurVB', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.75, 0.9], options=bgui.BGUI_DEFAULT)		
 
@@ -393,16 +393,16 @@ class MenuEcranSpliterGui(BaseGui):
 		self.quatrejoueurs_ecran = bgui.Frame(self.frame, 'quatrejoueurs_ecran', sub_theme='ecran', border=1, size=[0.4, 0.45], pos=[0.13, 0.19], options=bgui.BGUI_DEFAULT)
 		self.quatrejoueurs_ecran.z_index = 1
 
-		self.quatrejoueurs_ecran.img1 = bgui.Image(self.quatrejoueurs_ecran, 'image1', 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)
+		self.quatrejoueurs_ecran.img1 = bgui.Image(self.quatrejoueurs_ecran, 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)
 		self.posJoueurHG_label = bgui.Label(self.quatrejoueurs_ecran, 'posJoueurHG', text=str(gl.conf[0][0][0]), pt_size=24, pos=[0.25, 0.9], options=bgui.BGUI_DEFAULT)
 
-		self.quatrejoueurs_ecran.img2 = bgui.Image(self.quatrejoueurs_ecran, 'image2', 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.5, 0.5], options=bgui.BGUI_DEFAULT)
+		self.quatrejoueurs_ecran.img2 = bgui.Image(self.quatrejoueurs_ecran, 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.5, 0.5], options=bgui.BGUI_DEFAULT)
 		self.posJoueurHD_label = bgui.Label(self.quatrejoueurs_ecran, 'posJoueurHD', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.75, 0.9], options=bgui.BGUI_DEFAULT)
 
-		self.quatrejoueurs_ecran.img3 = bgui.Image(self.quatrejoueurs_ecran, 'image3', 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
+		self.quatrejoueurs_ecran.img3 = bgui.Image(self.quatrejoueurs_ecran, 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
 		self.posJoueurBG_label = bgui.Label(self.quatrejoueurs_ecran, 'posJoueurBG', text=str(gl.conf[0][2][0]), pt_size=24, pos=[0.25, 0.4], options=bgui.BGUI_DEFAULT)
 
-		self.quatrejoueurs_ecran.img4 = bgui.Image(self.quatrejoueurs_ecran, 'image4', 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
+		self.quatrejoueurs_ecran.img4 = bgui.Image(self.quatrejoueurs_ecran, 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
 		self.posJoueurBD_label = bgui.Label(self.quatrejoueurs_ecran, 'posJoueurBD', text=str(gl.conf[0][3][0]), pt_size=24, pos=[0.75, 0.4], options=bgui.BGUI_DEFAULT)
 		
 		#cache 3 joueurs

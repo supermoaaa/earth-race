@@ -26,26 +26,26 @@ def addObject( pos_ob, objectName ):
 		print("objet \""+objectName+"\" non trouvé")
 		return None
 
-def copyRelatifOrientation(pos_ob, object, mainObject):
-	objectName = object.name
+def copyRelatifOrientation(pos_ob, objectTarget, mainObject):
+	objectName = objectTarget.name
 	modelPiece = gl.getCurrentScene().objects.get(objectName)
 	newOri = pos_ob.orientation.to_quaternion()
 	mainOri = mainObject.orientation.copy().to_quaternion()
 	modelOri = modelPiece.orientation.copy().to_quaternion()
 	newOri.rotate(mainOri.rotation_difference(modelOri))
-	print('orientation : ', object.orientation)
-	object.orientation = newOri.to_matrix()
-	print('orientation : ', object.orientation)
+	print('orientation : ', objectTarget.orientation)
+	objectTarget.orientation = newOri.to_matrix()
+	print('orientation : ', objectTarget.orientation)
 
-def copyRelatifPosition(pos_ob, object, mainObject):
-	objectName = object.name
+def copyRelatifPosition(pos_ob, objectTarget, mainObject):
+	objectName = objectTarget.name
 	modelPiece = gl.getCurrentScene().objects.get(objectName)
-	object.position = applyVectDifftoVect( mainObject.position, modelPiece.position, list(pos_ob.position) )
+	objectTarget.position = applyVectDifftoVect( mainObject.position, modelPiece.position, list(pos_ob.position) )
 
-def copyRelatifScale(pos_ob, object, mainObject):
-	objectName = object.name
+def copyRelatifScale(pos_ob, objectTarget, mainObject):
+	objectName = objectTarget.name
 	modelPiece = gl.getCurrentScene().objects.get(objectName)
-	object.scaling = applyVectDifftoVect( mainObject.scaling, modelPiece.scaling, list(pos_ob.scaling) )
+	objectTarget.scaling = applyVectDifftoVect( mainObject.scaling, modelPiece.scaling, list(pos_ob.scaling) )
 
 def applyVectDifftoVect( vect1, vect2, vect3 ):
 	x = vect3[0]+vect2[0]-vect1[0]

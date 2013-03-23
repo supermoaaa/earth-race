@@ -76,6 +76,21 @@ def autoViewport( cam, playerName ):
 					camCompteur.useViewport = True
 					camCompteur.setOnTop()
 
+def setGraphism():
+	try:
+			render.setAnisotropicFiltering(gl.generalConf[0])
+	except:
+		pass
+	try:
+		render.setMistStart(gl.generalConf[1])
+	except:
+		pass
+	try:
+		render.setMistEnd(gl.generalConf[2])
+	except:
+		pass
+
+
 def speedometer( id, gear, speed):
 	scene = gl.getCurrentScene()
 	id=str(id+1)
@@ -96,10 +111,7 @@ def load():
 	#~ print("load",own['id'])
 	if own['simulate']==False and own['load']==False:
 		# graphisme
-		try:
-			render.setAnisotropicFiltering(gl.generalConf[0])
-		except:
-			pass
+		setGraphism()
 		# vehicules
 		gl.cars = []
 		gl.objectsCars = []

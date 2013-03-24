@@ -1102,7 +1102,7 @@ class MenuVoitureMultijoueursGui(BaseGui):
 			#self.flecheJ1_button.on_click = self.rightcar
 
 	#############bouton flecheGJ1Roue############################
-			self.flecheGJ2Roue_button = bgui.ImageButton(self.frame, 'flecheGRoueJ1', sub_theme='selFlecheG', size=[0.04, 0.18], pos=[0.06, 0.52])
+			self.flecheGJ1Roue_button = bgui.ImageButton(self.frame, 'flecheGRoueJ1', sub_theme='selFlecheG', size=[0.04, 0.18], pos=[0.06, 0.52])
 
 			# Setup an on_click callback
 			#self.flecheGJ1Roue_button.on_click = self.leftwheels
@@ -1114,6 +1114,80 @@ class MenuVoitureMultijoueursGui(BaseGui):
 			#self.flecheJ1Roue_button.on_click = self.rightwheels	
 
 
+		if 	groupeHautDroit == True:
+	#############bouton flecheGJ2############################
+			self.flecheGJ2_button = bgui.ImageButton(self.frame, 'flecheGJ2', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.56, 0.72])
+
+			# Setup an on_click callback
+			#self.flecheGJ2_button.on_click = self.leftcar
+
+	#############bouton flecheJ2############################
+			self.flecheJ2_button = bgui.ImageButton(self.frame, 'flecheJ2', sub_theme='selFleche', size=[0.04, 0.26], pos=[0.9, 0.72])
+
+			# Setup an on_click callback
+			#self.flecheJ2_button.on_click = self.rightcar
+
+	#############bouton flecheGJ2Roue############################
+			self.flecheGJ2Roue_button = bgui.ImageButton(self.frame, 'flecheGRoueJ2', sub_theme='selFlecheG', size=[0.04, 0.18], pos=[0.56, 0.52])
+
+			# Setup an on_click callback
+			#self.flecheGJ2Roue_button.on_click = self.leftwheels
+	
+	#############bouton flecheJ2Roue############################
+			self.flecheJ2Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ2', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.9, 0.52])
+
+			# Setup an on_click callback
+			#self.flecheJ2Roue_button.on_click = self.rightwheels
+
+		if 	groupeBasGauche == True:
+	#############bouton flecheGJ3############################
+			self.flecheGJ3_button = bgui.ImageButton(self.frame, 'flecheGJ3', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.06, 0.22])
+
+			# Setup an on_click callback
+			#self.flecheGJ3_button.on_click = self.leftcar
+
+	#############bouton flecheJ3############################
+			self.flecheJ3_button = bgui.ImageButton(self.frame, 'flecheJ3', sub_theme='selFleche', size=[0.04, 0.26], pos=[0.4, 0.22])
+
+			# Setup an on_click callback
+			#self.flecheJ3_button.on_click = self.rightcar
+
+	#############bouton flecheGJ3Roue############################
+			self.flecheGJ3Roue_button = bgui.ImageButton(self.frame, 'flecheGRoueJ3', sub_theme='selFlecheG', size=[0.04, 0.18], pos=[0.06, 0.02])
+
+			# Setup an on_click callback
+			#self.flecheGJ3Roue_button.on_click = self.leftwheels
+	
+	#############bouton flecheJ3Roue############################
+			self.flecheJ3Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ3', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.4, 0.02])
+
+			# Setup an on_click callback
+			#self.flecheJ3Roue_button.on_click = self.rightwheels	
+
+		if 	groupeBasDroit == True:
+	#############bouton flecheGJ4############################
+			self.flecheGJ4_button = bgui.ImageButton(self.frame, 'flecheGJ4', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.56, 0.22])
+
+			# Setup an on_click callback
+			#self.flecheGJ4_button.on_click = self.leftcar
+
+	#############bouton flecheJ4############################
+			self.flecheJ4_button = bgui.ImageButton(self.frame, 'flecheJ4', sub_theme='selFleche', size=[0.04, 0.26], pos=[0.9, 0.22])
+
+			# Setup an on_click callback
+			#self.flecheJ4_button.on_click = self.rightcar
+
+	#############bouton flecheGJ4Roue############################
+			self.flecheGJ4Roue_button = bgui.ImageButton(self.frame, 'flecheGRoueJ4', sub_theme='selFlecheG', size=[0.04, 0.18], pos=[0.56, 0.02])
+
+			# Setup an on_click callback
+			#self.flecheGJ4Roue_button.on_click = self.leftwheels
+	
+	#############bouton flecheJ4Roue############################
+			self.flecheJ4Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ4', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.9, 0.02])
+
+			# Setup an on_click callback
+			#self.flecheJ4Roue_button.on_click = self.rightwheels
 			
 	def detruire(self) :
 		"""Détruit les widgets"""

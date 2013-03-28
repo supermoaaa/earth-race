@@ -63,7 +63,13 @@ def main():
 	own["fond"].retour_label.text = "Quitter"
 
 
-
+	#chargement de l'audio du menu
+	gl.device = aud.device()
+	# load sound file (it can be a video file with audio)
+	factory = aud.Factory('2748.wav')
+	# if the audio is not too big and will be used often you can buffer it
+	gl.factory_buffered = aud.Factory.buffer(factory)
+	gl.device.volume = 0.3
 
 
 		

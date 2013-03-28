@@ -21,13 +21,7 @@ class BaseGui(bgui.System):
 		"""A high-level method to be run every frame"""
 
 		#self.update()
-		#chargement de l'audio du menu
-		device = aud.device()
-		# load sound file (it can be a video file with audio)
-		factory = aud.Factory('2748.wav')
-		# if the audio is not too big and will be used often you can buffer it
-		factory_buffered = aud.Factory.buffer(factory)
-		device.volume = 0.3
+
 
 		# Handle the mouse
 		mouse = gl.mouse
@@ -41,7 +35,7 @@ class BaseGui(bgui.System):
 
 		if mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_JUST_ACTIVATED:
 			mouse_state = bgui.BGUI_MOUSE_CLICK
-			handle_buffered = device.play(factory_buffered)
+			handle_buffered = gl.device.play(gl.factory_buffered)
 		elif mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_JUST_RELEASED:
 			mouse_state = bgui.BGUI_MOUSE_RELEASE
 		elif mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_ACTIVE:
@@ -77,7 +71,7 @@ class FondGui(BaseGui):
 		# Fond
 		self.frame = bgui.Frame(self.mainframe, 'fond', size=[1, 1], pos=[0, 0], options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 		self.frame.img = bgui.Image(self.frame, 'menuItems/menu.jpg', size=[1.0, 1.0],
-			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+			options = bgui.BGUI_DEFAULT|bgui.BGUI_CACHE)
 		
 		
 #############bouton quitter############################

@@ -228,7 +228,7 @@ def main (self):
 				scene = gl.getCurrentScene()
 				if gl.dispPlayers[0] == 1:
 					viewportDeuxDivision([scene.objects['CameraPlayer1'], scene.objects['CameraPlayer2']], gl.dispPlayers[0])
-				
+					
 				elif gl.dispPlayers[0] == 2:
 					viewportDeuxDivision([scene.objects['CameraPlayer1'], scene.objects['CameraPlayer2']], gl.dispPlayers[0])
 
@@ -268,6 +268,8 @@ def main (self):
 		if gl.status == "MenuVoitureMultijoueurs" :
 			if sys.action == "retour" :
 				gl.dispPlayers=[1, gl.conf[0][0][0], gl.conf[0][1][0]]
+				for lib in gl.LibList():
+					gl.LibFree(lib)
 				
 				own["sys"].detruire()
 				own["sys"] = MenuEcranSpliterGui(own["fond"].frame)
@@ -275,6 +277,5 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = True
 				own["sys"].nombreJoueurs_label.text = str(len(gl.dispPlayers)-1) + " JOUEURS"
-				gl.LibFree("carSelect.blend")
 				gl.status = "MenuEcranSpliter"
 

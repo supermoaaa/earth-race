@@ -160,11 +160,11 @@ def load():
 		ACTIVE = gl.KX_INPUT_ACTIVE
 		JUST_ACTIVATED = gl.KX_INPUT_JUST_ACTIVATED
 		nbCar=len(gl.cars)
-		for actualCar in gl.cars:
-			if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived:
+		for actualCar in gl.cars: # for each car
+			if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived: # if just arrived
 				gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
 			else:
-				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]:
+				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
 					if currentKey[0] != 'upGear' and currentKey[0] != 'downGear' and keyboard.events[int(currentKey[1])] == ACTIVE:
 						print( actualCar[1], ' : ', currentKey[0] )
 						actualCar[1][currentKey[0]] = 1

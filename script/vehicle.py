@@ -136,11 +136,11 @@ class vehicleSimulation(object):
 
 			wheels = self.wheels
 
-			u = main["accelerate"]
-			d = main["reverse"]
-			l = main["left"]
-			r = main["right"]
-			b = main["brake"]
+			accelerate = main["accelerate"]
+			reverse = main["reverse"]
+			left = main["left"]
+			right = main["right"]
+			brake = main["brake"]
 			boost = main["boost"]
 			upGear = main["upGear"]
 			downGear = main["downGear"]
@@ -153,8 +153,8 @@ class vehicleSimulation(object):
 				self.gearSelect -= 1
 			gas = 0
 			print("gear", self.gearSelect)
-			if u: gas += eval(self.gearCalcs[self.gearSelect]) * u
-			if d: gas -= 800 + boost*300
+			if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
+			if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 
 			#Camera-steering
 			#~ cambase = main.children["camera"]
@@ -178,7 +178,7 @@ class vehicleSimulation(object):
 				#~ input_steer = steer
 				#~ if lv[1] < 0.0: input_steer = -steer
 			else:
-				input_steer = r*STEER_BASE-l*STEER_BASE
+				input_steer = right*STEER_BASE-left*STEER_BASE
 
 			drift_steer = 0.0
 			drift_vec = Vector([lv[0], lv[1]])
@@ -202,7 +202,8 @@ class vehicleSimulation(object):
 
 			for w in wheels:
 				w.e_torque = gas
-				w.w_handbrake = b
+				w.w_handbrake = brake
+				w.e_gearing = self.gearSelect
 				w.setSteer(steer)
 				if w.w_grip < -0.4 and w.hit:
 					pass

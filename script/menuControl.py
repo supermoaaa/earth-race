@@ -76,7 +76,7 @@ def main (self):
 		if gl.status == "MenuPrincipal" :
 			if sys.action == "retour" :
 				gl.endGame()
-			if sys.action == "joueurSolo" :
+			elif sys.action == "joueurSolo" :
 				own["sys"] = jouerSoloGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
@@ -91,26 +91,26 @@ def main (self):
 				gl.Voiture.setVehicle( str(gl.conf[0][0][3]) )
 				gl.Voiture.setWheels( str(gl.conf[0][0][4]) )
 			
-			if sys.action == "MenuMultijoueurs" :
+			elif sys.action == "MenuMultijoueurs" :
 				own["sys"] = MenuMultijoueursGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuMultijoueurs"
 			
-			if sys.action == "MenuTelechargement" :
+			elif sys.action == "MenuTelechargement" :
 				own["sys"] = MenuTelechargementGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuTelechargement"
 			
-			if sys.action == "MenuOptions" :
+			elif sys.action == "MenuOptions" :
 				own["sys"] = MenuOptionsGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 
 		
-		if gl.status == "MenuselectionVoiture1J" :
+		elif gl.status == "MenuselectionVoiture1J" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuPrincipalGui(own["fond"].frame)
@@ -122,7 +122,7 @@ def main (self):
 				if hasattr(gl , 'voiture'):
 					del gl.voiture
 			
-			if sys.action == "MenuSelectionCircuit" :
+			elif sys.action == "MenuSelectionCircuit" :
 				own["sys"] = MenuSelectionCircuitGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
@@ -133,7 +133,7 @@ def main (self):
 				if hasattr(gl , 'voiture'):
 					del gl.voiture
 					
-		if gl.status == "MenuMultijoueurs" :
+		elif gl.status == "MenuMultijoueurs" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuPrincipalGui(own["fond"].frame)
@@ -141,7 +141,7 @@ def main (self):
 				own["fond"].retour_label.text = "Quitter"
 				gl.status = "MenuPrincipal"
 			
-			if sys.action == "MenuEcranSpliter" :
+			elif sys.action == "MenuEcranSpliter" :
 				own["sys"] = MenuEcranSpliterGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
@@ -149,7 +149,7 @@ def main (self):
 				gl.status = "MenuEcranSpliter"
 				gl.dispPlayers[0] = 1
 		
-		if gl.status == "MenuTelechargement" :
+		elif gl.status == "MenuTelechargement" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuPrincipalGui(own["fond"].frame)
@@ -157,7 +157,7 @@ def main (self):
 				own["fond"].retour_label.text = "Quitter"
 				gl.status = "MenuPrincipal"
 		
-		if gl.status == "MenuSelectionCircuit" :
+		elif gl.status == "MenuSelectionCircuit" :
 			if sys.action == "retour" :
 				if gl.dispPlayers[0] == 0:
 					own["sys"].detruire()
@@ -174,7 +174,7 @@ def main (self):
 					gl.Voiture.setVehicle( str(gl.conf[0][0][3]) )
 					gl.Voiture.setWheels( str(gl.conf[0][0][4]) )
 		
-		if gl.status == "MenuOptions" :
+		elif gl.status == "MenuOptions" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuPrincipalGui(own["fond"].frame)
@@ -182,25 +182,25 @@ def main (self):
 				own["fond"].retour_label.text = "Quitter"
 				gl.status = "MenuPrincipal"
 			
-			if sys.action == "Affichage" :
+			elif sys.action == "Affichage" :
 				own["sys"] = MenuAffichageGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuAffichage"
 
-			if sys.action == "joueurs" :
+			elif sys.action == "joueurs" :
 				own["sys"] = MenuNomsJoueursGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuJoueurs"
 
-			if sys.action == "commandes" :
+			elif sys.action == "commandes" :
 				own["sys"] = MenuCommandesGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuCommandes"
 
-		if gl.status == "MenuAffichage" :
+		elif gl.status == "MenuAffichage" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuOptionsGui(own["fond"].frame)
@@ -208,7 +208,7 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 				
-		if gl.status == "MenuEcranSpliter" :
+		elif gl.status == "MenuEcranSpliter" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuMultijoueursGui(own["fond"].frame)
@@ -217,7 +217,7 @@ def main (self):
 				gl.dispPlayers=[0, gl.conf[0][0][0]]
 				gl.status = "MenuMultijoueurs"
 			
-			if sys.action == "valider" :
+			elif sys.action == "valider" :
 				own["sys"].detruire()
 				own["sys"] = MenuVoitureMultijoueursGui(own["fond"].frame)
 				own["fond"].reinit()
@@ -249,7 +249,7 @@ def main (self):
 	
 				gl.status = "MenuVoitureMultijoueurs"
 
-		if gl.status == "MenuJoueurs" :
+		elif gl.status == "MenuJoueurs" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuOptionsGui(own["fond"].frame)
@@ -257,7 +257,7 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 
-		if gl.status == "MenuCommandes" :
+		elif gl.status == "MenuCommandes" :
 			if sys.action == "retour" :
 				own["sys"].detruire()
 				own["sys"] = MenuOptionsGui(own["fond"].frame)
@@ -265,7 +265,7 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 		
-		if gl.status == "MenuVoitureMultijoueurs" :
+		elif gl.status == "MenuVoitureMultijoueurs" :
 			if sys.action == "retour" :
 				gl.dispPlayers=[1, gl.conf[0][0][0], gl.conf[0][1][0]]
 				for lib in gl.LibList():

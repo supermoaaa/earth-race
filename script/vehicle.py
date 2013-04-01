@@ -12,6 +12,7 @@ from datetime import timedelta
 import os
 from mathutils import Vector
 import objects
+import logs
 
 #BEGIN SETUP
 from physicVehicle_math import *
@@ -40,9 +41,8 @@ class vehicleSimulation(object):
 		self.simulated = False
 		self.physic = physic
 		self.boostPower = int()
-		print('vehicle init')
-		print('type du véhicule : '+vehicle_type)
-		print('touches : ',end='')
+		logs.log('debug','vehicle init')
+		logs.log("debug",'type du véhicule : '+vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
 			if param[0] == "car":
 				mainObject = self.addPiece( param[1], None )
@@ -59,7 +59,7 @@ class vehicleSimulation(object):
 			elif param[0] == "boostPower":
 				self.boostPower=int(param[1])
 			elif param[0] == "mass":
-				print("mass "+param[1])
+				logs.log("debug","mass "+param[1])
 				owner.mass = float(param[1])
 		self.main.suspendDynamics()
 
@@ -100,13 +100,13 @@ class vehicleSimulation(object):
 
 	def addSteeringWheel(self, pos_ob):
 		self.steering_wheel = steering_wheel(pos_ob)
-		print("Select steering wheel")
+		logs.log("debug","Select steering wheel")
 
 	def addPiece( self, piece, mainObject ):
 		child = objects.addObject( self.owner, piece )
 		if child!=None:
 			if mainObject!=None:
-				print('main Object : ',mainObject)
+				logs.log("debug",'main Object : '+str(mainObject))
 				#position
 				objects.copyRelatifPosition(self.owner, child, mainObject)
 				#orientation
@@ -123,7 +123,8 @@ class vehicleSimulation(object):
 
 	def simulate( self ):
 		if self.simulated and self.physic and len(self.wheels)>0:
-			print("-----------------------------\nsimulate")
+			logs.log("debug","-----------------------------")
+			logs.log("debug","simulate")
 			cont = gl.getCurrentController()
 
 			sce = gl.getCurrentScene()
@@ -152,7 +153,7 @@ class vehicleSimulation(object):
 			if downGear and self.gearSelect > 0 and not upGear:
 				self.gearSelect -= 1
 			gas = 0
-			print("gear", self.gearSelect)
+			logs.log("debug","gear"+str(self.gearSelect))
 			if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
 			if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 
@@ -222,7 +223,7 @@ class vehicleSimulation(object):
 			#~ sw.localOrientation = [(wheels[0].w_steer_current + wheels[1].w_steer_current)*2,-pi/8,-pi/2]
 
 			main['steer'] = steer
-			print('voiture :',main)
+			logs.log("debug",'voiture :'+str(main))
 			main['kph'] = 0
 			main['mph'] = 0
 			for wheel in self.wheels:
@@ -270,16 +271,16 @@ class vehicleSimulation(object):
 
 	def __checkCheckpoint(self):
 		main = self.main
-		print(str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
+		logs.log("debug",str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
 		if self.nextIdCheckpoint < len(gl.checkpoints) and main.getDistanceTo( gl.checkpoints[self.nextIdCheckpoint] )<5:
 			self.nextIdCheckpoint += 1
-			print("pass")
+			logs.log("debug","pass checkpoint")
 		if self.nextIdCheckpoint >= len(gl.checkpoints):
 			self.nbTours += 1
 			self.nextIdCheckpoint = 0
 		if self.nbTours == gl.nbTours:
 			self.stop()
-			print("arrived")
+			logs.log("debug","arrived")
 
 		#~ positionning of the objectif for IA
 		if self.nextIdCheckpoint+1 < len(gl.checkpoints):
@@ -295,7 +296,7 @@ class vehicleSimulation(object):
 		main.applyForce(zeroVector)
 		main.applyTorque(zeroVector)
 		if self.nextIdCheckpoint >= 1:
-			print(str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
+			logs.log("debug",str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
 			main.worldPosition = gl.checkpoints[self.nextIdCheckpoint-1].worldPosition
 			main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
 		else:

@@ -5,6 +5,7 @@ from math import cos
 from math import sin
 import confParser as conf
 from physicVehicle_wheel import r_wheel
+import logs
 
 class vehicleLinker(object):
 	def __init__(self, **args):
@@ -47,7 +48,7 @@ class vehicleLinker(object):
 			self.vehicle_type = vehicle_type
 
 	def onFinishVehicleLoaded(self, st):
-		print("finish loading vehicle : "+self.vehicle_type)
+		logs.log("debug","finish loading vehicle : "+self.vehicle_type)
 		wheels_type=self.wheels_type
 		conf.setFinishLoadedVehicle(self.vehicle_type)
 		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent )
@@ -63,7 +64,7 @@ class vehicleLinker(object):
 			self.wheels_type = wheels_type
 
 	def onFinishWheelsLoaded(self, st):
-		print("finish loading wheels : "+self.wheels_type)
+		logs.log("debug","finish loading wheels : "+self.wheels_type)
 		conf.setFinishLoadedWheel(self.wheels_type)
 		self.__updateWheels()
 
@@ -144,7 +145,7 @@ class vehicleLinker(object):
 				diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
 			# lissage des mouvements de la caméra
 			if -0.785<diff_angle and diff_angle<0.785:
-				print('smooth')
+				logs.log("debug",'smooth')
 				carRot = camRot[2] + diff_angle*0.1
 			# blocage d'extrémités
 			diff_angle =self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle

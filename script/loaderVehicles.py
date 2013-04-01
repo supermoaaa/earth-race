@@ -4,6 +4,7 @@ from bge import render as render
 import confParser as conf
 from vehicleLinker import vehicleLinker
 import objects
+import logs
 
 def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	scene = gl.getCurrentScene()
@@ -28,7 +29,7 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['cam'] = child.children['Camera']
 	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])
-	print(child.get('id'))
+	logs.log("debug",child.get('id'))
 	return child
 
 def autoViewport( cam, playerName ):
@@ -108,7 +109,7 @@ def load():
 	cont = gl.getCurrentController()
 	own = cont.owner
 	scene = gl.getCurrentScene()
-	#~ print("load",own['id'])
+	#~ logs.log("debug","load"+str(own['id']))
 	if own['simulate']==False and own['load']==False:
 		# graphisme
 		setGraphism()
@@ -153,7 +154,7 @@ def load():
 			own['simulate']=True
 			for actualCar in gl.cars:
 				actualCar[1]['car'].start()
-				print('start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
+				logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
 				actualCar[1]['simulate']=True
 	else:
 		keyboard = gl.keyboard
@@ -166,7 +167,7 @@ def load():
 			else:
 				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
 					if currentKey[0] != 'upGear' and currentKey[0] != 'downGear' and keyboard.events[int(currentKey[1])] == ACTIVE:
-						print( actualCar[1], ' : ', currentKey[0] )
+						logs.log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
 						actualCar[1][currentKey[0]] = 1
 					elif (currentKey[0] == 'upGear' or currentKey[0] == 'downGear') and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
 						actualCar[1][currentKey[0]] = 1
@@ -193,7 +194,7 @@ def simulate():
 	cont = gl.getCurrentController()
 	own = cont.owner
 	if own['simulate']:
-		print("owner : ",own," id : ",own['id'])
+		logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
 		own['car'].simulate()
 	speedometer( own['id'], own['gear'], own['kph'])
-	print( int(own['kph']), ' kph' )
+	logs.log("debug", str(int(own['kph'])) + ' kph' )

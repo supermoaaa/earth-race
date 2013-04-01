@@ -2,6 +2,7 @@ from bge import logic as gl
 import os
 import objects
 import json
+import logs
 
 def lineParse(line):
 	param = line.split("=")
@@ -30,7 +31,7 @@ def loadVehicle(vehicleType, endFunction):
 			gl.conf[1][vehicleType].append( lineParse(line) )
 		gl.conf[1][vehicleType].append(['users',1])
 		propertieFile.close
-		print("loadVehicle "+vehicleType)
+		logs.log("info","loadVehicle "+vehicleType)
 	else:
 		for param in gl.conf[1][vehicleType]:
 			if param[0]=="users":
@@ -54,7 +55,7 @@ def freeVehicle(vehicleType):
 				if param[1]==0:
 					objects.libFree(path+vehicleType+".blend")
 					del(gl.conf[1][vehicleType])
-					print("freeVehicle "+vehicleType)
+					logs.log("info","freeVehicle "+vehicleType)
 
 def loadWheel(wheelsType,endFunction):
 	path = gl.expandPath("//")+"objects"+os.sep+"wheels"+os.sep+wheelsType+os.sep
@@ -73,7 +74,7 @@ def loadWheel(wheelsType,endFunction):
 				gl.conf[2][wheelsType].append( lineParse(line) )
 		gl.conf[2][wheelsType].append(['users',1])
 		propertieFile.close
-		print("loadWheel "+wheelsType)
+		logs.log("info","loadWheel "+wheelsType)
 	else:
 		for param in gl.conf[2][wheelsType]:
 			if param[0]=="users":
@@ -97,7 +98,7 @@ def freeWheels(wheelsType):
 				if param[1]==0:
 					objects.libFree(path+wheelsType+".blend")
 					del(gl.conf[2][wheelsType])
-					print("freeWheel "+wheelsType)
+					logs.log("info","freeWheel "+wheelsType)
 
 def loadPlayer():
 	if not hasattr(gl, 'conf'):

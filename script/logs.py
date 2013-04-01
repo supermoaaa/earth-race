@@ -1,20 +1,27 @@
+from bge import logic as gl
 import logging
 
 def initLogs():
-	logger = logging.getLogger()
-	formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+	try:
+		with open('earth-race.log', 'w'):
+			pass
+	except:
+		pass
+	logger = logging.getLogger('earth-race')
+	logger.setLevel(logging.DEBUG) # niveau max de log que peuvent prendre le log ou la console
 	fh = logging.FileHandler('earth-race.log')
 	fh.setLevel(logging.DEBUG) # niveau de log du fichier
-	fh.setFormatter(formatter)
+	fh.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 	logger.addHandler(fh)
 	sh = logging.StreamHandler()
 	sh.setLevel(logging.DEBUG) # niveau de log de la console
-	sh.setFormatter(formatter)
+	sh.setFormatter(logging.Formatter('%(levelname)s : %(message)s'))
 	logger.addHandler(sh)
+	logger.debug("start")
 	#~ les niveaux de log sont dans l'ordre DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 def log(level, message):
-	logger = logging.getLogger()
+	logger = logging.getLogger('earth-race')
 	if level=="debug":
 		logger.debug(message)
 	elif level=="info":

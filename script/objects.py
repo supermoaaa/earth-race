@@ -1,12 +1,13 @@
 from bge import logic as gl
+import logs
 
 def libLoad( filePath, dataType, **args ):
 	try:
 		if filePath not in gl.LibList():
 			gl.LibLoad( filePath, dataType, **args )
 	except:
-		print("impossible d'ouvrir le fichier "+filePath)
-		print("heu… ben ça vas faire un bordel monstre")
+		logs.log("error","impossible d'ouvrir le fichier "+filePath)
+		logs.log("error","heu… ben ça vas faire un bordel monstre")
 
 def libList():
 	return gl.LibList()
@@ -19,11 +20,11 @@ def addObject( pos_ob, objectName ):
 	try:
 		scene = gl.getCurrentScene()
 		child = scene.addObject( objectName, pos_ob, 0 )
-		print('objet ajouté : ',child)
-		print('-------------------')
+		logs.log("debug",'objet ajouté : '+str(child))
+		logs.log("debug",'-------------------')
 		return child
 	except:
-		print("objet \""+objectName+"\" non trouvé")
+		logs.log("error","objet \""+objectName+"\" non trouvé")
 		return None
 
 def copyRelatifOrientation(pos_ob, objectTarget, mainObject):
@@ -33,9 +34,9 @@ def copyRelatifOrientation(pos_ob, objectTarget, mainObject):
 	mainOri = mainObject.orientation.copy().to_quaternion()
 	modelOri = modelPiece.orientation.copy().to_quaternion()
 	newOri.rotate(mainOri.rotation_difference(modelOri))
-	print('orientation : ', objectTarget.orientation)
+	logs.log("debug",'orientation : ', objectTarget.orientation)
 	objectTarget.orientation = newOri.to_matrix()
-	print('orientation : ', objectTarget.orientation)
+	logs.log("debug",'orientation : ', objectTarget.orientation)
 
 def copyRelatifPosition(pos_ob, objectTarget, mainObject):
 	objectName = objectTarget.name

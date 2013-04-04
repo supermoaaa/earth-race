@@ -304,12 +304,10 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.nbTours_label.text = str(gl.nbTours)
 
 	def departSolo(self, widget):
-		del(gl.Voiture)
-		confParser.savePlayer()
-		scene = gl.getCurrentScene()
-		for lib in gl.LibList():
-			gl.LibFree(lib)
-		scene.replace('game')
+		self.detruire()
+		self.action = "depart"
+		self.ouvert = False
+
 
 	def detruire(self) :
 		"""Détruit les widgets"""

@@ -4,7 +4,7 @@ import sys
 import os
 import time
 from menugui import *
-
+import logs
 
 cont = gl.getCurrentController()
 own = cont.owner
@@ -52,11 +52,11 @@ def main():
 
 	# mirror, Anisotropic, volume musique
 	gl.generalConf = [True, rd.getAnisotropicFiltering(), 50]
-	print(gl.lstRoue)
-	print(gl.dispPlayers)
-	print(gl.lstVoiture)
-	print(gl.listMaps)
-	print(gl.mapName)
+	logs.log("info", gl.lstRoue)
+	logs.log("info", gl.dispPlayers)
+	logs.log("info", gl.lstVoiture)
+	logs.log("info", gl.listMaps)
+	logs.log("info", gl.mapName)
 
 	own["fond"] = FondGui()
 	own["sys"] = MenuPrincipalGui(own["fond"].frame)

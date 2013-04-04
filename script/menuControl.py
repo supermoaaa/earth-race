@@ -173,6 +173,15 @@ def main (self):
 					gl.Voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
 					gl.Voiture.setVehicle( str(gl.conf[0][0][3]) )
 					gl.Voiture.setWheels( str(gl.conf[0][0][4]) )
+			
+			if sys.action == "depart" :
+				del(own["sys"])
+				del(gl.Voiture)
+				confParser.savePlayer()
+				scene = gl.getCurrentScene()
+				for lib in gl.LibList():
+					gl.LibFree(lib)
+				scene.replace('game')
 		
 		elif gl.status == "MenuOptions" :
 			if sys.action == "retour" :

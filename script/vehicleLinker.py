@@ -3,6 +3,7 @@ from bge import logic as gl
 from mathutils import Euler
 from math import cos
 from math import sin
+from math import sqrt
 import confParser as conf
 from physicVehicle_wheel import r_wheel
 import logs
@@ -107,12 +108,18 @@ class vehicleLinker(object):
 	def simulate( self ):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):
 			self.car.simulate()
-			self.__simulateCamera()
+			if self.camera != None:
+				self.__simulateCamera( self.__xDistance( self.car, self.camera ) )
 
 	def __diffAngle( self, angle1, angle2 ):
 		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14
 
-	def __simulateCamera( self ):
+	def __xDistance( obj1, obj2 ):
+		obj, point, normal = obj1.rayCast(obj2)
+		pos1 = obj1.position
+		return sqrt( (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )
+
+	def __simulateCamera( self, xDistance ):
 		if self.camera != None:
 			# variables initiales
 			car = self.car.getMainObject()
@@ -121,7 +128,10 @@ class vehicleLinker(object):
 			speed = abs(self.car.owner['kph'])+0.5
 			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
 			self.lastSpeed = speed
-			xRelativePosition = smoothSpeed/150+5
+			if distance == None:
+				xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
+			else:
+				xRelativePosition = xDistance/1.5
 			yRelativePosition = 0
 			zRelativePosition = 3.3-smoothSpeed/150
 			carRot = car.localOrientation.to_euler('XYZ')[2]

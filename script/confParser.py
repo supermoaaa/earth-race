@@ -107,9 +107,9 @@ def loadPlayer():
 		gl.conf[0] = []
 	with open(gl.expandPath("//")+'players.json', 'r') as f:
 		gl.conf[0] = json.load(f)
-	checkConf()
+	checkPlayerConf()
 
-def checkConf():
+def checkPlayerConf():
 	defaultConf = [
 			[
 				'player1',
@@ -204,3 +204,22 @@ def checkPlayer( idPlayer, defaultConf ):
 def savePlayer():
 	with open(gl.expandPath("//")+'players.json', 'w') as f:
 		json.dump(gl.conf[0], f, sort_keys=True, indent=4)
+
+def loadConf():
+	with open(gl.expandPath("//")+'conf.json', 'r') as f:
+		conf = json.load(f)
+		gl.graphic = conf[0]
+		gl.sound = conf[1]
+		gl.skin = conf[2]
+
+def checkConf():
+	if not hasattr(gl, 'graphic'):
+		gl.graphic = [ True, rd.getAnisotropicFiltering() ]
+	if not hasattr(gl, 'sound'):
+		gl.sound = [ 50 ]
+	if not hasattr(gl, 'skin'):
+		gl.skin = 'themes/default'
+
+def saveConf():
+	with open(gl.expandPath("//")+'players.json', 'w') as f:
+		json.dump([gl.graphic,gl.sound,gl.skin], f, sort_keys=True, indent=4)

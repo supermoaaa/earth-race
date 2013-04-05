@@ -88,6 +88,9 @@ def setGraphism():
 		pass
 	try:
 		render.setMistEnd(gl.generalConf[2])
+		i=0
+		while i < len(gl.cams):
+			gl.cams[i].lens(gl.generalConf[2])
 	except:
 		pass
 

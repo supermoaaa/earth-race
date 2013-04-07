@@ -176,6 +176,7 @@ def main (self):
 			
 			if sys.action == "depart" :
 				del(own["sys"])
+				del(own["fond"])
 				del(gl.Voiture)
 				confParser.savePlayer()
 				scene = gl.getCurrentScene()

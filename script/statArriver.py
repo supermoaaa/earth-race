@@ -18,8 +18,7 @@ class StatSys(bgui.System):
 	def retour(self, retour_button):
 		for lib in gl.LibList():
 			gl.LibFree(lib)
-		scene = gl.getCurrentScene()
-		scene.replace('menu')
+		gl.restartGame()
 
 	def relancer(self, relancer_button):
 		for lib in gl.LibList():

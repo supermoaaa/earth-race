@@ -104,6 +104,7 @@ class vehicleLinker(object):
 
 	def __del__( self ):
 		self.delVehicle()
+		logs.log("debug","del vehicleLinker")
 
 	def simulate( self ):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):

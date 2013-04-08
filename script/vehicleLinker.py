@@ -109,12 +109,12 @@ class vehicleLinker(object):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):
 			self.car.simulate()
 			if self.camera != None:
-				self.__simulateCamera( self.__xDistance( self.car, self.camera ) )
+				self.__simulateCamera( self.__xDistance( self.car.getMainObject(), self.camera ) )
 
 	def __diffAngle( self, angle1, angle2 ):
 		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14
 
-	def __xDistance( obj1, obj2 ):
+	def __xDistance( self, obj1, obj2 ):
 		obj, point, normal = obj1.rayCast(obj2)
 		pos1 = obj1.position
 		return sqrt( (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )

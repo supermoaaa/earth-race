@@ -106,7 +106,10 @@ def loadPlayer():
 	else:
 		gl.conf[0] = []
 	with open(gl.expandPath("//")+'players.json', 'r') as f:
-		gl.conf[0] = json.load(f)
+		try:
+			gl.conf[0] = json.load(f)
+		except:
+			logs.log("error", "json mal formaté")
 	checkPlayerConf()
 
 def checkPlayerConf():
@@ -207,10 +210,14 @@ def savePlayer():
 
 def loadConf():
 	with open(gl.expandPath("//")+'conf.json', 'r') as f:
-		conf = json.load(f)
-		gl.graphic = conf[0]
-		gl.sound = conf[1]
-		gl.skin = conf[2]
+		try:
+			conf = json.load(f)
+			gl.graphic = conf[0]
+			gl.sound = conf[1]
+			gl.skin = conf[2]
+		except:
+			logs.log("error", "json mal formaté")
+	checkConf()
 
 def checkConf():
 	if not hasattr(gl, 'graphic'):

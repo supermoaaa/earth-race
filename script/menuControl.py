@@ -131,7 +131,7 @@ def main (self):
 				own["sys"].gPosJoueur1.img.texco = [(0,0.5), (0.5,0.5), (0.5,1), (0,1)]
 				gl.status = "MenuSelectionCircuit"
 				gl.LibFree("carSelect.blend")
-				if hasattr(gl , 'Voiture'):
+				if hasattr(gl , 'voiture'):
 					gl.voiture.__del__()
 					del gl.voiture
 
@@ -179,6 +179,7 @@ def main (self):
 			if sys.action == "depart" :
 				del(own["sys"])
 				del(own["fond"])
+				gl.voiture.__del__()
 				del(gl.voiture)
 				confParser.savePlayer()
 				scene = gl.getCurrentScene()

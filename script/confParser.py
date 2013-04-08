@@ -221,7 +221,7 @@ def loadConf():
 
 def checkConf():
 	if not hasattr(gl, 'graphic'):
-		gl.graphic = [ True, rd.getAnisotropicFiltering() ]
+		gl.graphic = [ True, rd.getAnisotropicFiltering(), 3 ]
 	if not hasattr(gl, 'sound'):
 		gl.sound = [ 50 ]
 	if not hasattr(gl, 'skin'):

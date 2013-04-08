@@ -5,6 +5,7 @@ from bge import events as ev
 from bge import logic as gl
 import confParser
 import collections as coll
+import logs
 
 class BaseGui(bgui.System):
 	"""
@@ -12,10 +13,10 @@ class BaseGui(bgui.System):
 	"""
 	def __init__(self, ch):
 		bgui.System.__init__(self, ch)
-		
+
 		self.dialogue = None
 		self.ouvert = True
-		
+
 
 	def main(self):
 		"""A high-level method to be run every frame"""
@@ -53,7 +54,7 @@ class BaseGui(bgui.System):
 		for key, state in keyboard.events.items():
 			if state == gl.KX_INPUT_JUST_ACTIVATED:
 				self.update_keyboard(self.keymap[key], is_shifted)
-		
+
 		# Now setup the scene callback so we can draw
 		gl.getCurrentScene().post_draw = [self.render]
 
@@ -64,7 +65,7 @@ class FondGui(BaseGui):
 	def __init__(self):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fenetre principale
 		self.mainframe = bgui.Frame(self, 'window', border=0, size=[1, 1], pos=[0, 0])
 
@@ -72,28 +73,28 @@ class FondGui(BaseGui):
 		self.frame = bgui.Frame(self.mainframe, 'fond', size=[1, 1], pos=[0, 0], options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 		self.frame.img = bgui.Image(self.frame, 'menuItems/menu.jpg', size=[1.0, 1.0],
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CACHE)
-		
-		
+
+
 #############bouton quitter############################
 		self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.08])
 		self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 		# Setup an on_click callback
 		self.retour_button.on_click = self.retour_clic
-		
-		
+
+
 		# Autres attributs
 		self.action = None
-		
+
 		# Keymap pour la correspondance entre bge.events et bgui
 		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if val.endswith('KEY') or val.startswith('PAD')}
-		
-	
+
+
 	def retour_clic(self, widget) :
 		"""Methode appelée lors du clic sur le bouton Retour"""
 		self.action = "retour"
 		self.ouvert = False
-		
-	
+
+
 	def reinit(self) :
 		"""Remet les repères d'ouverture et d'action à leur valeur par défaut"""
 		self.ouvert = True
@@ -105,12 +106,12 @@ class FondGui(BaseGui):
 
 class MenuOptionsGui(BaseGui):
 	"""
-	Gui pour 
+	Gui pour
 	"""
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
@@ -143,16 +144,16 @@ class MenuOptionsGui(BaseGui):
 		# Setup an on_click callback
 		self.joueurs_button.on_click = self.joueursM
 
-		
+
 		# Autres attributs
 		self.action = None
 
-	
+
 
 	def detruire(self) :
 		"""Détruit les widgets"""
-		self.frame.parent._remove_widget(self.frame)	
-	
+		self.frame.parent._remove_widget(self.frame)
+
 	def affichageM(self, widget) :
 		self.detruire()
 		self.action = "Affichage"
@@ -179,11 +180,11 @@ class MenuSelectionCircuitGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'fond', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 #############bouton validercircuit############################
 		self.validercircuit_button = bgui.ImageButton(self.frame, 'circuitD', sub_theme='menu', size=[0.24, 0.08], pos=[0.25, 0.08])
 		self.retour_label = bgui.Label(self.validercircuit_button, 'circuitD', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -288,7 +289,7 @@ class MenuSelectionCircuitGui(BaseGui):
 		gl.listMaps.rotate(-1)
 		gl.mapName = gl.listMaps[0]
 		self.circuit_label.text = "nom du circuit:"+str(gl.mapName)
-		
+
 	def rightTours(self, widget):
 		if gl.nbTours <= 8:
 			gl.nbTours += 1
@@ -311,19 +312,19 @@ class MenuSelectionCircuitGui(BaseGui):
 
 	def detruire(self) :
 		"""Détruit les widgets"""
-		self.frame.parent._remove_widget(self.frame)		
+		self.frame.parent._remove_widget(self.frame)
 
-		
+
 	def main(self) :
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)
-	
+
 class MenuEcranSpliterGui(BaseGui):
 	"""
 	Gui pour la gestion multijoueurs ecran spliter
 	"""
 	def __init__(self, parent):
-		
+
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
 
@@ -353,7 +354,7 @@ class MenuEcranSpliterGui(BaseGui):
 
 		# Setup an on_click callback
 		self.placementJoueur_button.on_click = self.placementJoueurs
-	
+
 #############bouton valider############################
 		self.validerplacementJoueur_button = bgui.ImageButton(self.frame, 'validerplacementJoueur', sub_theme='menu', size=[0.22, 0.08], pos=[0.55, 0.28])
 		self.validerplacementJoueur_label = bgui.Label(self.validerplacementJoueur_button, 'validerplacementJoueur', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -366,7 +367,7 @@ class MenuEcranSpliterGui(BaseGui):
 		#Horizontal
 		self.deuxjoueurs_ecranHorizontal = bgui.Frame(self.frame, 'deuxjoueurs_ecranHorizontal', sub_theme='ecran', border=1, size=[0.4, 0.45], pos=[0.13, 0.19], options=bgui.BGUI_DEFAULT)
 		self.deuxjoueurs_ecranHorizontal.img = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
-		self.deuxjoueurs_ecranHorizontal.img2 = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)			
+		self.deuxjoueurs_ecranHorizontal.img2 = bgui.Image(self.deuxjoueurs_ecranHorizontal, 'menuItems/ecranJoueur.png', size=[1.0, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)
 		self.posJoueurHH_label = bgui.Label(self.deuxjoueurs_ecranHorizontal, 'posJoueurHH', text=str(gl.conf[0][0][0]), pt_size=24, pos=[0.5, 0.9], options=bgui.BGUI_DEFAULT)
 		self.posJoueurHB_label = bgui.Label(self.deuxjoueurs_ecranHorizontal, 'posJoueurHB', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.5, 0.4], options=bgui.BGUI_DEFAULT)
 
@@ -376,7 +377,7 @@ class MenuEcranSpliterGui(BaseGui):
 		self.deuxjoueurs_ecranVertical.img = bgui.Image(self.deuxjoueurs_ecranVertical, 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.0, 0.0], options=bgui.BGUI_DEFAULT)
 		self.deuxjoueurs_ecranVertical.img2 = bgui.Image(self.deuxjoueurs_ecranVertical, 'menuItems/ecranJoueur.png', size=[0.5, 1.0], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
 		self.posJoueurVH_label = bgui.Label(self.deuxjoueurs_ecranVertical, 'posJoueurVH', text=str(gl.conf[0][0][0]), pt_size=24, pos=[0.25, 0.9], options=bgui.BGUI_DEFAULT)
-		self.posJoueurVB_label = bgui.Label(self.deuxjoueurs_ecranVertical, 'posJoueurVB', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.75, 0.9], options=bgui.BGUI_DEFAULT)		
+		self.posJoueurVB_label = bgui.Label(self.deuxjoueurs_ecranVertical, 'posJoueurVB', text=str(gl.conf[0][1][0]), pt_size=24, pos=[0.75, 0.9], options=bgui.BGUI_DEFAULT)
 
 		self.deuxjoueurs_ecranVertical.visible = False
 
@@ -396,7 +397,7 @@ class MenuEcranSpliterGui(BaseGui):
 
 		self.quatrejoueurs_ecran.img4 = bgui.Image(self.quatrejoueurs_ecran, 'menuItems/ecranJoueur.png', size=[0.5, 0.5], pos=[0.5, 0.0], options=bgui.BGUI_DEFAULT)
 		self.posJoueurBD_label = bgui.Label(self.quatrejoueurs_ecran, 'posJoueurBD', text=str(gl.conf[0][3][0]), pt_size=24, pos=[0.75, 0.4], options=bgui.BGUI_DEFAULT)
-		
+
 		#cache 3 joueurs
 		self.cacheTroisJoueursHG_ecran = bgui.Frame(self.quatrejoueurs_ecran, 'cacheTroisJoueursHG_ecran', sub_theme='ecran', border=1, size=[0.5, 0.5], pos=[0.0, 0.5], options=bgui.BGUI_DEFAULT)
 		self.cacheTroisJoueursHG_ecran.z_index = 2
@@ -411,7 +412,7 @@ class MenuEcranSpliterGui(BaseGui):
 		self.cacheTroisJoueursBD_ecran.z_index = 2
 		self.quatrejoueurs_ecran.visible = False
 
-			
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
@@ -470,7 +471,7 @@ class MenuEcranSpliterGui(BaseGui):
 			gl.dispPlayers.append(gl.lstPlayers[2])
 			gl.dispPlayers.append(gl.lstPlayers[3])
 			#print(gl.dispPlayers)
-			
+
 		if gl.dispPlayers[0] == 4:
 			gl.lstPlayers.rotate(1)
 			self.posJoueurHD_label.text = gl.lstPlayers[0]
@@ -524,7 +525,7 @@ class MenuEcranSpliterGui(BaseGui):
 			self.deuxjoueurs_ecranHorizontal.visible = self.deuxjoueurs_ecranVertical.visible = False
 			gl.dispPlayers[0] = 4
 			gl.lstPlayers = coll.deque(gl.dispPlayers[1:])
-		
+
 		elif len(gl.dispPlayers) == 4:
 			gl.dispPlayers.append(gl.conf[0][3][0])
 			self.nombreJoueurs_label.text = str(len(gl.dispPlayers)-1) + " JOUEURS"
@@ -544,8 +545,8 @@ class MenuEcranSpliterGui(BaseGui):
 	def valider(self, widget):
 		#self.detruire()
 		self.action = "valider"
-		self.ouvert = False		
-	
+		self.ouvert = False
+
 	def main(self) :
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)
@@ -558,19 +559,19 @@ class MenuTelechargementGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
-		
+
+
 		# Titre
 		self.titre = bgui.Label(self.frame, 'titre', text="TELECHARGEMENT", pt_size=32, pos=[0, .935],
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
-		
 
-	
+
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
@@ -586,12 +587,12 @@ class MenuMultijoueursGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
-		
+
 #############bouton ecransplitter############################
 		self.ecransplitter_button = bgui.ImageButton(self.frame, 'ecransplitter', sub_theme='menu', size=[0.24, 0.08], pos=[0.4, 0.55])
 		self.ecransplitter_label = bgui.Label(self.ecransplitter_button, 'ecransplitter', text="ECRAN SPLITTER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -606,12 +607,12 @@ class MenuMultijoueursGui(BaseGui):
 #############bouton reseauinternet############################
 		self.reseauInternet_button = bgui.ImageButton(self.frame, 'reseauInternet', sub_theme='menu', size=[0.24, 0.08], pos=[0.4, 0.35])
 		self.reseauInternet_label = bgui.Label(self.reseauInternet_button, 'reseauInternet', text="RESEAU INTERNET", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
-		
+
 		# Autres attributs
 		self.action = None
-		
 
-	
+
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
@@ -632,23 +633,23 @@ class MenuPrincipalGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'fond', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 ############///////////frame info \\\\\\\\\\\\\\#################
 
 		self.info_ecran = bgui.Frame(self.frame, 'info_ecran', sub_theme='Invisible', border=1, size=[0.44, 0.75], pos=[0.06, 0.02], options=bgui.BGUI_DEFAULT)
 		self.info_label = bgui.Label(self.info_ecran, 'info_label', text="bienvenue " + str(gl.conf[0][0][0]), pt_size=24, pos=[0.02, 0.84], options=bgui.BGUI_DEFAULT)
-		
+
 #############bouton joueursolo ############################
 		self.joueursolo_button = bgui.ImageButton(self.frame, 'joueursolo', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.48])
 		self.joueursolo_label = bgui.Label(self.joueursolo_button, 'joueursolo', text="JOUEUR SOLO", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		# Setup an on_click callback
 		self.joueursolo_button.on_click = self.joueurSoloM
-		
+
 #############bouton multijoueur ############################
 		self.multijoueur_button = bgui.ImageButton(self.frame, 'multijoueur', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.38])
 		self.multijoueur_label = bgui.Label(self.multijoueur_button, 'multijoueur', text="MULTIJOUEURS", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -669,21 +670,21 @@ class MenuPrincipalGui(BaseGui):
 		# Setup an on_click callback
 		self.options_button.on_click = self.optionsM
 
-		
+
 		# Autres attributs
 		self.action = None
 		self.selection = None
 
-	
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
-	
+
 	def joueurSoloM(self, widget) :
 		self.detruire()
 		self.action = "joueurSolo"
 		self.ouvert = False
-	
+
 	def multijoueurM(self, widget) :
 		self.detruire()
 		self.action = "MenuMultijoueurs"
@@ -693,16 +694,16 @@ class MenuPrincipalGui(BaseGui):
 		self.detruire()
 		self.action = "MenuTelechargement"
 		self.ouvert = False
-	
+
 	def optionsM(self, widget) :
 		self.detruire()
 		self.action = "MenuOptions"
 		self.ouvert = False
-		
+
 	def main(self) :
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)
-	
+
 class jouerSoloGui(BaseGui):
 	"""
 	Gui pour le choix de la voiture en mode 1 joueur
@@ -715,10 +716,10 @@ class jouerSoloGui(BaseGui):
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
-		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=26, pos=[0.45, 0.92], options=bgui.BGUI_DEFAULT)			
+		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=26, pos=[0.45, 0.92], options=bgui.BGUI_DEFAULT)
 		self.voiture_label = bgui.Label(self.frame, 'voiture_label', text="voiture", pt_size=26, pos=[0.51, 0.92], options=bgui.BGUI_DEFAULT)
 
-		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=26, pos=[0.45, 0.86], options=bgui.BGUI_DEFAULT)			
+		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=26, pos=[0.45, 0.86], options=bgui.BGUI_DEFAULT)
 		self.roue_label = bgui.Label(self.frame, 'roue_label', text="Roue", pt_size=26, pos=[0.5, 0.86], options=bgui.BGUI_DEFAULT)
 
 #############bouton flecheG############################
@@ -742,7 +743,7 @@ class jouerSoloGui(BaseGui):
 		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.22], pos=[0.78, 0.25])
 
 		# Setup an on_click callback
-		self.flecheRoue_button.on_click = self.rightwheels		
+		self.flecheRoue_button.on_click = self.rightwheels
 
 #############bouton testerVoiture############################
 		self.testerVoiture_button = bgui.ImageButton(self.frame, 'testerVoiture', sub_theme='menu', size=[0.24, 0.08], pos=[0.15, 0.08])
@@ -758,45 +759,45 @@ class jouerSoloGui(BaseGui):
 				# Setup an on_click callback
 		self.validerVoiture_button.on_click = self.circuitMenu
 
-	
+
 		# Autres attributs
 		self.action = None
-		
 
-	
+
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
-	
+
 	def leftwheels(self, widget):
 		gl.lstRoue.rotate(-1)
 
 		gl.conf[0][0][4] = gl.lstRoue[gl.posRoueJun]
-		gl.Voiture.setWheels( str(gl.conf[0][0][4]) )
+		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 		self.roue_label.text = str(gl.conf[0][0][4])
 
 	def rightwheels(self, widget):
 		gl.lstRoue.rotate(1)
 
 		gl.conf[0][0][4] = gl.lstRoue[gl.posRoueJun]
-		gl.Voiture.setWheels( str(gl.conf[0][0][4]) )
+		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 		self.roue_label.text = str(gl.conf[0][0][4])
 
 	def leftcar(self, widget):
 		gl.lstVoiture.rotate(-1)
 		gl.conf[0][0][3] = gl.lstVoiture[gl.posVoitureJun]
-		gl.Voiture.setVehicle( str(gl.conf[0][0][3]) )
+		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		self.voiture_label.text = str(gl.conf[0][0][3])
 
 	def rightcar(self, widget):
 		gl.lstVoiture.rotate(1)
 		gl.conf[0][0][3] = gl.lstVoiture[gl.posVoitureJun]
-		gl.Voiture.setVehicle( str(gl.conf[0][0][3]) )
+		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		self.voiture_label.text = str(gl.conf[0][0][3])
 
 	def testerVoiture(self, widget):
 		gl.dispPlayers=[0, gl.conf[0][0][0]]
-		del(gl.Voiture)
+		del(gl.voiture)
 		confParser.savePlayer()
 		gl.mapName = "anneauDeTest"
 		scene = gl.getCurrentScene()
@@ -820,11 +821,11 @@ class MenuAffichageGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 #############bouton activate mirror############################
 		self.mirror_button = bgui.ImageButton(self.frame, 'mirrorbt', sub_theme='check', size=[0.04, 0.04], pos=[0.42, 0.80])
 				# Setup an on_click callback
@@ -869,7 +870,7 @@ class MenuNomsJoueursGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
@@ -933,7 +934,7 @@ class MenuCommandesGui(BaseGui):
 	def __init__(self, parent):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
@@ -964,11 +965,11 @@ class MenuVoitureMultijoueursGui(BaseGui):
 		groupeBasDroit = False
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
-		
+
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 		if gl.dispPlayers[0] == 1:
 	#############bouton flecheGJ1############################
 			self.flecheGJ1_button = bgui.ImageButton(self.frame, 'flecheGJ1', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.32, 0.72])
@@ -987,12 +988,12 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ1Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ1Roue############################
 			self.flecheJ1Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ1', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.64, 0.52])
 
 			# Setup an on_click callback
-			#self.flecheJ1Roue_button.on_click = self.rightwheels	
+			#self.flecheJ1Roue_button.on_click = self.rightwheels
 
 	#############bouton flecheGJ2############################
 			self.flecheGJ2_button = bgui.ImageButton(self.frame, 'flecheGJ2', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.32, 0.22])
@@ -1015,7 +1016,7 @@ class MenuVoitureMultijoueursGui(BaseGui):
 			self.flecheJ2Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ2', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.64, 0.02])
 
 			# Setup an on_click callback
-			#self.flecheJ2Roue_button.on_click = self.rightwheels	
+			#self.flecheJ2Roue_button.on_click = self.rightwheels
 
 		if gl.dispPlayers[0] == 2:
 	#############bouton flecheGJ1############################
@@ -1035,12 +1036,12 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ1Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ1Roue############################
 			self.flecheJ1Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ1', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.4, 0.32])
 
 			# Setup an on_click callback
-			#self.flecheJ1Roue_button.on_click = self.rightwheels	
+			#self.flecheJ1Roue_button.on_click = self.rightwheels
 
 	#############bouton flecheGJ2############################
 			self.flecheGJ2_button = bgui.ImageButton(self.frame, 'flecheGJ2', sub_theme='selFlecheG', size=[0.04, 0.26], pos=[0.56, 0.54])
@@ -1067,7 +1068,7 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 		if gl.dispPlayers[0] == 3:
 			groupeHautGauche = groupeHautDroit = groupeBasGauche = groupeBasDroit = True
-		
+
 		if gl.dispPlayers[0] == 4:
 			groupeHautDroit = groupeBasGauche = groupeBasDroit = True
 
@@ -1098,12 +1099,12 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ1Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ1Roue############################
 			self.flecheJ1Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ1', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.4, 0.52])
 
 			# Setup an on_click callback
-			#self.flecheJ1Roue_button.on_click = self.rightwheels	
+			#self.flecheJ1Roue_button.on_click = self.rightwheels
 
 
 		if 	groupeHautDroit == True:
@@ -1124,7 +1125,7 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ2Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ2Roue############################
 			self.flecheJ2Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ2', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.9, 0.52])
 
@@ -1149,12 +1150,12 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ3Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ3Roue############################
 			self.flecheJ3Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ3', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.4, 0.02])
 
 			# Setup an on_click callback
-			#self.flecheJ3Roue_button.on_click = self.rightwheels	
+			#self.flecheJ3Roue_button.on_click = self.rightwheels
 
 		if 	groupeBasDroit == True:
 	#############bouton flecheGJ4############################
@@ -1174,13 +1175,13 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheGJ4Roue_button.on_click = self.leftwheels
-	
+
 	#############bouton flecheJ4Roue############################
 			self.flecheJ4Roue_button = bgui.ImageButton(self.frame, 'flecheRoueJ4', sub_theme='selFleche', size=[0.04, 0.18], pos=[0.9, 0.02])
 
 			# Setup an on_click callback
 			#self.flecheJ4Roue_button.on_click = self.rightwheels
-			
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

@@ -116,6 +116,8 @@ class vehicleLinker(object):
 
 	def __xDistance( self, obj1, obj2 ):
 		obj, point, normal = obj1.rayCast(obj2)
+		if obj==None:
+			return None
 		pos1 = obj1.position
 		return sqrt( (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )
 
@@ -128,7 +130,7 @@ class vehicleLinker(object):
 			speed = abs(self.car.owner['kph'])+0.5
 			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
 			self.lastSpeed = speed
-			if distance == None:
+			if xDistance == None:
 				xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
 			else:
 				xRelativePosition = xDistance/1.5

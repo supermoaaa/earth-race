@@ -177,7 +177,13 @@ def load():
 					else:
 						actualCar[1][currentKey[0]] = 0
 		if len(gl.carArrived)==nbCar:
-			scene.replace('stat')
+			if gl.mapName == 'anneauDeTest':
+				with open('menustat', 'w') as f:
+					f.write(gl.mapName)
+				f.closed
+				gl.restartGame()
+			else:
+				scene.replace('stat')
 
 def placeStart(position,orientation,scaling):
 	# set car loader

@@ -177,10 +177,11 @@ def main (self):
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 
 			if sys.action == "depart" :
-				del(own["sys"])
-				del(own["fond"])
-				gl.voiture.__del__()
-				del(gl.voiture)
+				'''try:
+					del(own["sys"])
+					del(own["fond"])
+				except:
+					pass'''
 				confParser.savePlayer()
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():

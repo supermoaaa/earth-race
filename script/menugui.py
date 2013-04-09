@@ -305,7 +305,7 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.nbTours_label.text = str(gl.nbTours)
 
 	def departSolo(self, widget):
-		self.detruire()
+		#self.detruire()
 		self.action = "depart"
 		self.ouvert = False
 

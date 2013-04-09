@@ -6,6 +6,7 @@ from bge import logic as gl
 import confParser
 import collections as coll
 import logs
+from vehicleLinker import vehicleLinker
 
 class BaseGui(bgui.System):
 	"""

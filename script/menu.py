@@ -58,11 +58,6 @@ def main():
 	logs.log("info", gl.listMaps)
 	logs.log("info", gl.mapName)
 
-	own["fond"] = FondGui()
-	own["sys"] = MenuPrincipalGui(own["fond"].frame)
-	own["fond"].retour_label.text = "Quitter"
-
-
 	#chargement de l'audio du menu
 	gl.device = aud.device()
 	# load sound file (it can be a video file with audio)
@@ -70,6 +65,31 @@ def main():
 	# if the audio is not too big and will be used often you can buffer it
 	gl.factory_buffered = aud.Factory.buffer(factory)
 	gl.device.volume = 0.3
+
+	if hasattr(gl, 'menuStat'):
+			own["fond"] = FondGui()
+			own["sys"] = jouerSoloGui(own["fond"].frame)
+			own["fond"].retour_label.text = "Retour"
+			own["fond"].frame.img.visible = False
+			gl.status = "MenuselectionVoiture1J"
+			gl.dispPlayers[0] = 0
+			gl.LibLoad("carSelect.blend", "Scene")
+			own["sys"].voiture_label.text = str(gl.conf[0][0][3])
+			own["sys"].roue_label.text = str(gl.conf[0][0][4])
+			gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
+			gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
+			gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+	
+	else:
+		own["fond"] = FondGui()
+		own["sys"] = MenuPrincipalGui(own["fond"].frame)
+		own["fond"].retour_label.text = "Quitter"
+		logs.log("info", "menu ok")
+
+
+
+
+
 
 
 		

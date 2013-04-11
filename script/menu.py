@@ -16,7 +16,7 @@ own = cont.owner
 # Initialisation du gui
 #
 def main():
-	gl.status = "MenuPrincipal"
+
 	gl.mouse.visible = True
 	confParser.loadPlayer()
 	mainDir = gl.expandPath("//")
@@ -72,7 +72,6 @@ def main():
 			own["fond"].retour_label.text = "Retour"
 			own["fond"].frame.img.visible = False
 			gl.status = "MenuselectionVoiture1J"
-			gl.dispPlayers[0] = 0
 			gl.LibLoad("carSelect.blend", "Scene")
 			own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 			own["sys"].roue_label.text = str(gl.conf[0][0][4])
@@ -81,6 +80,7 @@ def main():
 			gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 	
 	else:
+		gl.status = "MenuPrincipal"
 		own["fond"] = FondGui()
 		own["sys"] = MenuPrincipalGui(own["fond"].frame)
 		own["fond"].retour_label.text = "Quitter"

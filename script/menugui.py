@@ -76,9 +76,15 @@ class FondGui(BaseGui):
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CACHE)
 
 
-#############bouton quitter############################
-		self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.08])
-		self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+#############bouton quitter/retour############################
+		if gl.status == "MenuEcranSpliter" :
+			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.10, 0.05], pos=[0.45, 0.45])
+			self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		
+		else:
+			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.08])
+			self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		
 		# Setup an on_click callback
 		self.retour_button.on_click = self.retour_clic
 
@@ -95,6 +101,9 @@ class FondGui(BaseGui):
 		self.action = "retour"
 		self.ouvert = False
 
+	def detruire(self) :
+		"""Détruit les widgets"""
+		self.frame.parent._remove_widget(self.frame)
 
 	def reinit(self) :
 		"""Remet les repères d'ouverture et d'action à leur valeur par défaut"""

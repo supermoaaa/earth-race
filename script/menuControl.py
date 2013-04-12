@@ -1,5 +1,5 @@
 from menugui import *
-from vehicleLinker import vehicleLinker
+
 
 cont = gl.getCurrentController()
 own = cont.owner
@@ -177,11 +177,7 @@ def main (self):
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 
 			if sys.action == "depart" :
-				'''try:
-					del(own["sys"])
-					del(own["fond"])
-				except:
-					pass'''
+
 				confParser.savePlayer()
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():
@@ -233,6 +229,8 @@ def main (self):
 
 			elif sys.action == "valider" :
 				own["sys"].detruire()
+				own["fond"].detruire()
+				own["fond"] = FondGui()
 				own["sys"] = MenuVoitureMultijoueursGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
@@ -284,7 +282,9 @@ def main (self):
 				gl.dispPlayers=[1, gl.conf[0][0][0], gl.conf[0][1][0]]
 				for lib in gl.LibList():
 					gl.LibFree(lib)
-
+				
+				own["fond"].detruire()
+				own["fond"] = FondGui()
 				own["sys"].detruire()
 				own["sys"] = MenuEcranSpliterGui(own["fond"].frame)
 				own["fond"].reinit()

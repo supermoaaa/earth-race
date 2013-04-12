@@ -4,7 +4,6 @@ import sys
 import os
 import time
 from menugui import *
-import logs
 
 cont = gl.getCurrentController()
 own = cont.owner
@@ -50,7 +49,7 @@ def main():
 	gl.nbTours = 1
 	gl.skin = 'themes/default'
 
-	# mirror, Anisotropic, volume musique
+	# mirror, Anisotropic, mist start, mist end
 	gl.generalConf = [True, rd.getAnisotropicFiltering(), 50]
 	logs.log("info", gl.lstRoue)
 	logs.log("info", gl.dispPlayers)

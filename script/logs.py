@@ -1,4 +1,3 @@
-from bge import logic as gl
 import logging
 
 def initLogs():

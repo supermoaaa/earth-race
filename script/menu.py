@@ -66,17 +66,18 @@ def main():
 	gl.device.volume = 0.3
 
 	if hasattr(gl, 'menuStat'):
-			own["fond"] = FondGui()
-			own["sys"] = jouerSoloGui(own["fond"].frame)
-			own["fond"].retour_label.text = "Retour"
-			own["fond"].frame.img.visible = False
-			gl.status = "MenuselectionVoiture1J"
-			gl.LibLoad("carSelect.blend", "Scene")
-			own["sys"].voiture_label.text = str(gl.conf[0][0][3])
-			own["sys"].roue_label.text = str(gl.conf[0][0][4])
-			gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
-			gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
-			gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+		gl.status = "MenuselectionVoiture1J"
+		own["fond"] = FondGui()
+		own["sys"] = jouerSoloGui(own["fond"].frame)
+		own["fond"].retour_label.text = "Retour"
+		own["fond"].frame.img.visible = False
+		gl.LibLoad("carSelect.blend", "Scene")
+		own["sys"].voiture_label.text = str(gl.conf[0][0][3])
+		own["sys"].roue_label.text = str(gl.conf[0][0][4])
+		gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
+		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
+		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+		delattr(gl, 'menuStat')
 	
 	else:
 		gl.status = "MenuPrincipal"

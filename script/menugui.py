@@ -78,7 +78,7 @@ class FondGui(BaseGui):
 
 #############bouton quitter/retour############################
 		if gl.status == "MenuEcranSpliter" :
-			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.10, 0.05], pos=[0.45, 0.45])
+			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.10, 0.05], pos=[0.45, 0.44])
 			self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 		
 		else:
@@ -1191,6 +1191,10 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 			# Setup an on_click callback
 			#self.flecheJ4Roue_button.on_click = self.rightwheels
+
+	#############bouton valider############################
+		self.valider_button = bgui.ImageButton(self.frame, 'valider', sub_theme='menu', size=[0.10, 0.05], pos=[0.45, 0.51])
+		self.valider_label = bgui.Label(self.valider_button, 'validertext', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 	def detruire(self) :
 		"""Détruit les widgets"""

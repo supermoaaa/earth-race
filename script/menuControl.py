@@ -109,7 +109,6 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 
-
 		elif gl.status == "MenuselectionVoiture1J" :
 			if sys.action == "retour" :
 				own["sys"].detruire()

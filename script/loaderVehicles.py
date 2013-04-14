@@ -94,7 +94,6 @@ def setGraphism():
 	except:
 		pass
 
-
 def speedometer( id, gear, speed):
 	scene = gl.getCurrentScene()
 	id=str(id+1)

@@ -151,7 +151,8 @@ class r_wheel:
 
 		#Steering value
 		self.w_steer_current = towards(self.w_steer_current, self.w_steer, self.w_steer_rate*dt)		#Approach target
-		self.w_steer_current = min(max(self.w_steer_current, -self.w_steer_limit), self.w_steer_limit)	#Limit range
+		steer_limit = ( self.w_steer_limit-0.01 )*( 300-abs( self.kph ) )/300 + 0.01
+		self.w_steer_current = min(max(self.w_steer_current, -steer_limit), steer_limit)	#Limit range
 
 		#Generate worldspace wheel matrix, with steering applied
 		wmat = mmat*(self.attach_mat*Matrix.Rotation(self.w_steer_current, 3, "Z"))

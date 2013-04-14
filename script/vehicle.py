@@ -204,7 +204,6 @@ class vehicleSimulation(object):
 			for w in wheels:
 				w.e_torque = gas
 				w.w_handbrake = brake
-				w.e_gearing = self.gearSelect
 				w.setSteer(steer)
 				if w.w_grip < -0.4 and w.hit:
 					pass

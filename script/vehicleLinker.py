@@ -110,19 +110,22 @@ class vehicleLinker(object):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):
 			self.car.simulate()
 			if self.camera != None:
-				self.__simulateCamera( self.__xDistance( self.car.getMainObject(), self.camera ) )
+				self.__simulateCamera( self.__distance( self.car.getMainObject(), self.camera ) )
 
 	def __diffAngle( self, angle1, angle2 ):
 		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14
 
-	def __xDistance( self, obj1, obj2 ):
-		obj, point, normal = obj1.rayCast(obj2)
+	def __distance( self, obj1, obj2 ):
+		pos1 = obj1.position
+		pos2 = obj2.position
+		dist = sqrt( (pos1[0]-pos2[0])**2 + (pos1[1]-pos2[1])**2 + (pos1[2]-pos2[2])**2 )
+		obj, point, normal = obj1.rayCast( obj2, None, dist*1.5)
 		if obj==None:
 			return None
 		pos1 = obj1.position
-		return sqrt( (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )
+		return sqrt( (pos1[0]-point[0])**2 + (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )
 
-	def __simulateCamera( self, xDistance ):
+	def __simulateCamera( self, distance ):
 		if self.camera != None:
 			# variables initiales
 			car = self.car.getMainObject()
@@ -131,12 +134,13 @@ class vehicleLinker(object):
 			speed = abs(self.car.owner['kph'])+0.5
 			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
 			self.lastSpeed = speed
-			if xDistance == None:
-				xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
-			else:
-				xRelativePosition = xDistance/1.5
+			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
 			yRelativePosition = 0
 			zRelativePosition = 3.3-smoothSpeed/150
+			if distance != None:
+				logs.log("debug","distance : "+str(distance))
+				xRelativePosition = min( xRelativePosition, distance/1.1 )
+				zRelativePosition = min( zRelativePosition, distance/2 )
 			carRot = car.localOrientation.to_euler('XYZ')[2]
 			camRot = self.camera.localOrientation.to_euler('XYZ')
 			camRot[2] = self.__diffAngle( camRot[2], 1.57 )

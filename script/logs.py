@@ -2,8 +2,8 @@ import logging
 
 def initLogs():
 	try:
-		with open('earth-race.log', 'w'):
-			pass
+		with open('earth-race.log', 'w') as file:
+			file.close()
 	except:
 		pass
 	logger = logging.getLogger('earth-race')

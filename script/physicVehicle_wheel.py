@@ -142,6 +142,7 @@ class r_wheel:
 			#~ child.endObject()
 
 	def setSteer(self, steer):
+		steer_rate = ( self.w_steer_state-0.001 )*( 300-abs( self.kph ) )/300 + 0.001
 		self.w_steer = -steer*self.w_steer_state
 
 	def step(self, dt):
@@ -151,7 +152,7 @@ class r_wheel:
 
 		#Steering value
 		self.w_steer_current = towards(self.w_steer_current, self.w_steer, self.w_steer_rate*dt)		#Approach target
-		steer_limit = ( self.w_steer_limit-0.01 )*( 300-abs( self.kph ) )/300 + 0.01
+		steer_limit = ( self.w_steer_limit-0.001 )*( 300-abs( self.kph ) )/300 + 0.001
 		self.w_steer_current = min(max(self.w_steer_current, -steer_limit), steer_limit)	#Limit range
 
 		#Generate worldspace wheel matrix, with steering applied

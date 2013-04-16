@@ -176,7 +176,6 @@ def main (self):
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 
 			if sys.action == "depart" :
-
 				confParser.savePlayer()
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():

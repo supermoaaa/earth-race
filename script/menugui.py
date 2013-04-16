@@ -202,6 +202,20 @@ class MenuSelectionCircuitGui(BaseGui):
 				# Setup an on_click callback
 		self.validercircuit_button.on_click = self.departSolo
 
+#############bouton ajouter ia############################
+		self.ajouterIA_button = bgui.ImageButton(self.frame, 'ajouterIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.8, 0.68])
+		self.ajouterIA_label = bgui.Label(self.ajouterIA_button, 'ajouterIA', text="ajouter IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		#self.ajouterIA_button.on_click = self.departSolo
+
+#############bouton enlever ia############################
+		self.enleverIA_button = bgui.ImageButton(self.frame, 'enleverIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.8, 0.6])
+		self.enleverIA_label = bgui.Label(self.enleverIA_button, 'enleverIA', text="enlever IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		#self.enleverIA_button.on_click = self.departSolo
+
 ############///////////selection_circuit video \\\\\\\\\\\\\\#################
 
 		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.15, 0.7], options=bgui.BGUI_DEFAULT)
@@ -224,7 +238,7 @@ class MenuSelectionCircuitGui(BaseGui):
 
 ############///////////selection_circuit nombre de tours \\\\\\\\\\\\\\#################
 
-		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.15, 0.3], options=bgui.BGUI_DEFAULT)
+		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.15, 0.28], options=bgui.BGUI_DEFAULT)
 		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.18, 0.22], options=bgui.BGUI_DEFAULT)
 		self.nbTours_label = bgui.Label(self.fondNbTours, 'nbTours_label', sub_theme='fondDigit', text=str(gl.nbTours), pt_size=30, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 

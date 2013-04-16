@@ -329,7 +329,7 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.nbTours_label.text = str(gl.nbTours)
 
 	def departSolo(self, widget):
-		#self.detruire()
+		rd.showMouse(0)
 		self.action = "depart"
 		self.ouvert = False
 
@@ -820,6 +820,7 @@ class jouerSoloGui(BaseGui):
 		self.voiture_label.text = str(gl.conf[0][0][3])
 
 	def testerVoiture(self, widget):
+		rd.showMouse(0)
 		gl.dispPlayers=[0, gl.conf[0][0][0]]
 		del(gl.voiture)
 		confParser.savePlayer()

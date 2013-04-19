@@ -4,6 +4,7 @@ from mathutils import Euler
 from math import cos
 from math import sin
 from math import sqrt
+from math import atan
 import confParser as conf
 from physicVehicle_wheel import r_wheel
 import logs
@@ -80,7 +81,13 @@ class vehicleLinker(object):
 		return gl.conf[2][self.wheels_type]
 
 	def isLoaded( self ):
-		return conf.isLoadedVehicle(self.vehicle_type) and conf.isLoadedWheel(self.wheels_type)
+		return self.isVehicleLoaded() and self.isWheelsLoaded()
+
+	def isVehicleLoaded( self ):
+		return conf.isLoadedVehicle(self.vehicle_type)
+
+	def isWheelsLoaded( self ):
+		return conf.isLoadedWheel(self.wheels_type)
 
 	def __updateWheels( self ):
 		if self.car != None and self.wheels_type != None and self.wheels_type in gl.conf[2] and conf.isLoadedWheel(self.wheels_type):
@@ -90,14 +97,14 @@ class vehicleLinker(object):
 			self.wheels_free = False
 
 	def __updateCamera( self ):
-		if self.camera != None and self.car != None:
+		if self.camera != None and self.car != None and self.isVehicleLoaded():
 			self.camera.removeParent()
 
 	def delVehicle( self ):
 		conf.freeVehicle(self.vehicle_type)
 
 	def delWheels( self ):
-		if self.car!=None:
+		if self.car != None:
 			self.car.unloadWheel()
 		conf.freeWheels(self.wheels_type)
 		self.wheels_free = True
@@ -134,17 +141,20 @@ class vehicleLinker(object):
 			speed = abs(self.car.owner['kph'])+0.5
 			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
 			self.lastSpeed = speed
+			carRot = car.localOrientation.to_euler('XYZ')[2]
+			camRot = self.camera.localOrientation.to_euler('XYZ')
+			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
+			logs.log("debug","angle x : "+str(camRot[0]))
 			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
 			yRelativePosition = 0
-			zRelativePosition = 3.3-smoothSpeed/150
+			zRelativePosition = 3.3-(smoothSpeed/150)*1.5
 			if distance != None:
 				logs.log("debug","distance : "+str(distance))
 				xRelativePosition = min( xRelativePosition, distance/1.1 )
 				zRelativePosition = min( zRelativePosition, distance/2 )
-			carRot = car.localOrientation.to_euler('XYZ')[2]
-			camRot = self.camera.localOrientation.to_euler('XYZ')
-			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
-			camRot[0] = 1.4 - 0.2*(150-smoothSpeed)/150
+			xRelativePosition = max( xRelativePosition, 0.3 )
+			zRelativePosition = max( zRelativePosition, 0.3 )
+			camRot[0] = atan(xRelativePosition/(zRelativePosition/1.5))
 
 			# début des calculs
 			if self.car.gearSelect == 0: # si en marche arrière

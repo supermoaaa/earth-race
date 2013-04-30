@@ -2,6 +2,7 @@
 
 import bgui
 import bge
+import webbrowser
 
 from bge import logic as gl
 from bge import render as rd
@@ -28,6 +29,9 @@ class StatSys(bgui.System):
 			gl.LibFree(lib)
 		scene = gl.getCurrentScene()
 		scene.replace('game')
+
+	def credits(self, credits_button):
+		webbrowser.open('http://earth-race.fr.nf/index.html', new=2, autoraise=True)
 
 	def __init__(self):
 		# Initialize the system
@@ -67,6 +71,16 @@ class StatSys(bgui.System):
 
 		# Setup an on_click callback
 		self.relancer_button.on_click = self.relancer
+
+#############bouton credits############################
+		self.credits_button = bgui.ImageButton(self.main_stat, 'credits', sub_theme='menu',
+				size=[0.24, 0.08], pos=[0.75, 0.28])
+
+		self.credits_label = bgui.Label(self.credits_button, 'credits', text="CREDITS", pt_size=24,
+				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+		# Setup an on_click callback
+		self.credits_button.on_click = self.credits
 #--------------frame tableau----------------#
 #
 #
@@ -101,6 +115,7 @@ class StatSys(bgui.System):
 
 		if mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_JUST_ACTIVATED:
 			mouse_state = bgui.BGUI_MOUSE_CLICK
+			handle_buffered = gl.device.play(gl.factory_buffered)
 		elif mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_JUST_RELEASED:
 			mouse_state = bgui.BGUI_MOUSE_RELEASE
 		elif mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_ACTIVE:

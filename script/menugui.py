@@ -963,8 +963,54 @@ class MenuCommandesGui(BaseGui):
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
+		
+		# nom du joueur en cour
+
+		self.intituler_joueur_label = bgui.Label(self.frame, 'intituler_joueur', text="nom du joueur courant: ", pt_size=36, pos=[0.05, 0.85], options=bgui.BGUI_DEFAULT)
+		self.joueur_label = bgui.Label(self.frame, 'joueur', text=gl.configurablePlayers[0], pt_size=36, pos=[0.1, 0.8], options=bgui.BGUI_DEFAULT)
+		
+		# changement de joueur
+		
+#############bouton flechejoueurDR############################
+		self.flechejoueurDR_button = bgui.ImageButton(self.frame, 'flechejoueurDR', sub_theme='selFleche',
+			size=[0.02, 0.05], pos=[0.2, 0.79])
+
+		# Setup an on_click callback
+		self.flechejoueurDR_button.on_click = self.rightjoueur
+
+#############bouton flechejoueurGA############################
+		self.flechejoueurGA_button = bgui.ImageButton(self.frame, 'flechejoueurGA', sub_theme='selFlecheG',
+			size=[0.02, 0.05], pos=[0.04, 0.79])
+
+		# Setup an on_click callback
+		self.flechejoueurGA_button.on_click = self.leftjoueur
 
 
+	def rightjoueur(self, widget):
+		if self.joueur_label.text == gl.configurablePlayers[0]:
+			self.joueur_label.text = gl.configurablePlayers[1]
+
+		elif self.joueur_label.text == gl.configurablePlayers[1]:
+			self.joueur_label.text = gl.configurablePlayers[2]
+
+		elif self.joueur_label.text == gl.configurablePlayers[2]:
+			self.joueur_label.text = gl.configurablePlayers[3]
+
+		elif self.joueur_label.text == gl.configurablePlayers[3]:
+			self.joueur_label.text = gl.configurablePlayers[0]
+
+	def leftjoueur(self, widget):
+		if self.joueur_label.text == gl.configurablePlayers[0]:
+			self.joueur_label.text = gl.configurablePlayers[3]
+
+		elif self.joueur_label.text == gl.configurablePlayers[1]:
+			self.joueur_label.text = gl.configurablePlayers[0]
+
+		elif self.joueur_label.text == gl.configurablePlayers[2]:
+			self.joueur_label.text = gl.configurablePlayers[1]
+
+		elif self.joueur_label.text == gl.configurablePlayers[3]:
+			self.joueur_label.text = gl.configurablePlayers[2]
 
 	def detruire(self) :
 		"""Détruit les widgets"""

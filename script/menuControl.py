@@ -203,6 +203,7 @@ def main (self):
 				gl.status = "MenuJoueurs"
 
 			elif sys.action == "commandes" :
+				gl.configurablePlayers = [gl.conf[0][0][0], gl.conf[0][1][0], gl.conf[0][2][0], gl.conf[0][3][0]]
 				own["sys"] = MenuCommandesGui(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
@@ -274,6 +275,7 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
+				del gl.configurablePlayers
 
 		elif gl.status == "MenuVoitureMultijoueurs" :
 			if sys.action == "retour" :

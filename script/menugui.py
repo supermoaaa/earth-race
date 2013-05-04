@@ -966,7 +966,7 @@ class MenuCommandesGui(BaseGui):
 		
 		# nom du joueur en cour
 
-		self.intituler_joueur_label = bgui.Label(self.frame, 'intituler_joueur', text="nom du joueur courant: ", pt_size=36, pos=[0.05, 0.85], options=bgui.BGUI_DEFAULT)
+		self.intituler_joueur_label = bgui.Label(self.frame, 'intituler_joueur', text="nom du joueur courant: ", pt_size=45, pos=[0.05, 0.85], options=bgui.BGUI_DEFAULT)
 		self.joueur_label = bgui.Label(self.frame, 'joueur', text=gl.configurablePlayers[0], pt_size=36, pos=[0.1, 0.8], options=bgui.BGUI_DEFAULT)
 		
 		# changement de joueur
@@ -985,6 +985,15 @@ class MenuCommandesGui(BaseGui):
 		# Setup an on_click callback
 		self.flechejoueurGA_button.on_click = self.leftjoueur
 
+
+		# initituler des touches
+
+		self.accelerateur_label = bgui.Label(self.frame, 'accelerateur', text="accelerateur: ", pt_size=40, pos=[0.15, 0.65], options=bgui.BGUI_DEFAULT)
+		self.frein_label = bgui.Label(self.frame, 'frein', text="   frein: ", pt_size=40, pos=[0.15, 0.55], options=bgui.BGUI_DEFAULT)
+		self.droite_label = bgui.Label(self.frame, 'droite', text="   droite: ", pt_size=40, pos=[0.15, 0.45], options=bgui.BGUI_DEFAULT)
+		self.gauche_label = bgui.Label(self.frame, 'gauche', text="   gauche: ", pt_size=40, pos=[0.15, 0.35], options=bgui.BGUI_DEFAULT)
+		self.passerVitesse_label = bgui.Label(self.frame, 'passerVitesse', text="passer Vitesse: ", pt_size=40, pos=[0.15, 0.25], options=bgui.BGUI_DEFAULT)
+		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.15], options=bgui.BGUI_DEFAULT)
 
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:

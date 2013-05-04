@@ -13,7 +13,7 @@ def initLogs():
 	fh.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 	logger.addHandler(fh)
 	sh = logging.StreamHandler()
-	sh.setLevel(logging.DEBUG) # niveau de log de la console
+	sh.setLevel(logging.ERROR) # niveau de log de la console
 	sh.setFormatter(logging.Formatter('%(levelname)s : %(message)s'))
 	logger.addHandler(sh)
 	logger.debug("start")

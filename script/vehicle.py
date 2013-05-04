@@ -41,6 +41,8 @@ class vehicleSimulation(object):
 		self.simulated = False
 		self.physic = physic
 		self.boostPower = int()
+		self.cams = []
+		self.currentCam = 0
 		logs.log('debug','vehicle init')
 		logs.log("debug",'type du véhicule : '+vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
@@ -61,6 +63,13 @@ class vehicleSimulation(object):
 			elif param[0] == "mass":
 				logs.log("debug","mass "+param[1])
 				owner.mass = float(param[1])
+			elif param[0] == "cam":
+				cam = self.main.children.get(param[1])
+				if cam != None:
+					logs.log("debug","add sub cam "+param[1])
+					self.cams.append(cam)
+				else:
+					logs.log("error","impossible de trouver l'objet : "+param[1]+" comme fils de : "+str(self.main))
 		self.main.suspendDynamics()
 
 	def __del__(self):
@@ -146,6 +155,10 @@ class vehicleSimulation(object):
 			upGear = main["upGear"]
 			downGear = main["downGear"]
 			respawn = main["respawn"]
+			nextCam = main["nextCam"]
+			previousCam = main["previousCam"]
+
+			self.__keyChangeCam( previousCam, nextCam )
 
 			speed = main['kph']
 			if upGear and self.gearSelect < ( len(self.gearCalcs) - 1) and not downGear:
@@ -310,3 +323,44 @@ class vehicleSimulation(object):
 			return str(timedelta(seconds=end-self.start))
 		except:
 			return -1
+
+	def setCamsParams(self, lens, viewPort):
+		self.viewPort = viewPort
+		for cam in self.cams:
+			cam.lens = lens
+			cam.setViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] )
+
+	def setDefaultCam(self, cam):
+		self.defaultCam = cam
+		cam.useViewport = True
+		gl.getCurrentScene().active_camera = cam
+		self.currentCam = len(self.cams)
+
+	def __keyChangeCam(self, keyPreviousCam, keyNextCam):
+		if len(self.cams)>0:
+			if keyPreviousCam>0:
+				if self.currentCam==0:
+					self.changeCam( self.cams[self.currentCam], self.defaultCam )
+					self.currentCam = len(self.cams)
+				elif self.currentCam>=len(self.cams):
+					self.changeCam( self.defaultCam, self.cams[self.currentCam - 1] )
+					self.currentCam -= 1
+				else:
+					self.changeCam( self.cams[self.currentCam], self.cams[ self.currentCam - 1] )
+					self.currentCam -= 1
+
+			if keyNextCam>0:
+				if self.currentCam==len(self.cams)-1:
+					self.changeCam( self.cams[self.currentCam], self.defaultCam )
+					self.currentCam += 1
+				elif self.currentCam>=len(self.cams):
+					self.changeCam( self.defaultCam, self.cams[0] )
+					self.currentCam = 0
+				else:
+					self.changeCam( self.cams[self.currentCam], self.cams[self.currentCam+1] )
+					self.currentCam += 1
+
+	def changeCam(self, oldCam, newCam):
+		newCam.useViewport = True
+		gl.getCurrentScene().active_camera = newCam
+		oldCam.useViewport = False

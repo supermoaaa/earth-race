@@ -24,20 +24,23 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['respawn'] = 0.0
 	child['upGear'] = False
 	child['downGear'] = False
+	child['nextCam'] = 0.0
+	child['previousCam'] = 0.0
 	child['simulate'] = False
 	child['arrived'] = False
+	child['gear'] = 0
 	child['cam'] = child.children['Camera']
 	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])
 	logs.log("debug",child.get('id'))
 	return child
 
-def autoViewport( cam, playerName ):
+def autoViewport( linker, playerName ):
 	if not hasattr(gl,"dispPlayers") or playerName in gl.dispPlayers:
-		gl.cams.append(cam)
+		gl.cams.append(linker.camera)
 		scene = gl.getCurrentScene()
 		if not hasattr(gl,"dispPlayers") or gl.dispPlayers[0]==0:
-			gl.getCurrentScene().active_camera = cam
+			#~ gl.getCurrentScene().active_camera = linker.camera
 			camCompteur = scene.objects.get('Camera 1')
 			camCompteur.setViewport( 0, 0, render.getWindowWidth(),render.getWindowHeight() )
 			camCompteur.useViewport = True
@@ -46,33 +49,32 @@ def autoViewport( cam, playerName ):
 			mode=gl.dispPlayers[0]
 			id=gl.dispPlayers.index(playerName)
 			if (mode==1 or mode==4) and id==1:
-				cam.setViewport( 0, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en haut
-				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+				linker.setViewport( 0, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() ) #en haut
+				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() )
 			elif (mode==1 or mode==3) and id==1:
-				cam.setViewport( 0, 0, render.getWindowWidth, render.getWindowHeight/2 ) #en bas
-				scene.objects.get('Camera 2').setViewport( 0, 0, render.getWindowWidth, render.getWindowHeight/2 )
+				linker.setViewport( 0, 0, render.getWindowWidth(), render.getWindowHeight()/2 ) #en bas
+				scene.objects.get('Camera 2').setViewport( 0, 0, render.getWindowWidth(), render.getWindowHeight()/2 )
 			elif (mode==2 or mode==5) and id==0:
-				cam.setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight ) #à gauche
-				scene.objects.get('Camera 1').setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight )
+				linker.setViewport( 0, 0, render.getWindowWidth()/2, render.getWindowHeight() ) #à gauche
+				scene.objects.get('Camera 1').setViewport( 0, 0, render.getWindowWidth()/2, render.getWindowHeight() )
 			elif (mode==2 or mode==6) and id==1:
-				cam.setViewport( render.getWindowWidth/2, 0, render.getWindowWidth, render.getWindowHeight ) #à droite
-				scene.objects.get('Camera 2').setViewport( render.getWindowWidth/2, 0, render.getWindowWidth, render.getWindowHeight )
+				linker.setViewport( render.getWindowWidth()/2, 0, render.getWindowWidth(), render.getWindowHeight() ) #à droite
+				scene.objects.get('Camera 2').setViewport( render.getWindowWidth()/2, 0, render.getWindowWidth(), render.getWindowHeight() )
 			elif (mode==3 or mode==6 or mode==7) and id==0:
-				cam.setViewport( 0, render.getWindowHeight/2, render.getWindowWidth/2, render.getWindowHeight ) #en haut à gauche
-				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight/2, render.getWindowWidth/2, render.getWindowHeight )
+				linker.setViewport( 0, render.getWindowHeight()/2, render.getWindowWidth()/2, render.getWindowHeight() ) #en haut à gauche
+				scene.objects.get('Camera 1').setViewport( 0, render.getWindowHeight()/2, render.getWindowWidth()/2, render.getWindowHeight() )
 			elif (mode==3 or mode==5 or mode==7) and id==1:
-				cam.setViewport( render.getWindowHeight/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en haut à droite
-				scene.objects.get('Camera 2').setViewport( render.getWindowHeight/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+				linker.setViewport( render.getWindowHeight()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() ) #en haut à droite
+				scene.objects.get('Camera 2').setViewport( render.getWindowHeight()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() )
 			elif ((mode==4 or mode==6) and id==1) or (mode==7 and id==2):
-				cam.setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight/2 ) #en bas à gauche
-				scene.objects.get('Camera '+str(id+1)).setViewport( 0, 0, render.getWindowWidth/2, render.getWindowHeight/2 )
+				linker.setViewport( 0, 0, render.getWindowWidth()/2, render.getWindowHeight()/2 ) #en bas à gauche
+				scene.objects.get('Camera '+str(id+1)).setViewport( 0, 0, render.getWindowWidth()/2, render.getWindowHeight()/2 )
 			elif ((mode==4 or mode==5) and id==2) or (mode==7 and id==3):
-				cam.setViewport( render.getWindowWidth/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight ) #en bas à droite
-				scene.objects.get('Camera '+str(id+1)).setViewport( render.getWindowWidth/2, render.getWindowHeight/2, render.getWindowWidth, render.getWindowHeight )
+				linker.setViewport( render.getWindowWidth()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() ) #en bas à droite
+				scene.objects.get('Camera '+str(id+1)).setViewport( render.getWindowWidth()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() )
 			if ((mode==1 or mode==2) and id==1) or ((mode==3 or mode==4 or mode==5 or mode==6) and id==2) or (mode==7 and id==3):
 				j=0
 				while j < len(gl.cams):
-					gl.cams[j].useViewport = True
 					camCompteur = scene.objects.get('Camera '+str(j+1))
 					camCompteur.useViewport = True
 					camCompteur.setOnTop()
@@ -133,7 +135,7 @@ def load():
 				child['AI']=child.children['AI']
 				child['AI'].removeParent()
 				if gl.conf[0][j][1]=='human':
-					autoViewport( child['cam'], gl.conf[0][i][0] )
+					autoViewport( child['car'], gl.conf[0][i][0] )
 				if x:
 					own.localPosition[0] += 2
 					own.localPosition[1] += 2
@@ -168,10 +170,10 @@ def load():
 				gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
 			else:
 				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
-					if currentKey[0] != 'upGear' and currentKey[0] != 'downGear' and keyboard.events[int(currentKey[1])] == ACTIVE:
+					if currentKey[2] == False and keyboard.events[int(currentKey[1])] == ACTIVE:
 						logs.log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
 						actualCar[1][currentKey[0]] = 1
-					elif (currentKey[0] == 'upGear' or currentKey[0] == 'downGear') and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
+					elif currentKey[2] == True and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
 						actualCar[1][currentKey[0]] = 1
 					else:
 						actualCar[1][currentKey[0]] = 0

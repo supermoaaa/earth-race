@@ -5,42 +5,61 @@
         [
             [
                 "accelerate", 
-                "122"
+                "122", 
+                false
             ], 
             [
                 "reverse", 
-                "115"
+                "115", 
+                false
             ], 
             [
                 "left", 
-                "113"
+                "113", 
+                false
             ], 
             [
                 "right", 
-                "100"
+                "100", 
+                false
             ], 
             [
                 "brake", 
-                "32"
+                "32", 
+                false
             ], 
             [
                 "boost", 
-                "129"
+                "129", 
+                false
             ], 
             [
                 "upGear", 
-                "101"
+                "101", 
+                true
             ], 
             [
                 "downGear", 
-                "97"
+                "97", 
+                true
             ], 
             [
                 "respawn", 
-                "114"
+                "114", 
+                true
+            ], 
+            [
+                "nextCam", 
+                "99", 
+                true
+            ], 
+            [
+                "previousCam", 
+                "120", 
+                true
             ]
         ], 
-        "caisse", 
+        "camaro", 
         "roueShighF"
     ], 
     [
@@ -49,35 +68,58 @@
         [
             [
                 "accelerate", 
-                "122"
+                "122", 
+                false
             ], 
             [
                 "reverse", 
-                "115"
+                "115", 
+                false
             ], 
             [
                 "left", 
-                "113"
+                "113", 
+                false
             ], 
             [
                 "right", 
-                "100"
+                "100", 
+                false
             ], 
             [
                 "brake", 
-                "32"
+                "32", 
+                false
             ], 
             [
                 "boost", 
-                "129"
+                "129", 
+                false
             ], 
             [
                 "upGear", 
-                "101"
+                "101", 
+                true
             ], 
             [
                 "downGear", 
-                "97"
+                "97", 
+                true
+            ], 
+            [
+                "respawn", 
+                "114", 
+                true
+            ], 
+            [
+                "nextCam", 
+                "99", 
+                true
+            ], 
+            [
+                "previousCam", 
+                "120", 
+                true
             ]
         ], 
         "caisse", 
@@ -89,35 +131,58 @@
         [
             [
                 "accelerate", 
-                "122"
+                "122", 
+                false
             ], 
             [
                 "reverse", 
-                "115"
+                "115", 
+                false
             ], 
             [
                 "left", 
-                "113"
+                "113", 
+                false
             ], 
             [
                 "right", 
-                "100"
+                "100", 
+                false
             ], 
             [
                 "brake", 
-                "32"
+                "32", 
+                false
             ], 
             [
                 "boost", 
-                "129"
+                "129", 
+                false
             ], 
             [
                 "upGear", 
-                "101"
+                "101", 
+                true
             ], 
             [
                 "downGear", 
-                "97"
+                "97", 
+                true
+            ], 
+            [
+                "respawn", 
+                "114", 
+                true
+            ], 
+            [
+                "nextCam", 
+                "99", 
+                true
+            ], 
+            [
+                "previousCam", 
+                "120", 
+                true
             ]
         ], 
         "caisse", 
@@ -129,35 +194,58 @@
         [
             [
                 "accelerate", 
-                "122"
+                "122", 
+                false
             ], 
             [
                 "reverse", 
-                "115"
+                "115", 
+                false
             ], 
             [
                 "left", 
-                "113"
+                "113", 
+                false
             ], 
             [
                 "right", 
-                "100"
+                "100", 
+                false
             ], 
             [
                 "brake", 
-                "32"
+                "32", 
+                false
             ], 
             [
                 "boost", 
-                "129"
+                "129", 
+                false
             ], 
             [
                 "upGear", 
-                "101"
+                "101", 
+                true
             ], 
             [
                 "downGear", 
-                "97"
+                "97", 
+                true
+            ], 
+            [
+                "respawn", 
+                "114", 
+                true
+            ], 
+            [
+                "nextCam", 
+                "99", 
+                true
+            ], 
+            [
+                "previousCam", 
+                "120", 
+                true
             ]
         ], 
         "caisse", 

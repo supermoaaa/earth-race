@@ -109,7 +109,7 @@ def loadPlayer():
 		try:
 			gl.conf[0] = json.load(f)
 		except:
-			logs.log("error", "json mal formaté")
+			logs.log("error", "json players mal formaté")
 	checkPlayerConf()
 
 def checkPlayerConf():
@@ -118,15 +118,17 @@ def checkPlayerConf():
 				'player1',
 				'human',
 				[
-					[ 'accelerate', '122' ],
-					[ 'reverse', '115' ],
-					[ 'left', '113' ],
-					[ 'right', '100' ],
-					[ 'brake', '32' ],
-					[ 'boost', '129' ],
-					[ 'upGear', '101' ],
-					[ 'downGear', '97' ],
-					[ 'respawn', '114' ]
+					[ 'accelerate', '122', False ],
+					[ 'reverse', '115', False ],
+					[ 'left', '113', False ],
+					[ 'right', '100', False ],
+					[ 'brake', '32', False ],
+					[ 'boost', '129', False ],
+					[ 'upGear', '101', True ],
+					[ 'downGear', '97', True ],
+					[ 'respawn', '114', True ],
+					[ 'nextCam', '99', True ],
+					[ 'previousCam', '120', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -135,15 +137,17 @@ def checkPlayerConf():
 				'player2',
 				'human',
 				[
-					[ 'accelerate', '122' ],
-					[ 'reverse', '115' ],
-					[ 'left', '113' ],
-					[ 'right', '100' ],
-					[ 'brake', '32' ],
-					[ 'boost', '129' ],
-					[ 'upGear', '101' ],
-					[ 'downGear', '97' ],
-					[ 'respawn', '114' ]
+					[ 'accelerate', '122', False ],
+					[ 'reverse', '115', False ],
+					[ 'left', '113', False ],
+					[ 'right', '100', False ],
+					[ 'brake', '32', False ],
+					[ 'boost', '129', False ],
+					[ 'upGear', '101', True ],
+					[ 'downGear', '97', True ],
+					[ 'respawn', '114', True ],
+					[ 'nextCam', '99', True ],
+					[ 'previousCam', '120', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -152,15 +156,17 @@ def checkPlayerConf():
 				'player3',
 				'human',
 				[
-					[ 'accelerate', '122' ],
-					[ 'reverse', '115' ],
-					[ 'left', '113' ],
-					[ 'right', '100' ],
-					[ 'brake', '32' ],
-					[ 'boost', '129' ],
-					[ 'upGear', '101' ],
-					[ 'downGear', '97' ],
-					[ 'respawn', '114' ]
+					[ 'accelerate', '122', False ],
+					[ 'reverse', '115', False ],
+					[ 'left', '113', False ],
+					[ 'right', '100', False ],
+					[ 'brake', '32', False ],
+					[ 'boost', '129', False ],
+					[ 'upGear', '101', True ],
+					[ 'downGear', '97', True ],
+					[ 'respawn', '114', True ],
+					[ 'nextCam', '99', True ],
+					[ 'previousCam', '120', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -169,15 +175,17 @@ def checkPlayerConf():
 				'player4',
 				'human',
 				[
-					[ 'accelerate', '122' ],
-					[ 'reverse', '115' ],
-					[ 'left', '113' ],
-					[ 'right', '100' ],
-					[ 'brake', '32' ],
-					[ 'boost', '129' ],
-					[ 'upGear', '101' ],
-					[ 'downGear', '97' ],
-					[ 'respawn', '114' ]
+					[ 'accelerate', '122', False ],
+					[ 'reverse', '115', False ],
+					[ 'left', '113', False ],
+					[ 'right', '100', False ],
+					[ 'brake', '32', False ],
+					[ 'boost', '129', False ],
+					[ 'upGear', '101', True ],
+					[ 'downGear', '97', True ],
+					[ 'respawn', '114', True ],
+					[ 'nextCam', '99', True ],
+					[ 'previousCam', '120', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -201,8 +209,14 @@ def checkPlayerConf():
 		checkPlayer( 3, defaultConf )
 
 def checkPlayer( idPlayer, defaultConf ):
+	if len(gl.conf[0][idPlayer])>3:
+		checkKeys( idPlayer, defaultConf )
 	nbElements = len(gl.conf[0][idPlayer])
 	gl.conf[0][idPlayer].extend(defaultConf[idPlayer][nbElements:])
+
+def checkKeys( idPlayer, defaultConf):
+	nbElements = len(gl.conf[0][idPlayer][2])
+	gl.conf[0][idPlayer][2].extend(defaultConf[idPlayer][2][nbElements:])
 
 def savePlayer():
 	with open(gl.expandPath("//")+'players.json', 'w') as f:
@@ -216,7 +230,7 @@ def loadConf():
 			gl.sound = conf[1]
 			gl.skin = conf[2]
 		except:
-			logs.log("error", "json mal formaté")
+			logs.log("error", "json de configuration générale mal formaté")
 	checkConf()
 
 def checkConf():

@@ -1,5 +1,6 @@
 import vehicle
 from bge import logic as gl
+from bge import render as render
 from mathutils import Euler
 from math import cos
 from math import sin
@@ -31,6 +32,10 @@ class vehicleLinker(object):
 		if 'vehicle_type' in args: self.setVehicle( args['vehicle_type'] )
 		if 'wheels_type' in args: self.setWheels( args['wheels_type'] )
 		if 'camera_object' in args: self.setCamera( args['camera_object'] )
+		if 'viewPort' in args:
+			self.viewPort = args['viewPort']
+		else:
+			self.viewPort = [ 0, 0, render.getWindowWidth(), render.getWindowHeight() ]
 
 	def setParent( self, parent ):
 		if self.car != None:
@@ -74,6 +79,10 @@ class vehicleLinker(object):
 		self.camera = cameraObj
 		self.__updateCamera()
 
+	def setViewPort(self, left, bottom, right, top):
+		self.viewPort = [left, bottom, right, top]
+		self.__updateCamera()
+
 	def getVehicleConf( self ):
 		return gl.conf[1][self.vehicle_type]
 
@@ -99,6 +108,9 @@ class vehicleLinker(object):
 	def __updateCamera( self ):
 		if self.camera != None and self.car != None and self.isVehicleLoaded():
 			self.camera.removeParent()
+			self.camera.setViewport( self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3] )
+			self.car.setCamsParams(self.camera.lens,self.viewPort)
+			self.car.setDefaultCam(self.camera)
 
 	def delVehicle( self ):
 		conf.freeVehicle(self.vehicle_type)
@@ -144,7 +156,6 @@ class vehicleLinker(object):
 			carRot = car.localOrientation.to_euler('XYZ')[2]
 			camRot = self.camera.localOrientation.to_euler('XYZ')
 			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
-			logs.log("debug","angle x : "+str(camRot[0]))
 			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
 			yRelativePosition = 0
 			zRelativePosition = 3.3-(smoothSpeed/150)*1.5

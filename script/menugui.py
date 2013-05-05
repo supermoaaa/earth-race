@@ -986,15 +986,17 @@ class MenuCommandesGui(BaseGui):
 		self.flechejoueurGA_button.on_click = self.leftjoueur
 
 
-		# initituler des touches
+		# intituler des touches
 
 		self.accelerateur_label = bgui.Label(self.frame, 'accelerateur', text="accelerateur: ", pt_size=40, pos=[0.15, 0.65], options=bgui.BGUI_DEFAULT)
-		self.frein_label = bgui.Label(self.frame, 'frein', text="   frein: ", pt_size=40, pos=[0.15, 0.55], options=bgui.BGUI_DEFAULT)
-		self.droite_label = bgui.Label(self.frame, 'droite', text="   droite: ", pt_size=40, pos=[0.15, 0.45], options=bgui.BGUI_DEFAULT)
-		self.gauche_label = bgui.Label(self.frame, 'gauche', text="   gauche: ", pt_size=40, pos=[0.15, 0.35], options=bgui.BGUI_DEFAULT)
-		self.passerVitesse_label = bgui.Label(self.frame, 'passerVitesse', text="passer Vitesse: ", pt_size=40, pos=[0.15, 0.25], options=bgui.BGUI_DEFAULT)
-		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.15], options=bgui.BGUI_DEFAULT)
-
+		self.frein_label = bgui.Label(self.frame, 'frein', text="   frein: ", pt_size=40, pos=[0.15, 0.60], options=bgui.BGUI_DEFAULT)
+		self.droite_label = bgui.Label(self.frame, 'droite', text="   droite: ", pt_size=40, pos=[0.15, 0.55], options=bgui.BGUI_DEFAULT)
+		self.gauche_label = bgui.Label(self.frame, 'gauche', text="   gauche: ", pt_size=40, pos=[0.15, 0.5], options=bgui.BGUI_DEFAULT)
+		self.passerVitesse_label = bgui.Label(self.frame, 'passerVitesse', text="passer Vitesse: ", pt_size=40, pos=[0.15, 0.45], options=bgui.BGUI_DEFAULT)
+		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.40], options=bgui.BGUI_DEFAULT)
+		self.upcam_label = bgui.Label(self.frame, 'upcam', text="avancer d une camera: ", pt_size=40, pos=[0.15, 0.35], options=bgui.BGUI_DEFAULT)
+		self.downcam_label = bgui.Label(self.frame, 'downcam', text="reculer d une camera: ", pt_size=40, pos=[0.15, 0.30], options=bgui.BGUI_DEFAULT)
+		
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
 			self.joueur_label.text = gl.configurablePlayers[1]

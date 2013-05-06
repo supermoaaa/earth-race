@@ -62,7 +62,7 @@ class vehicleSimulation(object):
 				self.boostPower=int(param[1])
 			elif param[0] == "mass":
 				logs.log("debug","mass "+param[1])
-				owner.mass = float(param[1])
+				self.main.mass = float(param[1])
 			elif param[0] == "cam":
 				cam = self.main.children.get(param[1])
 				if cam != None:

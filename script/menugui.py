@@ -988,14 +988,27 @@ class MenuCommandesGui(BaseGui):
 
 		# intituler des touches
 
-		self.accelerateur_label = bgui.Label(self.frame, 'accelerateur', text="accelerateur: ", pt_size=40, pos=[0.15, 0.65], options=bgui.BGUI_DEFAULT)
-		self.frein_label = bgui.Label(self.frame, 'frein', text="   frein: ", pt_size=40, pos=[0.15, 0.60], options=bgui.BGUI_DEFAULT)
-		self.droite_label = bgui.Label(self.frame, 'droite', text="   droite: ", pt_size=40, pos=[0.15, 0.55], options=bgui.BGUI_DEFAULT)
-		self.gauche_label = bgui.Label(self.frame, 'gauche', text="   gauche: ", pt_size=40, pos=[0.15, 0.5], options=bgui.BGUI_DEFAULT)
-		self.passerVitesse_label = bgui.Label(self.frame, 'passerVitesse', text="passer Vitesse: ", pt_size=40, pos=[0.15, 0.45], options=bgui.BGUI_DEFAULT)
-		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.40], options=bgui.BGUI_DEFAULT)
-		self.upcam_label = bgui.Label(self.frame, 'upcam', text="avancer d une camera: ", pt_size=40, pos=[0.15, 0.35], options=bgui.BGUI_DEFAULT)
-		self.downcam_label = bgui.Label(self.frame, 'downcam', text="reculer d une camera: ", pt_size=40, pos=[0.15, 0.30], options=bgui.BGUI_DEFAULT)
+		self.accelerateur_label = bgui.Label(self.frame, 'accelerateur', text="  accelerateur: ", pt_size=40, pos=[0.15, 0.65], options=bgui.BGUI_DEFAULT)
+		self.frein_label = bgui.Label(self.frame, 'frein', text="    frein: ", pt_size=40, pos=[0.15, 0.60], options=bgui.BGUI_DEFAULT)
+		self.droite_label = bgui.Label(self.frame, 'droite', text="    droite: ", pt_size=40, pos=[0.15, 0.55], options=bgui.BGUI_DEFAULT)
+		self.gauche_label = bgui.Label(self.frame, 'gauche', text="    gauche: ", pt_size=40, pos=[0.15, 0.50], options=bgui.BGUI_DEFAULT)
+		self.freinMain_label = bgui.Label(self.frame, 'freinMain', text="frein a main: ", pt_size=40, pos=[0.15, 0.45], options=bgui.BGUI_DEFAULT)
+		self.nitro_label = bgui.Label(self.frame, 'nitro', text="    nitro: ", pt_size=40, pos=[0.15, 0.40], options=bgui.BGUI_DEFAULT)
+		self.passerVitesse_label = bgui.Label(self.frame, 'passerVitesse', text="passer Vitesse: ", pt_size=40, pos=[0.15, 0.35], options=bgui.BGUI_DEFAULT)
+		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.30], options=bgui.BGUI_DEFAULT)
+		self.upcam_label = bgui.Label(self.frame, 'upcam', text="changer de camera: ", pt_size=40, pos=[0.15, 0.25], options=bgui.BGUI_DEFAULT)
+		
+		# touche courante
+		
+		self.cur_accelerateur_label = bgui.Label(self.frame, 'cur_accelerateur', text=ev.EventToString(int(gl.conf[0][0][2][0][1])), pt_size=40, pos=[0.35, 0.65], options=bgui.BGUI_DEFAULT)
+		self.cur_frein_label = bgui.Label(self.frame, 'cur_frein', text=ev.EventToString(int(gl.conf[0][0][2][1][1])), pt_size=40, pos=[0.35, 0.60], options=bgui.BGUI_DEFAULT)
+		self.cur_droite_label = bgui.Label(self.frame, 'cur_droite', text=ev.EventToString(int(gl.conf[0][0][2][2][1])), pt_size=40, pos=[0.35, 0.55], options=bgui.BGUI_DEFAULT)
+		self.cur_gauche_label = bgui.Label(self.frame, 'cur_gauche', text=ev.EventToString(int(gl.conf[0][0][2][3][1])), pt_size=40, pos=[0.35, 0.50], options=bgui.BGUI_DEFAULT)
+		self.cur_freinMain_label = bgui.Label(self.frame, 'cur_freinMain', text=ev.EventToString(int(gl.conf[0][0][2][4][1])), pt_size=40, pos=[0.35, 0.45], options=bgui.BGUI_DEFAULT)
+		self.cur_nitro_label = bgui.Label(self.frame, 'cur_nitro', text=ev.EventToString(int(gl.conf[0][0][2][5][1])), pt_size=40, pos=[0.35, 0.40], options=bgui.BGUI_DEFAULT)
+		self.cur_passerVitesse_label = bgui.Label(self.frame, 'cur_passerVitesse', text=ev.EventToString(int(gl.conf[0][0][2][6][1])), pt_size=40, pos=[0.35, 0.35], options=bgui.BGUI_DEFAULT)
+		self.cur_retrograder_label = bgui.Label(self.frame, 'cur_retrograder', text=ev.EventToString(int(gl.conf[0][0][2][7][1])), pt_size=40, pos=[0.35, 0.30], options=bgui.BGUI_DEFAULT)
+		self.cur_upcam_label = bgui.Label(self.frame, 'cur_upcam', text=ev.EventToString(int(gl.conf[0][0][2][8][1])), pt_size=40, pos=[0.35, 0.25], options=bgui.BGUI_DEFAULT)
 		
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:

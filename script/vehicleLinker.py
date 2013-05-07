@@ -178,9 +178,9 @@ class vehicleLinker(object):
 				camRot[2] = carRot
 			diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
 			# compensation pour le cas d'un bug sur l'axe z
-			if abs(diff_angle)>1.7:
-				carRot = (6.28-carRot)%6.28-3.14
-				diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
+			#~ if abs(diff_angle)>1.7:
+				#~ carRot = (6.28-carRot)%6.28-3.14
+				#~ diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
 			# lissage des mouvements de la caméra
 			if -0.785<diff_angle and diff_angle<0.785:
 				logs.log("debug",'smooth')

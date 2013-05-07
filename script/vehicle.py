@@ -155,10 +155,9 @@ class vehicleSimulation(object):
 			upGear = main["upGear"]
 			downGear = main["downGear"]
 			respawn = main["respawn"]
-			nextCam = main["nextCam"]
-			previousCam = main["previousCam"]
+			changeCam = main["changeCam"]
 
-			self.__keyChangeCam( previousCam, nextCam )
+			self.__keyChangeCam( changeCam )
 
 			speed = main['kph']
 			if upGear and self.gearSelect < ( len(self.gearCalcs) - 1) and not downGear:
@@ -336,20 +335,8 @@ class vehicleSimulation(object):
 		gl.getCurrentScene().active_camera = cam
 		self.currentCam = len(self.cams)
 
-	def __keyChangeCam(self, keyPreviousCam, keyNextCam):
-		if len(self.cams)>0:
-			if keyPreviousCam>0:
-				if self.currentCam==0:
-					self.changeCam( self.cams[self.currentCam], self.defaultCam )
-					self.currentCam = len(self.cams)
-				elif self.currentCam>=len(self.cams):
-					self.changeCam( self.defaultCam, self.cams[self.currentCam - 1] )
-					self.currentCam -= 1
-				else:
-					self.changeCam( self.cams[self.currentCam], self.cams[ self.currentCam - 1] )
-					self.currentCam -= 1
-
-			if keyNextCam>0:
+	def __keyChangeCam(self, changeCam):
+		if len(self.cams)>0 and changeCam>0:
 				if self.currentCam==len(self.cams)-1:
 					self.changeCam( self.cams[self.currentCam], self.defaultCam )
 					self.currentCam += 1

@@ -127,8 +127,7 @@ def checkPlayerConf():
 					[ 'upGear', '101', True ],
 					[ 'downGear', '97', True ],
 					[ 'respawn', '114', True ],
-					[ 'nextCam', '99', True ],
-					[ 'previousCam', '120', True ]
+					[ 'changeCam', '99', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -146,8 +145,7 @@ def checkPlayerConf():
 					[ 'upGear', '101', True ],
 					[ 'downGear', '97', True ],
 					[ 'respawn', '114', True ],
-					[ 'nextCam', '99', True ],
-					[ 'previousCam', '120', True ]
+					[ 'changeCam', '99', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -165,8 +163,7 @@ def checkPlayerConf():
 					[ 'upGear', '101', True ],
 					[ 'downGear', '97', True ],
 					[ 'respawn', '114', True ],
-					[ 'nextCam', '99', True ],
-					[ 'previousCam', '120', True ]
+					[ 'changeCam', '99', True ]
 				],
 				'caisse',
 				'rouepleine1'
@@ -184,8 +181,7 @@ def checkPlayerConf():
 					[ 'upGear', '101', True ],
 					[ 'downGear', '97', True ],
 					[ 'respawn', '114', True ],
-					[ 'nextCam', '99', True ],
-					[ 'previousCam', '120', True ]
+					[ 'changeCam', '99', True ]
 				],
 				'caisse',
 				'rouepleine1'

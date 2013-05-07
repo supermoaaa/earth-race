@@ -49,13 +49,8 @@
                 true
             ], 
             [
-                "nextCam", 
+                "changeCam", 
                 "99", 
-                true
-            ], 
-            [
-                "previousCam", 
-                "120", 
                 true
             ]
         ], 
@@ -112,13 +107,8 @@
                 true
             ], 
             [
-                "nextCam", 
+                "changeCam", 
                 "99", 
-                true
-            ], 
-            [
-                "previousCam", 
-                "120", 
                 true
             ]
         ], 
@@ -175,13 +165,8 @@
                 true
             ], 
             [
-                "nextCam", 
+                "changeCam", 
                 "99", 
-                true
-            ], 
-            [
-                "previousCam", 
-                "120", 
                 true
             ]
         ], 
@@ -238,13 +223,8 @@
                 true
             ], 
             [
-                "nextCam", 
+                "changeCam", 
                 "99", 
-                true
-            ], 
-            [
-                "previousCam", 
-                "120", 
                 true
             ]
         ], 

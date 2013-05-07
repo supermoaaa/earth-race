@@ -346,6 +346,8 @@ class vehicleSimulation(object):
 				else:
 					self.changeCam( self.cams[self.currentCam], self.cams[self.currentCam+1] )
 					self.currentCam += 1
+				for cam in gl.camsCompteur:
+					cam.setOnTop()
 
 	def changeCam(self, oldCam, newCam):
 		newCam.useViewport = True

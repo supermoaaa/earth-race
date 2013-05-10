@@ -54,7 +54,7 @@
                 true
             ]
         ], 
-        "camaro", 
+        "MegaRS", 
         "roueShighF"
     ], 
     [
@@ -63,22 +63,22 @@
         [
             [
                 "accelerate", 
-                "122", 
+                "146", 
                 false
             ], 
             [
                 "reverse", 
-                "115", 
+                "144", 
                 false
             ], 
             [
                 "left", 
-                "113", 
+                "143", 
                 false
             ], 
             [
                 "right", 
-                "100", 
+                "145", 
                 false
             ], 
             [

@@ -1013,28 +1013,100 @@ class MenuCommandesGui(BaseGui):
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
 			self.joueur_label.text = gl.configurablePlayers[1]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][1][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][1][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][1][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][1][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][1][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][1][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][1][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][1][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[1]:
 			self.joueur_label.text = gl.configurablePlayers[2]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][2][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][2][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][2][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][2][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][2][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][2][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][2][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][2][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[2]:
 			self.joueur_label.text = gl.configurablePlayers[3]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][3][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][3][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][3][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][3][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][3][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][3][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][3][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][3][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[3]:
 			self.joueur_label.text = gl.configurablePlayers[0]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][0][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][0][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][0][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][0][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][0][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][0][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][0][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][0][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
 
 	def leftjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
 			self.joueur_label.text = gl.configurablePlayers[3]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][3][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][3][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][3][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][3][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][3][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][3][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][3][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][3][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[1]:
 			self.joueur_label.text = gl.configurablePlayers[0]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][0][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][0][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][0][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][0][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][0][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][0][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][0][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][0][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[2]:
 			self.joueur_label.text = gl.configurablePlayers[1]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][1][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][1][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][1][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][1][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][1][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][1][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][1][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][1][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][8][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[3]:
 			self.joueur_label.text = gl.configurablePlayers[2]
+			self.cur_accelerateur_label.text = ev.EventToString(int(gl.conf[0][2][2][0][1]))
+			self.cur_frein_label.text = ev.EventToString(int(gl.conf[0][2][2][1][1]))
+			self.cur_droite_label.text = ev.EventToString(int(gl.conf[0][2][2][2][1]))
+			self.cur_gauche_label.text = ev.EventToString(int(gl.conf[0][2][2][3][1]))
+			self.cur_freinMain_label.text = ev.EventToString(int(gl.conf[0][2][2][4][1]))
+			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][2][2][5][1]))
+			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][2][2][6][1]))
+			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][2][2][7][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
 
 	def detruire(self) :
 		"""Détruit les widgets"""

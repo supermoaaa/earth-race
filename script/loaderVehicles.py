@@ -38,7 +38,7 @@ def autoViewport( linker, playerName ):
 	if not hasattr(gl,"dispPlayers") or playerName in gl.dispPlayers:
 		scene = gl.getCurrentScene()
 		if not hasattr(gl,"dispPlayers") or gl.dispPlayers[0]==0:
-			gl.getCurrentScene().active_camera = linker.camera
+			gl.getCurrentScene().active_camera = linker.camera.camera
 			camCompteur = scene.objects.get('Camera 1')
 			camCompteur.setViewport( 0, 0, render.getWindowWidth(),render.getWindowHeight() )
 			camCompteur.useViewport = True
@@ -78,7 +78,7 @@ def autoViewport( linker, playerName ):
 					camCompteur.setOnTop()
 
 def __addCam( linker, camCompteurName, left, bottom, right, top ):
-	linker.setViewport( left, bottom, right, top )
+	linker.camera.setParams( viewPort = [left, bottom, right, top] )
 	camCompteur = scene.objects.get(camCompteurName)
 	camCompteur.setViewport( left, bottom, right, top )
 	gl.camsCompteur.append(camCompteur)

@@ -1,28 +1,21 @@
 import vehicle
 from bge import logic as gl
-from bge import render as render
-from mathutils import Euler
-from math import cos
-from math import sin
-from math import sqrt
-from math import atan
 import confParser as conf
 from physicVehicle_wheel import r_wheel
+from camera import camera
 import logs
 
 class vehicleLinker(object):
 	def __init__(self, **args):
 		if not hasattr(gl,"objectsCars"):
 			gl.objectsCars = []
-		self.camera = None
+		self.camera = camera()
 		self.vehicle_type = None
 		self.car = None
 		self.wheels_type = None
 		self.wheels_free = True
 		self.physic = True
 		self.parent = False
-		self.rev = False
-		self.lastSpeed = 0.0
 		if 'physic' in args: self.setPhysic(args['physic'])
 		if 'parent' in args and args['parent'] == True:
 			self.parent = True
@@ -31,11 +24,8 @@ class vehicleLinker(object):
 		else: self.objPos = gl.getCurrentController().owner
 		if 'vehicle_type' in args: self.setVehicle( args['vehicle_type'] )
 		if 'wheels_type' in args: self.setWheels( args['wheels_type'] )
-		if 'camera_object' in args: self.setCamera( args['camera_object'] )
-		if 'viewPort' in args:
-			self.viewPort = args['viewPort']
-		else:
-			self.viewPort = [ 0, 0, render.getWindowWidth(), render.getWindowHeight() ]
+		if 'camera_object' in args: self.camera.setParams( camera = args['camera_object'] )
+		if 'viewPort' in args: self.camera.setParams( viewPort = args['viewPort'] )
 
 	def setParent( self, parent ):
 		if self.car != None:
@@ -60,7 +50,7 @@ class vehicleLinker(object):
 		conf.setFinishLoadedVehicle(self.vehicle_type)
 		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent )
 		self.__updateWheels()
-		self.__updateCamera()
+		self.camera.setParams( car = self.car )
 
 	def setWheels( self, wheels_type ):
 		if self.wheels_type != wheels_type:
@@ -74,14 +64,6 @@ class vehicleLinker(object):
 		logs.log("debug","finish loading wheels : "+self.wheels_type)
 		conf.setFinishLoadedWheel(self.wheels_type)
 		self.__updateWheels()
-
-	def setCamera( self, cameraObj ):
-		self.camera = cameraObj
-		self.__updateCamera()
-
-	def setViewPort(self, left, bottom, right, top):
-		self.viewPort = [left, bottom, right, top]
-		self.__updateCamera()
 
 	def getVehicleConf( self ):
 		return gl.conf[1][self.vehicle_type]
@@ -107,8 +89,7 @@ class vehicleLinker(object):
 
 	def __updateCamera( self ):
 		if self.camera != None and self.car != None and self.isVehicleLoaded():
-			self.camera.removeParent()
-			self.camera.setViewport( self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3] )
+			self.camera.updateCam()
 			self.car.setCamsParams(self.camera.lens,self.viewPort)
 			self.car.setDefaultCam(self.camera)
 
@@ -128,76 +109,7 @@ class vehicleLinker(object):
 	def simulate( self ):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):
 			self.car.simulate()
-			if self.camera != None:
-				self.__simulateCamera( self.__distance( self.car.getMainObject(), self.camera ) )
-
-	def __diffAngle( self, angle1, angle2 ):
-		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14
-
-	def __distance( self, obj1, obj2 ):
-		pos1 = obj1.position
-		pos2 = obj2.position
-		dist = sqrt( (pos1[0]-pos2[0])**2 + (pos1[1]-pos2[1])**2 + (pos1[2]-pos2[2])**2 )
-		obj, point, normal = obj1.rayCast( obj2, None, dist*1.5)
-		if obj==None:
-			return None
-		pos1 = obj1.position
-		return sqrt( (pos1[0]-point[0])**2 + (pos1[1]-point[1])**2 + (pos1[2]-point[2])**2 )
-
-	def __simulateCamera( self, distance ):
-		if self.camera != None:
-			# variables initiales
-			car = self.car.getMainObject()
-			carPosX, carPosY, carPosZ = car.worldPosition
-			ticRate = gl.getLogicTicRate()*2
-			speed = abs(self.car.owner['kph'])+0.5
-			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
-			self.lastSpeed = speed
-			carRot = car.localOrientation.to_euler('XYZ')[2]
-			camRot = self.camera.localOrientation.to_euler('XYZ')
-			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
-			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
-			yRelativePosition = 0
-			zRelativePosition = 3.3-(smoothSpeed/150)*1.5
-			if distance != None:
-				logs.log("debug","distance : "+str(distance))
-				xRelativePosition = min( xRelativePosition, distance/1.1 )
-				zRelativePosition = min( zRelativePosition, distance/2 )
-			xRelativePosition = max( xRelativePosition, 0.3 )
-			zRelativePosition = max( zRelativePosition, 0.3 )
-			camRot[0] = atan(xRelativePosition/(zRelativePosition/1.5))
-
-			# début des calculs
-			if self.car.gearSelect == 0: # si en marche arrière
-				carRot = (carRot)%6.28-3.14
-				if not self.rev: # si on vient de passer en marche arrière
-					self.rev = True
-					camRot[2] = carRot
-			elif self.car.gearSelect!=0 and self.rev: # si on vient de passer en marche avant
-				self.rev = False
-				camRot[2] = carRot
-			diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
-			# compensation pour le cas d'un bug sur l'axe z
-			#~ if abs(diff_angle)>1.7:
-				#~ carRot = (6.28-carRot)%6.28-3.14
-				#~ diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
-			# lissage des mouvements de la caméra
-			if -0.785<diff_angle and diff_angle<0.785:
-				logs.log("debug",'smooth')
-				carRot = camRot[2] + diff_angle*0.1
-			# blocage d'extrémités
-			diff_angle =self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
-			if diff_angle<-0.785:
-				carRot = carRot + 0.785
-			elif diff_angle>0.785:
-				carRot = carRot - 0.785
-			carRot %= 6.28
-			# calcul de la position de la caméra
-			camPosX = carPosX+xRelativePosition*cos(carRot)-yRelativePosition*sin(carRot)
-			camPosY = carPosY+xRelativePosition*sin(carRot)+yRelativePosition*cos(carRot)
-			# application de la position et orientation sur la caméra
-			self.camera.worldPosition = [camPosX,camPosY,carPosZ+zRelativePosition]
-			self.camera.localOrientation = Euler([camRot[0],camRot[1],(carRot+(3.14/2))%6.28],'XYZ').to_matrix()
+			self.camera.simulate()
 
 	def getRaceDuration( self ):
 		if self.car != None:

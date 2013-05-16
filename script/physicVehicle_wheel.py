@@ -90,10 +90,10 @@ class r_wheel:
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
 				child = objects.addObject( pos_ob, param[1] )
-				child.scaling = pos_ob.scaling
-				child.setParent(main_ob)
 				logs.log("debug",child)
 				if child!=None:
+					child.scaling = pos_ob.scaling
+					child.setParent(main_ob)
 					logs.log("debug",'default init')
 					self.__def_init(main_ob, child, steer, powered, handbrake)
 			elif param[0] == "decoration":
@@ -235,7 +235,10 @@ class r_wheel:
 			s_fac = 1.0 - self.s_length/self.s_rest_length
 			s_spring_force = (s_fac**self.s_exp)*self.s_force
 			s_spring_force -= hvel.dot(hmat.col[2])*self.s_damp
-			Fnormal = max(s_spring_force, 0)
+			try:
+				Fnormal = max(s_spring_force, 0)
+			except:
+				logs.log('error','Fnormal = max(s_spring_force, 0) avec s_spring_force='+str(s_spring_force))
 
 			#Calculate patch force
 			Fpatch = p_pos * self.main.mass*8/self.p_shift #It is assumed that mass*5 is an appropriate maximum force

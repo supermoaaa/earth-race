@@ -98,7 +98,7 @@ class r_wheel:
 					self.__def_init(main_ob, child, steer, powered, handbrake)
 			elif param[0] == "decoration":
 				if param[1] in self.wheel.children:
-					self.childs.append(self.wheel.children.get(param[1]))
+					self.childs.append(self.wheel.childrenRecursive.get(param[1]))
 				#~ child = objects.addObject( mainObject, param[1] )
 				#~ self.childs.append(child)
 				#~ newOri = mainObject.orientation.to_euler()

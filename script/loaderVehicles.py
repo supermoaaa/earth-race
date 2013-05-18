@@ -28,7 +28,7 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['simulate'] = False
 	child['arrived'] = False
 	child['gear'] = 0
-	child['cam'] = child.children['Camera']
+	child['cam'] = child.childrenRecursive['Camera']
 	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])
 	logs.log("debug",child.get('id'))
@@ -135,7 +135,7 @@ def load():
 		while i < len(gl.conf[0]) :
 			if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
 				child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
-				child['AI']=child.children['AI']
+				child['AI']=child.childrenRecursive['AI']
 				child['AI'].removeParent()
 				if gl.conf[0][j][1]=='human':
 					autoViewport( child['car'], gl.conf[0][i][0] )

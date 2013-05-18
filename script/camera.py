@@ -38,9 +38,9 @@ class camera(object):
 
 	def __setCam( self, cam ):
 		self.camera = cam
-		self.ray1 = cam.children['camRayView']
-		self.ray2 = cam.children['camRayHorizon']
-		self.ray3 = cam.children['camRayView2']
+		self.ray1 = cam.childrenRecursive['camRayView']
+		self.ray2 = cam.childrenRecursive['camRayHorizon']
+		self.ray3 = cam.childrenRecursive['camRayView2']
 
 	def updateCam(self):
 		if self.camera!=None:

@@ -54,7 +54,7 @@ class vehicleSimulation(object):
 			#~ elif param[0] == "child":
 				#~ self.addPiece( line[8:-1], mainObject )
 			elif param[0] == "steering_wheel":
-				pos_ob = self.owner.children.get(param[1])
+				pos_ob = self.owner.childrenRecursive.get(param[1])
 				#self.addSteeringWheel( pos_ob ) # pos_ob, steering_wheel
 			elif param[0] == "gear":
 				self.gearCalcs.append(''.join(param[1:]))
@@ -64,7 +64,7 @@ class vehicleSimulation(object):
 				logs.log("debug","mass "+param[1])
 				self.main.mass = float(param[1])
 			elif param[0] == "cam":
-				cam = self.main.children.get(param[1])
+				cam = self.main.childrenRecursive.get(param[1])
 				if cam != None:
 					logs.log("debug","add sub cam "+param[1])
 					self.cams.append(cam)
@@ -93,7 +93,7 @@ class vehicleSimulation(object):
 		wheelsConf=[]
 		for param in gl.conf[1][self.vehicle_type]:
 			if param[0] == "wheel":
-				wheelsConf.append([ self.main.children.get(param[4]), param[1], param[2], param[3] ])
+				wheelsConf.append([ self.main.childrenRecursive.get(param[4]), param[1], param[2], param[3] ])
 		return wheelsConf
 
 	def getMainObject(self):
@@ -170,7 +170,7 @@ class vehicleSimulation(object):
 			if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 
 			#Camera-steering
-			#~ cambase = main.children["camera"]
+			#~ cambase = main.childrenRecursive["camera"]
 			#~ cbmat = cambase.worldOrientation
 			#~ mmat = main.worldOrientation
 
@@ -230,7 +230,7 @@ class vehicleSimulation(object):
 			self.__checkCheckpoint()
 
 			#Turn the steering wheel
-			#~ sw = main.children["evo_hull"].children["evo_steeringwheel"]
+			#~ sw = main.children["evo_hull"].childrenRecursive["evo_steeringwheel"]
 			#~ sw.localOrientation = [(wheels[0].w_steer_current + wheels[1].w_steer_current)*2,-pi/8,-pi/2]
 
 			main['steer'] = steer

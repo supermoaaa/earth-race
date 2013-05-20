@@ -1027,11 +1027,25 @@ class MenuCommandesGui(BaseGui):
 				# Setup an on_click callback
 		self.ModifierAccelerateur_button.on_click = self.ModifierAccelerateur
 		
+
 		self.Modifierfrein_button = bgui.ImageButton(self.frame, 'Modifierfrein', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.60])
 		self.Modifierfrein_label = bgui.Label(self.Modifierfrein_button, 'Modifierfrein', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.Modifierfrein_button.on_click = self.Modifierfrein
+
+
+		self.Modifierdroite_button = bgui.ImageButton(self.frame, 'Modifierdroite', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.55])
+		self.Modifierdroite_label = bgui.Label(self.Modifierdroite_button, 'Modifierdroite', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifierdroite_button.on_click = self.Modifierdroite
+
+		self.Modifiergauche_button = bgui.ImageButton(self.frame, 'Modifiergauche', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.50])
+		self.Modifiergauche_label = bgui.Label(self.Modifiergauche_button, 'Modifiergauche', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifiergauche_button.on_click = self.Modifiergauche
 		
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
@@ -1136,8 +1150,8 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_accelerateur_label.state == 0:
 			self.cur_accelerateur_label.color = 0.95,0.23,1.0,1
 			self.cur_accelerateur_label.state = 1
-			self.cur_frein_label.color = 0.95,0.23,0.0,1
-			self.cur_frein_label.state = 0
+			self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = 0.95,0.23,0.0,1
+			self.cur_frein_label.state = self.cur_droite_label.state = self.cur_frein_label.state = 0
 
 		elif self.cur_accelerateur_label.state == 1:
 			self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
@@ -1147,13 +1161,34 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_frein_label.state == 0:
 			self.cur_frein_label.color = 0.95,0.23,1.0,1
 			self.cur_frein_label.state = 1
-			self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
-			self.cur_accelerateur_label.state = 0
+			self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_frein_label.state = self.cur_droite_label.state = self.cur_accelerateur_label.state = 0
 			
 		elif self.cur_frein_label.state == 1:
 			self.cur_frein_label.color = 0.95,0.23,0.0,1
 			self.cur_frein_label.state = 0
 
+	def Modifierdroite(self, widget):
+		if self.cur_droite_label.state == 0:
+			self.cur_droite_label.color = 0.95,0.23,1.0,1
+			self.cur_droite_label.state = 1
+			self.cur_gauche_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_frein_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_droite_label.state == 1:
+			self.cur_droite_label.color = 0.95,0.23,0.0,1
+			self.cur_droite_label.state = 0
+
+	def Modifiergauche(self, widget):
+		if self.cur_gauche_label.state == 0:
+			self.cur_gauche_label.color = 0.95,0.23,1.0,1
+			self.cur_gauche_label.state = 1
+			self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_gauche_label.state == 1:
+			self.cur_gauche_label.color = 0.95,0.23,0.0,1
+			self.cur_gauche_label.state = 0
 			
 	def detruire(self) :
 		"""Détruit les widgets"""

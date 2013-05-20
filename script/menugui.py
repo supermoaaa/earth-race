@@ -1001,14 +1001,37 @@ class MenuCommandesGui(BaseGui):
 		# touche courante
 		
 		self.cur_accelerateur_label = bgui.Label(self.frame, 'cur_accelerateur', text=ev.EventToString(int(gl.conf[0][0][2][0][1])), pt_size=40, pos=[0.35, 0.65], options=bgui.BGUI_DEFAULT)
+		self.cur_accelerateur_label.state = 0
 		self.cur_frein_label = bgui.Label(self.frame, 'cur_frein', text=ev.EventToString(int(gl.conf[0][0][2][1][1])), pt_size=40, pos=[0.35, 0.60], options=bgui.BGUI_DEFAULT)
+		self.cur_frein_label.state = 0
 		self.cur_droite_label = bgui.Label(self.frame, 'cur_droite', text=ev.EventToString(int(gl.conf[0][0][2][2][1])), pt_size=40, pos=[0.35, 0.55], options=bgui.BGUI_DEFAULT)
+		self.cur_droite_label.state = 0
 		self.cur_gauche_label = bgui.Label(self.frame, 'cur_gauche', text=ev.EventToString(int(gl.conf[0][0][2][3][1])), pt_size=40, pos=[0.35, 0.50], options=bgui.BGUI_DEFAULT)
+		self.cur_gauche_label.state = 0
 		self.cur_freinMain_label = bgui.Label(self.frame, 'cur_freinMain', text=ev.EventToString(int(gl.conf[0][0][2][4][1])), pt_size=40, pos=[0.35, 0.45], options=bgui.BGUI_DEFAULT)
+		self.cur_freinMain_label.state = 0
 		self.cur_nitro_label = bgui.Label(self.frame, 'cur_nitro', text=ev.EventToString(int(gl.conf[0][0][2][5][1])), pt_size=40, pos=[0.35, 0.40], options=bgui.BGUI_DEFAULT)
+		self.cur_nitro_label.state = 0
 		self.cur_passerVitesse_label = bgui.Label(self.frame, 'cur_passerVitesse', text=ev.EventToString(int(gl.conf[0][0][2][6][1])), pt_size=40, pos=[0.35, 0.35], options=bgui.BGUI_DEFAULT)
+		self.cur_passerVitesse_label.state = 0
 		self.cur_retrograder_label = bgui.Label(self.frame, 'cur_retrograder', text=ev.EventToString(int(gl.conf[0][0][2][7][1])), pt_size=40, pos=[0.35, 0.30], options=bgui.BGUI_DEFAULT)
+		self.cur_retrograder_label.state = 0
 		self.cur_upcam_label = bgui.Label(self.frame, 'cur_upcam', text=ev.EventToString(int(gl.conf[0][0][2][8][1])), pt_size=40, pos=[0.35, 0.25], options=bgui.BGUI_DEFAULT)
+		self.cur_upcam_label.state = 0
+		
+		# bouton modifier
+
+		self.ModifierAccelerateur_button = bgui.ImageButton(self.frame, 'ModifierAccelerateur', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.65])
+		self.ModifierAccelerateur_label = bgui.Label(self.ModifierAccelerateur_button, 'ModifierAccelerateur', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.ModifierAccelerateur_button.on_click = self.ModifierAccelerateur
+		
+		self.Modifierfrein_button = bgui.ImageButton(self.frame, 'Modifierfrein', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.60])
+		self.Modifierfrein_label = bgui.Label(self.Modifierfrein_button, 'Modifierfrein', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifierfrein_button.on_click = self.Modifierfrein
 		
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
@@ -1108,6 +1131,30 @@ class MenuCommandesGui(BaseGui):
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][2][2][7][1]))
 			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
 
+
+	def ModifierAccelerateur(self, widget):
+		if self.cur_accelerateur_label.state == 0:
+			self.cur_accelerateur_label.color = 0.95,0.23,1.0,1
+			self.cur_accelerateur_label.state = 1
+			self.cur_frein_label.color = 0.95,0.23,0.0,1
+			self.cur_frein_label.state = 0
+
+		elif self.cur_accelerateur_label.state == 1:
+			self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_accelerateur_label.state = 0
+
+	def Modifierfrein(self, widget):
+		if self.cur_frein_label.state == 0:
+			self.cur_frein_label.color = 0.95,0.23,1.0,1
+			self.cur_frein_label.state = 1
+			self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_frein_label.state == 1:
+			self.cur_frein_label.color = 0.95,0.23,0.0,1
+			self.cur_frein_label.state = 0
+
+			
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

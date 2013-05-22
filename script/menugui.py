@@ -238,20 +238,20 @@ class MenuSelectionCircuitGui(BaseGui):
 
 ############///////////selection_circuit nombre de tours \\\\\\\\\\\\\\#################
 
-		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.15, 0.28], options=bgui.BGUI_DEFAULT)
-		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.18, 0.22], options=bgui.BGUI_DEFAULT)
+		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.11, 0.28], options=bgui.BGUI_DEFAULT)
+		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.14, 0.22], options=bgui.BGUI_DEFAULT)
 		self.nbTours_label = bgui.Label(self.fondNbTours, 'nbTours_label', sub_theme='fondDigit', text=str(gl.nbTours), pt_size=30, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 #############bouton flechetoursDR############################
 		self.flecheToursDR_button = bgui.ImageButton(self.frame, 'flecheToursDR', sub_theme='selFleche',
-			size=[0.02, 0.05], pos=[0.23, 0.22])
+			size=[0.02, 0.05], pos=[0.19, 0.22])
 
 		# Setup an on_click callback
 		self.flecheToursDR_button.on_click = self.rightTours
 
 #############bouton flechetoursGA############################
 		self.flecheToursGA_button = bgui.ImageButton(self.frame, 'flecheToursGA', sub_theme='selFlecheG',
-			size=[0.02, 0.05], pos=[0.16, 0.22])
+			size=[0.02, 0.05], pos=[0.12, 0.22])
 
 		# Setup an on_click callback
 		self.flecheToursGA_button.on_click = self.leftTours

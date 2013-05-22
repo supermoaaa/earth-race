@@ -78,7 +78,10 @@ def autoViewport( linker, playerName ):
 					camCompteur.setOnTop()
 
 def __addCam( linker, camCompteurName, left, bottom, right, top ):
-	linker.camera.setParams( viewPort = [left, bottom, right, top] )
+	try:
+		linker.camera.setParams( viewPort = [left, bottom, right, top], far = gl.generalConf[2] )
+	except:
+		linker.camera.setParams( viewPort = [left, bottom, right, top] )
 	camCompteur = scene.objects.get(camCompteurName)
 	camCompteur.setViewport( left, bottom, right, top )
 	gl.camsCompteur.append(camCompteur)
@@ -93,9 +96,7 @@ def setGraphism():
 	except:
 		pass
 	try:
-		render.setMistEnd(gl.generalConf[2])
-		#~ for cam in gl.camsCompteur
-			#~ cam.lens(gl.generalConf[2])
+		render.setMistEnd(gl.generalConf[2]) #the far param is set on camera in self.__adCam
 	except:
 		pass
 

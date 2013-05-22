@@ -15,6 +15,7 @@ class camera(object):
 		self.camera = None
 		self.viewPort = [ 0, 0, render.getWindowWidth(), render.getWindowHeight() ]
 		self.lens = None
+		self.far = None
 		self.setParams(*args)
 		self.lastSpeed = 0.0
 		self.rev = False
@@ -29,6 +30,7 @@ class camera(object):
 		if 'camera' in args: self.__setCam(args['camera'])
 		if 'viewPort' in args: self.viewPort = args['viewPort']
 		if 'lens' in args: self.lens = args['lens']
+		if 'far' in args: self.far = args['far']
 		self.updateCam()
 
 	def __setCar( self, car ):
@@ -47,8 +49,9 @@ class camera(object):
 			self.camera.removeParent()
 			self.camera.setViewport( self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3] )
 			if self.lens!=None: self.camera.lens = self.lens
+			if self.far!=None: self.camera.far = self.far
 			if self.car!=None:
-				self.car.setCamsParams(self.camera.lens,self.viewPort)
+				self.car.setCamsParams(self.far,self.viewPort)
 				self.car.setDefaultCam(self.camera)
 
 	def reset(self):

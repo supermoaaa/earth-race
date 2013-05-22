@@ -323,10 +323,10 @@ class vehicleSimulation(object):
 		except:
 			return -1
 
-	def setCamsParams(self, lens, viewPort):
+	def setCamsParams(self, far, viewPort):
 		self.viewPort = viewPort
 		for cam in self.cams:
-			if lens!=None: cam.lens = lens
+			if far!=None: cam.far = far
 			cam.setViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] )
 
 	def setDefaultCam(self, cam):

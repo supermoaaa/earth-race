@@ -90,8 +90,6 @@ class vehicleLinker(object):
 	def __updateCamera( self ):
 		if self.camera != None and self.car != None and self.isVehicleLoaded():
 			self.camera.updateCam()
-			self.car.setCamsParams(self.camera.lens,self.viewPort)
-			self.car.setDefaultCam(self.camera)
 
 	def delVehicle( self ):
 		conf.freeVehicle(self.vehicle_type)

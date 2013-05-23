@@ -1046,6 +1046,36 @@ class MenuCommandesGui(BaseGui):
 
 				# Setup an on_click callback
 		self.Modifiergauche_button.on_click = self.Modifiergauche
+
+		self.ModifierfreinMain_button = bgui.ImageButton(self.frame, 'ModifierfreinMain', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.45])
+		self.ModifierfreinMain_label = bgui.Label(self.ModifierfreinMain_button, 'ModifierfreinMain', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.ModifierfreinMain_button.on_click = self.ModifierfreinMain
+
+		self.Modifiernitro_button = bgui.ImageButton(self.frame, 'Modifiernitro', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.40])
+		self.Modifiernitro_label = bgui.Label(self.Modifiernitro_button, 'Modifiernitro', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifiernitro_button.on_click = self.Modifiernitro
+
+		self.ModifierpasserVitesse_button = bgui.ImageButton(self.frame, 'ModifierpasserVitesse', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.35])
+		self.ModifierpasserVitesse_label = bgui.Label(self.ModifierpasserVitesse_button, 'ModifierpasserVitesse', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.ModifierpasserVitesse_button.on_click = self.ModifierpasserVitesse
+
+		self.Modifierretrograder_button = bgui.ImageButton(self.frame, 'Modifierretrograder', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.30])
+		self.Modifierretrograder_label = bgui.Label(self.Modifierretrograder_button, 'Modifierretrograder', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifierretrograder_button.on_click = self.Modifierretrograder
+
+		self.Modifierupcam_button = bgui.ImageButton(self.frame, 'Modifierupcam', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.25])
+		self.Modifierupcam_label = bgui.Label(self.Modifierupcam_button, 'Modifierupcam', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.Modifierupcam_button.on_click = self.Modifierupcam
 		
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
@@ -1150,8 +1180,8 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_accelerateur_label.state == 0:
 			self.cur_accelerateur_label.color = 0.95,0.23,1.0,1
 			self.cur_accelerateur_label.state = 1
-			self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = 0.95,0.23,0.0,1
-			self.cur_frein_label.state = self.cur_droite_label.state = self.cur_frein_label.state = 0
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_frein_label.state = self.cur_droite_label.state = self.cur_frein_label.state = 0
 
 		elif self.cur_accelerateur_label.state == 1:
 			self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
@@ -1161,8 +1191,8 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_frein_label.state == 0:
 			self.cur_frein_label.color = 0.95,0.23,1.0,1
 			self.cur_frein_label.state = 1
-			self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
-			self.cur_frein_label.state = self.cur_droite_label.state = self.cur_accelerateur_label.state = 0
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_accelerateur_label.state = 0
 			
 		elif self.cur_frein_label.state == 1:
 			self.cur_frein_label.color = 0.95,0.23,0.0,1
@@ -1172,8 +1202,8 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_droite_label.state == 0:
 			self.cur_droite_label.color = 0.95,0.23,1.0,1
 			self.cur_droite_label.state = 1
-			self.cur_gauche_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
-			self.cur_frein_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_frein_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
 			
 		elif self.cur_droite_label.state == 1:
 			self.cur_droite_label.color = 0.95,0.23,0.0,1
@@ -1183,13 +1213,68 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_gauche_label.state == 0:
 			self.cur_gauche_label.color = 0.95,0.23,1.0,1
 			self.cur_gauche_label.state = 1
-			self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
-			self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
 			
 		elif self.cur_gauche_label.state == 1:
 			self.cur_gauche_label.color = 0.95,0.23,0.0,1
 			self.cur_gauche_label.state = 0
+
+	def ModifierfreinMain(self, widget):
+		if self.cur_freinMain_label.state == 0:
+			self.cur_freinMain_label.color = 0.95,0.23,1.0,1
+			self.cur_freinMain_label.state = 1
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
 			
+		elif self.cur_freinMain_label.state == 1:
+			self.cur_freinMain_label.color = 0.95,0.23,0.0,1
+			self.cur_freinMain_label.state = 0
+
+	def Modifiernitro(self, widget):
+		if self.cur_nitro_label.state == 0:
+			self.cur_nitro_label.color = 0.95,0.23,1.0,1
+			self.cur_nitro_label.state = 1
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_nitro_label.state == 1:
+			self.cur_nitro_label.color = 0.95,0.23,0.0,1
+			self.cur_nitro_label.state = 0
+
+	def ModifierpasserVitesse(self, widget):
+		if self.cur_passerVitesse_label.state == 0:
+			self.cur_passerVitesse_label.color = 0.95,0.23,1.0,1
+			self.cur_passerVitesse_label.state = 1
+			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_passerVitesse_label.state == 1:
+			self.cur_passerVitesse_label.color = 0.95,0.23,0.0,1
+			self.cur_passerVitesse_label.state = 0
+
+	def Modifierretrograder(self, widget):
+		if self.cur_retrograder_label.state == 0:
+			self.cur_retrograder_label.color = 0.95,0.23,1.0,1
+			self.cur_retrograder_label.state = 1
+			self.cur_upcam_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_retrograder_label.state == 1:
+			self.cur_retrograder_label.color = 0.95,0.23,0.0,1
+			self.cur_retrograder_label.state = 0
+
+	def Modifierupcam(self, widget):
+		if self.cur_upcam_label.state == 0:
+			self.cur_upcam_label.color = 0.95,0.23,1.0,1
+			self.cur_upcam_label.state = 1
+			self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
+			self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
+			
+		elif self.cur_upcam_label.state == 1:
+			self.cur_upcam_label.color = 0.95,0.23,0.0,1
+			self.cur_upcam_label.state = 0
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

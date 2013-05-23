@@ -43,6 +43,8 @@ class camera(object):
 		self.ray1 = cam.childrenRecursive['camRayView']
 		self.ray2 = cam.childrenRecursive['camRayHorizon']
 		self.ray3 = cam.childrenRecursive['camRayView2']
+		if self.lens == None:
+			self.lens = self.camera.lens
 
 	def updateCam(self):
 		if self.camera!=None:
@@ -122,6 +124,10 @@ class camera(object):
 			# application de la position et orientation sur la caméra
 			self.camera.worldPosition = [camPosX,camPosY,carPosZ+zRelativePosition]
 			self.camera.localOrientation = Euler([camRot[0],camRot[1],(carRot+(3.14/2))%6.28],'XYZ').to_matrix()
+			self.__dynamicLens()
+
+	def __dynamicLens( self ):
+		self.camera.lens = self.lens - self.lens * (self.compteurOwner['kph'])/300
 
 	def __diffAngle( self, angle1, angle2 ):
 		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14

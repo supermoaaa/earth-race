@@ -117,6 +117,7 @@ class vehicleLinker(object):
 	def start( self ):
 		if self.car != None:
 			self.car.start()
+			self.__updateCamera()
 
 	def stop( self ):
 		if self.car != None:

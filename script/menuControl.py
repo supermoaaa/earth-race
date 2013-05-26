@@ -202,6 +202,12 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuJoueurs"
 
+			elif sys.action == "son" :
+				own["sys"] = MenuOptionsSon(own["fond"].frame)
+				own["fond"].reinit()
+				own["fond"].retour_label.text = "Retour"
+				gl.status = "MenuSon"
+
 			elif sys.action == "commandes" :
 				gl.configurablePlayers = [gl.conf[0][0][0], gl.conf[0][1][0], gl.conf[0][2][0], gl.conf[0][3][0]]
 				own["sys"] = MenuCommandesGui(own["fond"].frame)
@@ -293,3 +299,10 @@ def main (self):
 				own["sys"].nombreJoueurs_label.text = str(len(gl.dispPlayers)-1) + " JOUEURS"
 				gl.status = "MenuEcranSpliter"
 
+		elif gl.status == "MenuSon" :
+			if sys.action == "retour" :
+				own["sys"].detruire()
+				own["sys"] = MenuOptionsGui(own["fond"].frame)
+				own["fond"].reinit()
+				own["fond"].retour_label.text = "Retour"
+				gl.status = "MenuOptions"

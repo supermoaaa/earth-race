@@ -116,7 +116,7 @@ class FondGui(BaseGui):
 
 class MenuOptionsGui(BaseGui):
 	"""
-	Gui pour
+	Gui pour le menu des options
 	"""
 	def __init__(self, parent):
 		# Initiate the system
@@ -145,7 +145,7 @@ class MenuOptionsGui(BaseGui):
 		self.son_label = bgui.Label(self.son_button, 'son', text="AUDIO", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		# Setup an on_click callback
-		#self.son_button.on_click = self.sonM
+		self.son_button.on_click = self.sonM
 
 #############bouton joueurs############################
 		self.joueurs_button = bgui.ImageButton(self.frame, 'joueurs', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.30])
@@ -172,6 +172,11 @@ class MenuOptionsGui(BaseGui):
 	def joueursM(self, widget) :
 		self.detruire()
 		self.action = "joueurs"
+		self.ouvert = False
+
+	def sonM(self, widget) :
+		self.detruire()
+		self.action = "son"
 		self.ouvert = False
 
 	def commandeM(self, widget) :
@@ -1524,6 +1529,31 @@ class MenuVoitureMultijoueursGui(BaseGui):
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)
 
+
+	def main(self) :
+		"""Refresh des events et de l'affichage"""
+		BaseGui.main(self)
+
+class MenuOptionsSon(BaseGui):
+	"""
+	Gui pour
+	"""
+	def __init__(self, parent):
+		# Initiate the system
+		BaseGui.__init__(self, gl.skin)
+
+		# Cadre général
+		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
+			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
+
+		# Autres attributs
+		self.action = None
+
+
+
+	def detruire(self) :
+		"""Détruit les widgets"""
+		self.frame.parent._remove_widget(self.frame)
 
 	def main(self) :
 		"""Refresh des events et de l'affichage"""

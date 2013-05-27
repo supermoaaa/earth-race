@@ -84,9 +84,10 @@ class camera(object):
 				zRelativePosition = min( zRelativePosition, distance/2 )
 
 			# anti vue trop courte
-			modifDownView = self.__calculModifDownView()
-			self.__smoothDownView(modifDownView)
-			zRelativePosition -= self.downView
+			carYRot = self.carObj.localOrientation.to_euler('XYZ')[1]
+			zRelativePosition = zRelativePosition*cos(-carYRot)+zRelativePosition*sin(-carYRot)
+
+			# limite
 			xRelativePosition = max( xRelativePosition, 0.3 )
 			zRelativePosition = max( zRelativePosition, 0.3 )
 			camRot[0] = atan(xRelativePosition/(zRelativePosition/1.5))
@@ -156,29 +157,3 @@ class camera(object):
 			if dist2 > (dist1 + 1):
 				return 1/dist1
 		return False
-
-	def __calculModifDownView(self):
-			modifDownView = 0.0
-			down = self.__camRay( self.ray1, self.ray2 )
-			if down!=False:
-				if self.downView<3:
-					modifDownView = down
-			elif self.downView>0:
-				down = self.__camRay( self.ray3, self.ray1 )
-				if down!=False:
-					modifDownView = -down
-			return modifDownView
-
-	def __smoothDownView(self, modifDownView):
-		#~ if self.lastModifDownView==0.0 :
-			#~ self.downView += modifDownView
-			#~ self.lastModifDownView = modifDownView
-		#~ elif self.lastModifDownView<0 and modifDownView<0 :
-		#~ elif self.lastModifDownView>0 and modifDownView>=0 :
-			#~ self.downView += modifDownView
-			#~ self.lastModifDownView = modifDownView
-		#~ else :
-			#~ self.lastModifDownView = 0.0
-		modifDownView = ( modifDownView + self.lastModifDownView )/2
-		self.downView += modifDownView
-		self.lastModifDownView = modifDownView

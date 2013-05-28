@@ -285,7 +285,7 @@ class vehicleSimulation(object):
 	def __checkCheckpoint(self):
 		main = self.main
 		logs.log("debug",str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
-		if self.nextIdCheckpoint < len(gl.checkpoints) and main.getDistanceTo( gl.checkpoints[self.nextIdCheckpoint] )<5:
+		if self.nextIdCheckpoint < len(gl.checkpoints) and main.getDistanceTo( gl.checkpoints[self.nextIdCheckpoint] )<3:
 			self.nextIdCheckpoint += 1
 			logs.log("debug","pass checkpoint")
 		if self.nextIdCheckpoint >= len(gl.checkpoints):

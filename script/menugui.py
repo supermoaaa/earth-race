@@ -201,21 +201,21 @@ class MenuSelectionCircuitGui(BaseGui):
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
 #############bouton validercircuit############################
-		self.validercircuit_button = bgui.ImageButton(self.frame, 'circuitD', sub_theme='menu', size=[0.24, 0.08], pos=[0.25, 0.08])
+		self.validercircuit_button = bgui.ImageButton(self.frame, 'circuitD', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
 		self.retour_label = bgui.Label(self.validercircuit_button, 'circuitD', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.validercircuit_button.on_click = self.departSolo
 
 #############bouton ajouter ia############################
-		self.ajouterIA_button = bgui.ImageButton(self.frame, 'ajouterIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.8, 0.68])
+		self.ajouterIA_button = bgui.ImageButton(self.frame, 'ajouterIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.82, 0.68])
 		self.ajouterIA_label = bgui.Label(self.ajouterIA_button, 'ajouterIA', text="ajouter IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		#self.ajouterIA_button.on_click = self.departSolo
 
 #############bouton enlever ia############################
-		self.enleverIA_button = bgui.ImageButton(self.frame, 'enleverIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.8, 0.6])
+		self.enleverIA_button = bgui.ImageButton(self.frame, 'enleverIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.82, 0.6])
 		self.enleverIA_label = bgui.Label(self.enleverIA_button, 'enleverIA', text="enlever IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
@@ -223,40 +223,40 @@ class MenuSelectionCircuitGui(BaseGui):
 
 ############///////////selection_circuit video \\\\\\\\\\\\\\#################
 
-		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.15, 0.7], options=bgui.BGUI_DEFAULT)
-		self.selection_circuit = bgui.Frame(self.frame, 'selection_circuit', sub_theme='ecran', border=1, size=[0.2, 0.3], pos=[0.15, 0.38], options=bgui.BGUI_DEFAULT)
+		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.15, 0.8], options=bgui.BGUI_DEFAULT)
+		self.selection_circuit = bgui.Frame(self.frame, 'selection_circuit', sub_theme='ecran', border=1, size=[0.2, 0.3], pos=[0.15, 0.48], options=bgui.BGUI_DEFAULT)
 		self.selection_circuitVideo = bgui.Video(self.selection_circuit, 'menuItems/vidNonTrouver.avi', play_audio=False, repeat=-1, size=[1, 1], pos=[0, 0], options=bgui.BGUI_DEFAULT)
 
 
 
 #############bouton flecheVideoDR############################
-		self.flecheVdDR_button = bgui.ImageButton(self.frame, 'flecheVdDR', sub_theme='selFleche', size=[0.05, 0.30], pos=[0.35, 0.38])
+		self.flecheVdDR_button = bgui.ImageButton(self.frame, 'flecheVdDR', sub_theme='selFleche', size=[0.05, 0.30], pos=[0.35, 0.48])
 
 		# Setup an on_click callback
 		self.flecheVdDR_button.on_click = self.rightMap
 
 #############bouton flecheVideoGA############################
-		self.flecheVdGA_button = bgui.ImageButton(self.frame, 'flecheVdGA', sub_theme='selFlecheG', size=[0.05, 0.30], pos=[0.1, 0.38])
+		self.flecheVdGA_button = bgui.ImageButton(self.frame, 'flecheVdGA', sub_theme='selFlecheG', size=[0.05, 0.30], pos=[0.1, 0.48])
 
 		# Setup an on_click callback
 		self.flecheVdGA_button.on_click = self.leftMap
 
 ############///////////selection_circuit nombre de tours \\\\\\\\\\\\\\#################
 
-		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.11, 0.28], options=bgui.BGUI_DEFAULT)
-		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.14, 0.22], options=bgui.BGUI_DEFAULT)
+		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.11, 0.38], options=bgui.BGUI_DEFAULT)
+		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.14, 0.32], options=bgui.BGUI_DEFAULT)
 		self.nbTours_label = bgui.Label(self.fondNbTours, 'nbTours_label', sub_theme='fondDigit', text=str(gl.nbTours), pt_size=30, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 #############bouton flechetoursDR############################
 		self.flecheToursDR_button = bgui.ImageButton(self.frame, 'flecheToursDR', sub_theme='selFleche',
-			size=[0.02, 0.05], pos=[0.19, 0.22])
+			size=[0.02, 0.05], pos=[0.19, 0.32])
 
 		# Setup an on_click callback
 		self.flecheToursDR_button.on_click = self.rightTours
 
 #############bouton flechetoursGA############################
 		self.flecheToursGA_button = bgui.ImageButton(self.frame, 'flecheToursGA', sub_theme='selFlecheG',
-			size=[0.02, 0.05], pos=[0.12, 0.22])
+			size=[0.02, 0.05], pos=[0.12, 0.32])
 
 		# Setup an on_click callback
 		self.flecheToursGA_button.on_click = self.leftTours

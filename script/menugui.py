@@ -260,6 +260,27 @@ class MenuSelectionCircuitGui(BaseGui):
 
 		# Setup an on_click callback
 		self.flecheToursGA_button.on_click = self.leftTours
+
+############///////////climat \\\\\\\\\\\\\\#################
+
+		self.climatText_label = bgui.Label(self.frame, 'climatTextL', text="climat:", pt_size=30, pos=[0.11, 0.26], options=bgui.BGUI_DEFAULT)
+		self.climatText = bgui.Frame(self.frame, 'climatText', sub_theme='Invisible', border=1, size=[0.06, 0.07], pos=[0.13, 0.18], options=bgui.BGUI_DEFAULT)
+		self.climatText.img = bgui.Image(self.climatText , 'menuItems/' + gl.generalConf[4] + '.png', size=[1.0, 1.0], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
+
+#############bouton flecheClimatDR############################
+		self.flecheClimatDR_button = bgui.ImageButton(self.frame, 'flecheClimatDR', sub_theme='selFleche',
+			size=[0.02, 0.07], pos=[0.19, 0.18])
+
+		# Setup an on_click callback
+		self.flecheClimatDR_button.on_click = self.rightClimat
+
+#############bouton flechetoursGA############################
+		self.flecheClimatGA_button = bgui.ImageButton(self.frame, 'flecheClimatGA', sub_theme='selFlecheG',
+			size=[0.02, 0.07], pos=[0.11, 0.18])
+
+		# Setup an on_click callback
+		self.flecheClimatGA_button.on_click = self.leftClimat
+
 ############/////////// grillePosJoueurs \\\\\\\\\\\\\\#################
 
 		self.grillePosJoueurs = bgui.Frame(self.frame, 'grillePosJoueurs', sub_theme='ecran', border=1, size=[0.19, 0.55], pos=[0.6, 0.22], options=bgui.BGUI_DEFAULT)
@@ -333,6 +354,24 @@ class MenuSelectionCircuitGui(BaseGui):
 			gl.nbTours = 9
 		self.nbTours_label.text = str(gl.nbTours)
 
+	def rightClimat(self, widget):
+		if gl.generalConf[4] == 'sun':
+			gl.generalConf[4] = 'cloud'
+		elif gl.generalConf[4] == 'cloud':
+			gl.generalConf[4] = 'rain'
+		elif gl.generalConf[4] == 'rain':
+			gl.generalConf[4] = 'sun'
+		self.climatText.img.update_image('menuItems/' + gl.generalConf[4] + '.png')
+
+	def leftClimat(self, widget):
+		if gl.generalConf[4] == 'sun':
+			gl.generalConf[4] = 'rain'
+		elif gl.generalConf[4] == 'rain':
+			gl.generalConf[4] = 'cloud'
+		elif gl.generalConf[4] == 'cloud':
+			gl.generalConf[4] = 'sun'
+		self.climatText.img.update_image('menuItems/' + gl.generalConf[4] + '.png')
+		
 	def departSolo(self, widget):
 		rd.showMouse(0)
 		self.action = "depart"

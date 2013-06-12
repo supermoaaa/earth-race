@@ -117,6 +117,8 @@ def load():
 	cont = gl.getCurrentController()
 	own = cont.owner
 	scene = gl.getCurrentScene()
+	if gl.generalConf[4] == 'rain':
+		own['rain'] = True
 	#~ logs.log("debug","load"+str(own['id']))
 	if own['simulate']==False and own['load']==False:
 		# graphisme

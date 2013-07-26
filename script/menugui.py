@@ -80,11 +80,11 @@ class FondGui(BaseGui):
 		if gl.status == "MenuEcranSpliter" :
 			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.10, 0.05], pos=[0.45, 0.44])
 			self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
-		
+
 		else:
 			self.retour_button = bgui.ImageButton(self.frame, 'quitter', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.08])
 			self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
-		
+
 		# Setup an on_click callback
 		self.retour_button.on_click = self.retour_clic
 
@@ -93,7 +93,7 @@ class FondGui(BaseGui):
 		self.action = None
 
 		# Keymap pour la correspondance entre bge.events et bgui
-		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if val.endswith('KEY') or val.startswith('PAD')}
+		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val)}
 
 
 	def retour_clic(self, widget) :
@@ -371,7 +371,7 @@ class MenuSelectionCircuitGui(BaseGui):
 		elif gl.generalConf[4] == 'cloud':
 			gl.generalConf[4] = 'sun'
 		self.climatText.img.update_image('menuItems/' + gl.generalConf[4] + '.png')
-		
+
 	def departSolo(self, widget):
 		rd.showMouse(0)
 		self.action = "depart"
@@ -1007,14 +1007,14 @@ class MenuCommandesGui(BaseGui):
 		# Fond
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 		# nom du joueur en cour
 
 		self.intituler_joueur_label = bgui.Label(self.frame, 'intituler_joueur', text="nom du joueur courant: ", pt_size=45, pos=[0.05, 0.85], options=bgui.BGUI_DEFAULT)
 		self.joueur_label = bgui.Label(self.frame, 'joueur', text=gl.configurablePlayers[0], pt_size=36, pos=[0.1, 0.8], options=bgui.BGUI_DEFAULT)
-		
+
 		# changement de joueur
-		
+
 #############bouton flechejoueurDR############################
 		self.flechejoueurDR_button = bgui.ImageButton(self.frame, 'flechejoueurDR', sub_theme='selFleche',
 			size=[0.02, 0.05], pos=[0.2, 0.79])
@@ -1042,9 +1042,9 @@ class MenuCommandesGui(BaseGui):
 		self.retrograder_label = bgui.Label(self.frame, 'retrograder', text="retrograder: ", pt_size=40, pos=[0.15, 0.30], options=bgui.BGUI_DEFAULT)
 		self.respawn_label = bgui.Label(self.frame, 'respawn', text="reapparaitre: ", pt_size=40, pos=[0.15, 0.25], options=bgui.BGUI_DEFAULT)
 		self.upcam_label = bgui.Label(self.frame, 'upcam', text="changer de camera: ", pt_size=40, pos=[0.15, 0.20], options=bgui.BGUI_DEFAULT)
-		
+
 		# touche courante
-		
+
 		self.cur_accelerateur_label = bgui.Label(self.frame, 'cur_accelerateur', text=ev.EventToString(int(gl.conf[0][0][2][0][1])), pt_size=40, pos=[0.35, 0.65], options=bgui.BGUI_DEFAULT)
 		self.cur_accelerateur_label.state = 0
 		self.cur_frein_label = bgui.Label(self.frame, 'cur_frein', text=ev.EventToString(int(gl.conf[0][0][2][1][1])), pt_size=40, pos=[0.35, 0.60], options=bgui.BGUI_DEFAULT)
@@ -1065,7 +1065,7 @@ class MenuCommandesGui(BaseGui):
 		self.cur_respawn_label.state = 0
 		self.cur_upcam_label = bgui.Label(self.frame, 'cur_upcam', text=ev.EventToString(int(gl.conf[0][0][2][9][1])), pt_size=40, pos=[0.35, 0.20], options=bgui.BGUI_DEFAULT)
 		self.cur_upcam_label.state = 0
-		
+
 		# bouton modifier
 
 		self.ModifierAccelerateur_button = bgui.ImageButton(self.frame, 'ModifierAccelerateur', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.65])
@@ -1073,7 +1073,7 @@ class MenuCommandesGui(BaseGui):
 
 				# Setup an on_click callback
 		self.ModifierAccelerateur_button.on_click = self.ModifierAccelerateur
-		
+
 
 		self.Modifierfrein_button = bgui.ImageButton(self.frame, 'Modifierfrein', sub_theme='menu', size=[0.14, 0.04], pos=[0.56, 0.60])
 		self.Modifierfrein_label = bgui.Label(self.Modifierfrein_button, 'Modifierfrein', text="MODIFIER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -1129,7 +1129,7 @@ class MenuCommandesGui(BaseGui):
 
 				# Setup an on_click callback
 		self.Modifierupcam_button.on_click = self.Modifierupcam
-		
+
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
 			self.joueur_label.text = gl.configurablePlayers[1]
@@ -1246,7 +1246,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_frein_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_frein_label.state == 1:
 			self.cur_frein_label.color = 0.95,0.23,0.0,1
 			self.cur_frein_label.state = 0
@@ -1257,7 +1257,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_droite_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_frein_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_droite_label.state == 1:
 			self.cur_droite_label.color = 0.95,0.23,0.0,1
 			self.cur_droite_label.state = 0
@@ -1268,7 +1268,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_gauche_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_gauche_label.state == 1:
 			self.cur_gauche_label.color = 0.95,0.23,0.0,1
 			self.cur_gauche_label.state = 0
@@ -1279,7 +1279,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_freinMain_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_freinMain_label.state == 1:
 			self.cur_freinMain_label.color = 0.95,0.23,0.0,1
 			self.cur_freinMain_label.state = 0
@@ -1290,7 +1290,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_nitro_label.state == 1:
 			self.cur_nitro_label.color = 0.95,0.23,0.0,1
 			self.cur_nitro_label.state = 0
@@ -1301,7 +1301,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_passerVitesse_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_passerVitesse_label.state == 1:
 			self.cur_passerVitesse_label.color = 0.95,0.23,0.0,1
 			self.cur_passerVitesse_label.state = 0
@@ -1312,7 +1312,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_retrograder_label.state = 1
 			self.cur_respawn_label.color = self.cur_upcam_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_upcam_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_retrograder_label.state == 1:
 			self.cur_retrograder_label.color = 0.95,0.23,0.0,1
 			self.cur_retrograder_label.state = 0
@@ -1323,7 +1323,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_upcam_label.state = 1
 			self.cur_respawn_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_upcam_label.state == 1:
 			self.cur_upcam_label.color = 0.95,0.23,0.0,1
 			self.cur_upcam_label.state = 0
@@ -1334,7 +1334,7 @@ class MenuCommandesGui(BaseGui):
 			self.cur_respawn_label.state = 1
 			self.cur_upcam_label.color = self.cur_retrograder_label.color = self.cur_passerVitesse_label.color = self.cur_nitro_label.color = self.cur_freinMain_label.color = self.cur_gauche_label.color = self.cur_droite_label.color = self.cur_frein_label.color = self.cur_accelerateur_label.color = 0.95,0.23,0.0,1
 			self.cur_upcam_label.state = self.cur_retrograder_label.state = self.cur_passerVitesse_label.state = self.cur_nitro_label.state = self.cur_freinMain_label.state = self.cur_gauche_label.state = self.cur_droite_label.state = self.cur_frein_label.state = self.cur_accelerateur_label.state = 0
-			
+
 		elif self.cur_upcam_label.state == 1:
 			self.cur_respawn_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = 0

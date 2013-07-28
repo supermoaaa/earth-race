@@ -3,6 +3,7 @@ import objects
 import loaderVehicles
 
 def loadMap( ):
+	gl.mat = {}
 	if not hasattr(gl , 'mapName'):
 		gl.mapName = "routeDeTest"
 	gl.checkpoints=[]
@@ -25,8 +26,9 @@ def onFinishMapLoaded():
 		elif "checkpoint = " in line:
 			addCheckpoint(line[13:-1])
 		elif "end = " in line:
-			print("end"+str(line[6:-1]))
 			addCheckpoint(line[6:-1])
+		elif "mat = " in line:
+			gl.matFriction = eval(line[6:-1])
 	loaderVehicles.placeStart(gl.checkpoints[0].position,gl.checkpoints[0].orientation,gl.checkpoints[0].scaling)
 
 def addCheckpoint(objectName):

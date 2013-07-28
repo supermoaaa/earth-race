@@ -163,7 +163,7 @@ class r_wheel:
 		p1 = p0 - (mmat*self.attach_mat).col[2]*(self.s_rest_length+self.w_radius)
 
 		#Cast the ray
-		self.r = self.wheel.rayCast(p1, p0)
+		self.r = self.wheel.rayCast(p1, p0, 0, "", 0, 0, 1)
 		if self.r[0]:
 
 			#Generate surface-aligned contact matrix
@@ -248,9 +248,9 @@ class r_wheel:
 			#Force of road friction
 
 			if self.w_grip < 0.0:
-				Ftraction = Fnormal*lerp(self.w_edgef, self.w_staticf, self.flatness)
+				Ftraction = Fnormal*lerp(self.w_edgef, self.w_staticf*self.getGroundCoefFriction(self.r), self.flatness)
 			else:
-				Ftraction = Fnormal*lerp(self.w_edgef, self.w_dynf, self.flatness)
+				Ftraction = Fnormal*lerp(self.w_edgef, self.w_dynf*self.getGroundCoefFriction(self.r), self.flatness)
 
 			#Limit patch force by available traction
 			Fpatch.length = min(Fpatch.length, Ftraction)
@@ -310,3 +310,10 @@ class r_wheel:
 		#Calculate ground speed
 		self.kph = self.w_vel*self.w_radius*3.6
 		self.mph = self.kph*0.621371192
+
+	def getGroundCoefFriction(self, ray):
+		if len(ray)>=4 and ray[3].material_name in gl.matFriction:
+			return gl.matFriction[ray[3].material_name]
+		else:
+			return 1
+		#~ return 1

@@ -92,7 +92,7 @@ class StatSys(bgui.System):
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Create a keymap for keyboard input
-		self.keymap = {getattr(bge.events, val): getattr(bgui, val) for val in dir(bge.events) if val.endswith('KEY') or val.startswith('PAD')}
+		self.keymap = {getattr(bge.events, val): getattr(bgui, val) for val in dir(bge.events) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val) }
 
 
 		# Now setup the scene callback so we can draw

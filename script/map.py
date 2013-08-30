@@ -3,7 +3,7 @@ import objects
 import loaderVehicles
 
 def loadMap( ):
-	gl.mat = {}
+	gl.matFriction = {}
 	if not hasattr(gl , 'mapName'):
 		gl.mapName = "routeDeTest"
 	gl.checkpoints=[]

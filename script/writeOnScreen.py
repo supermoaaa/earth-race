@@ -2,23 +2,26 @@ from bge import logic as gl
 from bge import render as render
 import bgl
 import blf
+from logs import log
 
-class bflFactory():
-	@staticmethod
-	def write( text, obPos ):
-		manager = bflManager()
-		newText = Text( text, obPos, manager.getScreenInfo())
-		manager.addText(newText)
-		return newText
+class bflFactory:
+	def __init__( self, obPos, cam ):
+		self.manager = bflManager()
+		self.text = Text( obPos, self.manager.getScreenInfo(), cam)
+		self.manager.addText(self.text)
 
-class bflManager():
+	def write( self, newText ):
+		self.text.text = newText
+
+class bflManager:
 	def __init__( self ):
 		if not hasattr(bflManager,'__instance'):
 			bflManager.__instance = True
 
 			scene = gl.getCurrentScene()
 
-			self.camera = scene.active_camera
+			#~ self.camera = scene.active_camera
+			#~ self.camera = cam
 
 			self.height = render.getWindowHeight()
 			self.width = render.getWindowWidth()
@@ -32,7 +35,7 @@ class bflManager():
 		self.texts.append(text)
 
 	def getScreenInfo(self):
-		return [ self.camera, self.width, self.height ]
+		return [ self.width, self.height ]
 
 	def bglInit(self):
 		bgl.glMatrixMode(bgl.GL_PROJECTION)
@@ -46,12 +49,13 @@ class bflManager():
 		for text in self.texts:
 			blf.position( self.fontid, text.x, text.y, 1 )
 			blf.draw( self.fontid, text.text )
+			log("debug","x="+str(text.x)+" y="+str(text.y))
 
-class Text():
-	def __init__( self, text, obPos, screenInfo ):
-		self.x = screenInfo[1] * screenInfo[0].getScreenPosition(obPos)[0]
-		self.y = screenInfo[2] * (1.0-screenInfo[0].getScreenPosition(obPos)[1])
-		self.setText(text)
-
-	def setText( self, text ):
-		self.text = text
+class Text:
+	def __init__( self, obPos, screenInfo, cam ):
+		cam = gl.getCurrentScene().active_camera
+		log("debug", "screenInfo x="+str(screenInfo[0])+" y="+str(screenInfo[1])+" cam="+str(cam))
+		log("debug", "pos x="+str(cam.getScreenPosition(obPos)[0])+" y="+str(cam.getScreenPosition(obPos)[1]))
+		self.x = screenInfo[0] * (cam.getScreenPosition(obPos)[0]/1.54)
+		self.y = screenInfo[1] * (1-cam.getScreenPosition(obPos)[1]/1.15)
+		self.text = ''

@@ -5,6 +5,7 @@ import confParser as conf
 from vehicleLinker import vehicleLinker
 import objects
 import logs
+import writeOnScreen
 
 def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	scene = gl.getCurrentScene()
@@ -103,7 +104,17 @@ def setGraphism():
 def speedometer( id, gear, speed):
 	scene = gl.getCurrentScene()
 	id=str(id+1)
-	scene.objects.get('gear Counter '+id)['DFrame'] = gear
+	#~ scene.objects.get('gear Counter '+id)['gear'] = gear
+	ob = scene.objects.get('gear Counter '+id)
+	try:
+		ob['bflFactory']
+	except:
+		cam = scene.objects.get('Camera '+id)
+		ob['bflFactory'] = writeOnScreen.bflFactory( ob, cam )
+	if gear==0:
+		ob['bflFactory'].write( 'r' )
+	else:
+		ob['bflFactory'].write( str(gear) )
 	scene.objects.get('pointer Counter '+id)['kmh'] = int(speed)
 	cursor = scene.objects.get('pointer Counter '+id)
 	rot = cursor.localOrientation.to_euler()
@@ -212,5 +223,5 @@ def simulate():
 	if own['simulate']:
 		logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
 		own['car'].simulate()
-	speedometer( own['id'], own['gear'], own['kph'])
-	logs.log("debug", str(int(own['kph'])) + ' kph' )
+		speedometer( own['id'], own['gear'], own['kph'])
+		logs.log("debug", str(int(own['kph'])) + ' kph' )

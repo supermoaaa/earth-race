@@ -62,7 +62,7 @@ class r_wheel:
 		self.attach_pos[2] += self.s_length
 		self.attach_mat = wheel_ob.localOrientation.copy()
 
-		self.r = [None,None,None]
+		self.ray = [None,None,None]
 		self.hit = False
 		self.hpos = Vector([0,0,0])
 		self.hmat = None
@@ -163,11 +163,11 @@ class r_wheel:
 		p1 = p0 - (mmat*self.attach_mat).col[2]*(self.s_rest_length+self.w_radius)
 
 		#Cast the ray
-		self.r = self.wheel.rayCast(p1, p0, 0, "", 0, 0, 1)
-		if self.r[0]:
+		self.ray = self.wheel.rayCast(p1, p0, 0, "", 0, 0, 1)
+		if self.ray[0]:
 
 			#Generate surface-aligned contact matrix
-			self.hmat = vectrack(self.r[2], wmat.col[1])
+			self.hmat = vectrack(self.ray[2], wmat.col[1])
 			self.flatness = self.hmat.col[2].dot(wmat.col[2])
 			self.hit = True
 
@@ -185,9 +185,9 @@ class r_wheel:
 
 		#Run the sim!
 
-		if self.r[0]:
-			hob = self.r[0]
-			hpos = self.hpos = self.r[1]
+		if self.ray[0]:
+			hob = self.ray[0]
+			hpos = self.hpos = self.ray[1]
 
 			main = self.main
 			hmat = self.hmat
@@ -248,9 +248,9 @@ class r_wheel:
 			#Force of road friction
 
 			if self.w_grip < 0.0:
-				Ftraction = Fnormal*lerp(self.w_edgef, self.w_staticf*self.getGroundCoefFriction(self.r), self.flatness)
+				Ftraction = Fnormal*lerp(self.w_edgef, self.w_staticf*self.getGroundCoefFriction(self.ray), self.flatness)
 			else:
-				Ftraction = Fnormal*lerp(self.w_edgef, self.w_dynf*self.getGroundCoefFriction(self.r), self.flatness)
+				Ftraction = Fnormal*lerp(self.w_edgef, self.w_dynf*self.getGroundCoefFriction(self.ray), self.flatness)
 
 			#Limit patch force by available traction
 			Fpatch.length = min(Fpatch.length, Ftraction)

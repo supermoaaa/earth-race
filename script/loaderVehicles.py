@@ -73,7 +73,7 @@ def autoViewport( linker, playerName ):
 				self.__addCam( linker, 'Camera '+str(id+1),
 					render.getWindowWidth()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() ) #en bas à droite
 			if ((mode==1 or mode==2) and id==1) or ((mode==3 or mode==4 or mode==5 or mode==6) and id==2) or (mode==7 and id==3):
-				j=0
+				j = 0
 				for camCompteur in gl.camsCompteur:
 					camCompteur.useViewport = True
 					camCompteur.setOnTop()

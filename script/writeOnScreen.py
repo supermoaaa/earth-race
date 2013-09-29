@@ -48,6 +48,7 @@ class bflManager:
 		self.bglInit()
 		for text in self.texts:
 			blf.position( self.fontid, text.x, text.y, 1 )
+			blf.size(self.fontid, 50, 72)
 			blf.draw( self.fontid, text.text )
 			log("debug","x="+str(text.x)+" y="+str(text.y))
 
@@ -56,6 +57,6 @@ class Text:
 		cam = gl.getCurrentScene().active_camera
 		log("debug", "screenInfo x="+str(screenInfo[0])+" y="+str(screenInfo[1])+" cam="+str(cam))
 		log("debug", "pos x="+str(cam.getScreenPosition(obPos)[0])+" y="+str(cam.getScreenPosition(obPos)[1]))
-		self.x = screenInfo[0] * (cam.getScreenPosition(obPos)[0]/1.54)
-		self.y = screenInfo[1] * (1-cam.getScreenPosition(obPos)[1]/1.15)
+		self.x = screenInfo[0] * (cam.getScreenPosition(obPos)[0]/1.57)
+		self.y = screenInfo[1] * (1-cam.getScreenPosition(obPos)[1]/1.11)
 		self.text = ''

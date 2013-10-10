@@ -3,6 +3,7 @@ import objects
 import loaderVehicles
 
 def loadMap( ):
+	loadSky()
 	gl.matFriction = {}
 	if not hasattr(gl , 'mapName'):
 		gl.mapName = "routeDeTest"
@@ -11,6 +12,10 @@ def loadMap( ):
 	#~ gl.LibLoad( path+gl.mapName+".blend", "Scene", load_actions=True, load_scripts=True, async=True).onFinish = t
 	gl.LibLoad( path+gl.mapName+".blend", "Scene", load_actions=True, load_scripts=True, async=False)
 	onFinishMapLoaded()
+
+def loadSky():
+	path = gl.expandPath("//")+"objects/sky/"
+	gl.LibLoad( path+"skydomeCloud.blend", "Scene", load_actions=True, load_scripts=True, async=False)
 
 def t(status):
 	print("Library (%s) loaded in %.2fms." % (status.libraryName, status.timeTaken))

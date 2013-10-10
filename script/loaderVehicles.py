@@ -104,12 +104,8 @@ def setGraphism():
 def speedometer( id, gear, speed, camera):
 	scene = gl.getCurrentScene()
 	id=str(id+1)
-	#~ scene.objects.get('gear Counter '+id)['gear'] = gear
 	ob = scene.objects.get('gear Counter '+id)
-	try:
-		ob['bflFactory']
-	except:
-		#~ cam = scene.objects.get('Camera '+id)
+	if not hasattr(ob, 'bflFactory'):
 		ob['bflFactory'] = writeOnScreen.bflFactory( gl.counterPos[0], gl.counterPos[1], gl.counterPos[2], camera )
 	if gear==0:
 		ob['bflFactory'].write( 'r' )

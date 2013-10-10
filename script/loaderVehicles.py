@@ -101,7 +101,7 @@ def setGraphism():
 	except:
 		pass
 
-def speedometer( id, gear, speed):
+def speedometer( id, gear, speed, camera):
 	scene = gl.getCurrentScene()
 	id=str(id+1)
 	#~ scene.objects.get('gear Counter '+id)['gear'] = gear
@@ -109,8 +109,8 @@ def speedometer( id, gear, speed):
 	try:
 		ob['bflFactory']
 	except:
-		cam = scene.objects.get('Camera '+id)
-		ob['bflFactory'] = writeOnScreen.bflFactory( ob, cam )
+		#~ cam = scene.objects.get('Camera '+id)
+		ob['bflFactory'] = writeOnScreen.bflFactory( gl.counterPos[0], gl.counterPos[1], gl.counterPos[2], camera )
 	if gear==0:
 		ob['bflFactory'].write( 'r' )
 	else:
@@ -223,5 +223,5 @@ def simulate():
 	if own['simulate']:
 		logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
 		own['car'].simulate()
-		speedometer( own['id'], own['gear'], own['kph'])
+		speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
 		logs.log("debug", str(int(own['kph'])) + ' kph' )

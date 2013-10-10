@@ -18,25 +18,26 @@ def main():
 
 	gl.mouse.visible = True
 	confParser.loadPlayer()
+	confParser.loadCounter()
 	mainDir = gl.expandPath("//")
 	listVt = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"vehicles"))
 	try:
 		listVt.remove('.svn')
-	except: 
+	except:
 		pass
 
 
 	listRoue = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"wheels"))
 	try:
 		listRoue.remove('.svn')
-	except: 
+	except:
 		pass
 
 	listMaps = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"maps"))
 	listMaps.remove('anneauDeTest')
 	try:
 		listMaps.remove('.svn')
-	except: 
+	except:
 		pass
 
 	gl.mapName = listMaps[0]
@@ -51,7 +52,7 @@ def main():
 
 	# mirror, Anisotropic, mist start, mist end
 	gl.generalConf = [True, rd.getAnisotropicFiltering(), 25, 50, 'sun']
-	
+
 	logs.log("info", gl.lstRoue)
 	logs.log("info", gl.dispPlayers)
 	logs.log("info", gl.lstVoiture)
@@ -79,7 +80,7 @@ def main():
 		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 		delattr(gl, 'menuStat')
-	
+
 	else:
 		gl.status = "MenuPrincipal"
 		own["fond"] = FondGui()
@@ -93,7 +94,7 @@ def main():
 
 
 
-		
+
 
 
 

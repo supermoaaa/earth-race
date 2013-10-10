@@ -240,3 +240,13 @@ def checkConf():
 def saveConf():
 	with open(gl.expandPath("//")+'players.json', 'w') as f:
 		json.dump([gl.graphic,gl.sound,gl.skin], f, sort_keys=True, indent=4)
+
+def loadCounter():
+	with open(gl.expandPath("//")+'counter.json', 'w') as f:
+		try:
+			conf = json.load(f)
+			gl.counterPos = conf[0]
+		except:
+			logs.log("error", "json de configuration générale mal formaté")
+	if not hasattr(gl, 'counterPos'):
+		gl.counterPos = [ 0.81002893, 0.158075601, 40 ]

@@ -121,7 +121,6 @@ def speedometer( id, gear, speed, camera):
 def load():
 	cont = gl.getCurrentController()
 	own = cont.owner
-	scene = gl.getCurrentScene()
 	if gl.generalConf[4] == 'rain':
 		own['rain'] = True
 	#~ logs.log("debug","load"+str(own['id']))
@@ -132,71 +131,53 @@ def load():
 		gl.cars = []
 		gl.objectsCars = []
 		gl.camsCompteur = []
-		vehicles = []
-		wheels = []
 		gl.keys = [[]]
-		i = 0
-		j = 0
-		x = False
 		objects.libLoad(gl.expandPath("//")+"counter.blend", "Scene")
 		#conf.loadPlayer() #rechargement des configurations players
-		while i < len(gl.conf[0]) :
-			if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
-				child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
-				child['AI']=child.childrenRecursive['AI']
-				child['AI'].removeParent()
-				if gl.conf[0][j][1]=='human':
-					autoViewport( child['car'], gl.conf[0][i][0] )
-				if x:
-					own.localPosition[0] += 2
-					own.localPosition[1] += 2
-					x = False
-				else:
-					own.localPosition[0] -= 2
-					own.localPosition[1] += 2
-					x = True
-				j = j+1
-			i = i+1
-		del x
+		placeCars(own)
 		gl.carArrived=[]
 		own['load']=True
 	elif own['load']==True:
-		own['load']=False
-		for actualCar in gl.cars:
-			if actualCar[1]['car'].isLoaded()==False:
-				own['load']=True
-		if own['load']==False:
-			own['simulate']=True
-			for actualCar in gl.cars:
-				actualCar[1]['car'].start()
-				logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
-				actualCar[1]['simulate']=True
-			compteurOnTop()
+		waitAndStart(own)
 	else:
-		keyboard = gl.keyboard
-		ACTIVE = gl.KX_INPUT_ACTIVE
-		JUST_ACTIVATED = gl.KX_INPUT_JUST_ACTIVATED
-		nbCar=len(gl.cars)
-		for actualCar in gl.cars: # for each car
-			if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived: # if just arrived
-				gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
+		keyMapper()
+		checkArrived()
+
+def waitAndStart(own):
+	own['load']=False
+	for actualCar in gl.cars:
+		if actualCar[1]['car'].isLoaded()==False:
+			own['load']=True
+	if own['load']==False:
+		own['simulate']=True
+		for actualCar in gl.cars:
+			actualCar[1]['car'].start()
+			logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
+			actualCar[1]['simulate']=True
+		compteurOnTop()
+
+def placeCars(own):
+	i = 0
+	j = 0
+	x = False
+	while i < len(gl.conf[0]) :
+		if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
+			child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
+			child['AI']=child.childrenRecursive['AI']
+			child['AI'].removeParent()
+			if gl.conf[0][j][1]=='human':
+				autoViewport( child['car'], gl.conf[0][i][0] )
+			if x:
+				own.localPosition[0] += 2
+				own.localPosition[1] += 2
+				x = False
 			else:
-				for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
-					if currentKey[2] == False and keyboard.events[int(currentKey[1])] == ACTIVE:
-						logs.log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
-						actualCar[1][currentKey[0]] = 1
-					elif currentKey[2] == True and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
-						actualCar[1][currentKey[0]] = 1
-					else:
-						actualCar[1][currentKey[0]] = 0
-		if len(gl.carArrived)==nbCar:
-			if gl.mapName == 'anneauDeTest':
-				with open('menustat', 'w') as f:
-					f.write(gl.mapName)
-				f.closed
-				gl.restartGame()
-			else:
-				scene.replace('stat')
+				own.localPosition[0] -= 2
+				own.localPosition[1] += 2
+				x = True
+			j = j+1
+		i = i+1
+	del x
 
 def placeStart(position,orientation,scaling):
 	# set car loader
@@ -206,6 +187,35 @@ def placeStart(position,orientation,scaling):
 
 	# start car loader
 	gl.getCurrentScene().objects.get('Loader')['start'] = True
+
+def keyMapper():
+	keyboard = gl.keyboard
+	ACTIVE = gl.KX_INPUT_ACTIVE
+	JUST_ACTIVATED = gl.KX_INPUT_JUST_ACTIVATED
+	for actualCar in gl.cars: # for each car
+		if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived: # if just arrived
+			gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
+		else:
+			for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
+				if currentKey[2] == False and keyboard.events[int(currentKey[1])] == ACTIVE:
+					logs.log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
+					actualCar[1][currentKey[0]] = 1
+				elif currentKey[2] == True and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
+					actualCar[1][currentKey[0]] = 1
+				else:
+					actualCar[1][currentKey[0]] = 0
+
+def checkArrived():
+	scene = gl.getCurrentScene()
+	nbCar=len(gl.cars)
+	if len(gl.carArrived)==nbCar:
+		if gl.mapName == 'anneauDeTest':
+			with open('menustat', 'w') as f:
+				f.write(gl.mapName)
+			f.closed
+			gl.restartGame()
+		else:
+			scene.replace('stat')
 
 def simulate():
 	cont = gl.getCurrentController()

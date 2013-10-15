@@ -39,11 +39,9 @@ def autoViewport( linker, playerName ):
 	if not hasattr(gl,"dispPlayers") or playerName in gl.dispPlayers:
 		scene = gl.getCurrentScene()
 		if not hasattr(gl,"dispPlayers") or gl.dispPlayers[0]==0:
-			gl.getCurrentScene().active_camera = linker.camera.camera
+			#~ gl.getCurrentScene().active_camera = linker.camera.camera
 			camCompteur = scene.objects.get('Camera 1')
 			camCompteur.setViewport( 0, 0, render.getWindowWidth(),render.getWindowHeight() )
-			camCompteur.useViewport = True
-			camCompteur.setOnTop()
 			gl.camsCompteur.append(camCompteur)
 		else:
 			mode=gl.dispPlayers[0]
@@ -72,11 +70,11 @@ def autoViewport( linker, playerName ):
 			elif ((mode==4 or mode==5) and id==2) or (mode==7 and id==3):
 				self.__addCam( linker, 'Camera '+str(id+1),
 					render.getWindowWidth()/2, render.getWindowHeight()/2, render.getWindowWidth(), render.getWindowHeight() ) #en bas à droite
-			if ((mode==1 or mode==2) and id==1) or ((mode==3 or mode==4 or mode==5 or mode==6) and id==2) or (mode==7 and id==3):
-				j = 0
-				for camCompteur in gl.camsCompteur:
-					camCompteur.useViewport = True
-					camCompteur.setOnTop()
+
+def compteurOnTop():
+	for camCompteur in gl.camsCompteur:
+		camCompteur.useViewport = True
+		camCompteur.setOnTop()
 
 def __addCam( linker, camCompteurName, left, bottom, right, top ):
 	try:
@@ -173,6 +171,7 @@ def load():
 				actualCar[1]['car'].start()
 				logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
 				actualCar[1]['simulate']=True
+			compteurOnTop()
 	else:
 		keyboard = gl.keyboard
 		ACTIVE = gl.KX_INPUT_ACTIVE
@@ -204,11 +203,6 @@ def placeStart(position,orientation,scaling):
 	gl.getCurrentScene().objects.get('Loader').position = position
 	gl.getCurrentScene().objects.get('Loader').orientation = orientation
 	gl.getCurrentScene().objects.get('Loader').scaling = scaling
-
-	# set camera
-	gl.getCurrentScene().objects.get('Camera').position = position
-	gl.getCurrentScene().objects.get('Camera').localPosition[1] -= 20
-	gl.getCurrentScene().objects.get('Camera').position[2] += 6
 
 	# start car loader
 	gl.getCurrentScene().objects.get('Loader')['start'] = True

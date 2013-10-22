@@ -1,6 +1,8 @@
 from bge import logic as gl
+import os.path
 import objects
 import loaderVehicles
+import logs
 
 def loadMap( ):
 	loadSky()
@@ -15,7 +17,11 @@ def loadMap( ):
 
 def loadSky():
 	path = gl.expandPath("//")+"objects/sky/"
-	gl.LibLoad( path+"skydomeCloud.blend", "Scene", load_actions=True, load_scripts=True, async=False)
+	blend = path+"skydome"+gl.generalConf[4][0].upper()+gl.generalConf[4][1:]+".blend"
+	if not os.path.isfile(blend):
+		logs.log("error", "couldn't find file "+str(blend))
+		blend = path+"skydomeCloud.blend"
+	gl.LibLoad( blend, "Scene", load_actions=True, load_scripts=True, async=False)
 
 def t(status):
 	print("Library (%s) loaded in %.2fms." % (status.libraryName, status.timeTaken))

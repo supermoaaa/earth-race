@@ -312,7 +312,7 @@ class r_wheel:
 		self.mph = self.kph*0.621371192
 
 	def getGroundCoefFriction(self, ray):
-		if len(ray)>=4 and ray[3].material_name in gl.matFriction:
+		if not ray is None and len(ray)>=4 and not ray is None and ray[3].material_name in gl.matFriction:
 			return gl.matFriction[ray[3].material_name]
 		else:
 			return 1

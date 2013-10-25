@@ -272,9 +272,12 @@ class vehicleSimulation(object):
 	def start(self):
 		self.simulated = True
 		self.setPhysic(True)
+		self.startCam()
+		self.start = time()
+
+	def startCam(self):
 		self.defaultCam.useViewport = True
 		gl.getCurrentScene().active_camera = self.defaultCam
-		self.start = time()
 
 	def stop(self):
 		self.end = time()

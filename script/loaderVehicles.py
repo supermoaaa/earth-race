@@ -1,6 +1,8 @@
 from bge import logic as gl
 from bge import events as events
 from bge import render as render
+from time import time
+import datetime
 import confParser as conf
 from vehicleLinker import vehicleLinker
 import objects
@@ -140,6 +142,7 @@ def load():
 	elif own['load']==True:
 		waitAndStart(own)
 	else:
+		countDownStart(own) #to end it
 		keyMapper()
 		checkArrived()
 
@@ -149,12 +152,41 @@ def waitAndStart(own):
 		if actualCar[1]['car'].isLoaded()==False:
 			own['load']=True
 	if own['load']==False:
-		own['simulate']=True
-		for actualCar in gl.cars:
-			actualCar[1]['car'].start()
-			logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
-			actualCar[1]['simulate']=True
+		countDownStart(own)
+
+def countDownStart(own):
+	if not 'countdownStartTimeStamp' in own and own['simulate']==False:
 		compteurOnTop()
+		gl.addScene('countdown')
+		own['countdownStartTimeStamp'] = int(time()*100) # to avoid a bug on float in blender
+		own['load'] = True
+		for actualCar in gl.cars:
+			actualCar[1]['car'].startCam()
+	elif 'countdownStartTimeStamp' in own:
+		compteurOnTop()
+		count = time()-(own['countdownStartTimeStamp']/100)
+		if count <3:
+			setCount(int(count))
+			own['load'] = True
+		elif int(count) == 3 and own['simulate'] == False:
+			setCount(int(count))
+			own['simulate']=True
+			for actualCar in gl.cars:
+				actualCar[1]['car'].start()
+				logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
+				actualCar[1]['simulate']=True
+		elif count >= 4:
+			try:
+				gl.getSceneList()[1].end()
+				logs.log('debug', "stop countdown scene")
+			except:
+				logs.log('error', "can't stop the countdown scene")
+			del(own['countdownStartTimeStamp'])
+
+def setCount(countdown):
+	if countdown <= 3:
+		countdownObject = gl.getSceneList()[1].objects.get('countdown')
+		countdownObject['DFrame'] = countdown
 
 def placeCars(own):
 	i = 0

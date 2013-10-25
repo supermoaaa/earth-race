@@ -65,6 +65,7 @@ class camera(object):
 		if self.car != None and self.camera != None:
 			# variables initiales
 			carPosX, carPosY, carPosZ = self.carObj.worldPosition
+			carPosZ += 0.2 #correct the center of view
 			ticRate = gl.getLogicTicRate()*2
 			speed = abs(self.compteurOwner['kph'])+0.5
 			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
@@ -74,7 +75,7 @@ class camera(object):
 			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
 			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
 			yRelativePosition = 0
-			zRelativePosition = 3.3-(smoothSpeed/150)*1.5
+			zRelativePosition = 3.2-(smoothSpeed/150)*1.5
 
 			# anti object entre la caméra et la voiture
 			distance = self.__camDistance( self.carObj, self.camera ) # y a t'il un obstacle et à quel distance

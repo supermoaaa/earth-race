@@ -252,8 +252,7 @@ def checkArrived():
 def simulate():
 	cont = gl.getCurrentController()
 	own = cont.owner
-	if own['simulate']:
-		logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
-		own['car'].simulate()
-		speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
-		logs.log("debug", str(int(own['kph'])) + ' kph' )
+	logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
+	own['car'].simulate()
+	speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
+	logs.log("debug", str(int(own['kph'])) + ' kph' )

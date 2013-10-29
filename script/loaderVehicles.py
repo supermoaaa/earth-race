@@ -152,7 +152,15 @@ def waitAndStart(own):
 		if actualCar[1]['car'].isLoaded()==False:
 			own['load']=True
 	if own['load']==False:
-		countDownStart(own)
+		if not 'delay' in own:
+			own['delay'] = int(time()*100) # to avoid a bug on float in blender
+			own['load']=True
+		elif time()-(own['delay']/100)>2:
+			countDownStart(own)
+		else:
+			own['load']=True
+	if own['load']==False:
+		del(own['delay'])
 
 def countDownStart(own):
 	if not 'countdownStartTimeStamp' in own and own['simulate']==False:

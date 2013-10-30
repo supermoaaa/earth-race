@@ -264,3 +264,6 @@ def simulate():
 	own['car'].simulate()
 	speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
 	logs.log("debug", str(int(own['kph'])) + ' kph' )
+
+def respawn(car):
+	car['car'].respawn()

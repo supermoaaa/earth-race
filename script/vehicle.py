@@ -245,7 +245,7 @@ class vehicleSimulation(object):
 			main['gear'] = self.gearSelect
 
 			if respawn:
-				self.__respawn()
+				self.respawn()
 
 	def __run(self):
 		if len(self.wheels)>0:
@@ -306,7 +306,7 @@ class vehicleSimulation(object):
 		else:
 			self.owner['AI'].worldPosition = gl.checkpoints[gl.checkpoints-1]
 
-	def __respawn(self):
+	def respawn(self):
 		main = self.main
 		zeroVector = Vector([0,0,0])
 		main.applyForce(zeroVector)

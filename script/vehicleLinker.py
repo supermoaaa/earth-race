@@ -109,6 +109,10 @@ class vehicleLinker(object):
 			self.car.simulate()
 			self.camera.simulate()
 
+	def respawn( self ):
+		if self.car != None and conf.isLoadedWheel(self.wheels_type):
+			self.car.respawn()
+
 	def getRaceDuration( self ):
 		if self.car != None:
 			return self.car.getRaceDuration()

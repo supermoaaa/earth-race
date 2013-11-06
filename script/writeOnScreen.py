@@ -11,7 +11,7 @@ class bflFactory:
 		self.manager.addText(self.text)
 
 	def write( self, newText ):
-		self.text.text = newText
+		self.text.setText(newText)
 
 class bflManager:
 	def __init__( self ):
@@ -22,6 +22,7 @@ class bflManager:
 
 			self.height = render.getWindowHeight()
 			self.width = render.getWindowWidth()
+			log("debug","screen height: {} width : {}".format(self.height, self.width))
 
 			self.texts = []
 			self.fontid = 0
@@ -44,17 +45,29 @@ class bflManager:
 	def writeAll(self):
 		self.bglInit()
 		for text in self.texts:
-			blf.size(self.fontid, text.size, text.size)
-			blf.position( self.fontid, text.globalX, text.globalY, 1 )
+			blf.size(self.fontid, text.globalSizeX, text.globalSizeY)
+			blf.position( self.fontid, text.globalCenteredX, text.globalCenteredY, 1 )
 			blf.draw( self.fontid, text.text )
 
 class Text:
 	def __init__( self, x, y, size, cam):
 		self.localX = x
 		self.localY = y
-		self.size = size
+		self.localSize = size
 		self.cam = cam
 		viewPort = self.cam.viewPort
-		self.globalX = viewPort[0]+x*(viewPort[2]-viewPort[0])-(size/6)
-		self.globalY = viewPort[1]+y*(viewPort[3]-viewPort[1])-(size/6)
+		screenX = (viewPort[2]-viewPort[0])
+		screenY = (viewPort[3]-viewPort[1])
+		self.globalSizeX = int(size*screenX)
+		self.globalSizeY = int(size*screenY)
+		self.globalX = viewPort[0]+x*screenX
+		self.globalY = viewPort[1]+y*screenY
+		self.globalCenteredX = self.globalX
+		self.globalCenteredY = self.globalY
 		self.text = ''
+
+	def setText( self, text ):
+		self.text = text
+		relativeX, relativeY = blf.dimensions(0, self.text)
+		self.globalCenteredX = self.globalX - relativeX/2
+		self.globalCenteredY = self.globalY - relativeY/2

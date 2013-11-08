@@ -81,6 +81,12 @@ class music:
 			self.player.play()
 			self.state = True
 
+	def setVolume( self, volume ):
+		self.player.setVolume(volume)
+
+	def getVolume( self ):
+		return self.player.getVolume()
+
 	def stop( self ):
 		self.player.stop()
 		self.state = False

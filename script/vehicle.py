@@ -19,7 +19,7 @@ from physicVehicle_math import *
 #from steeringWheel import *
 
 class vehicleSimulation(object):
-	def __init__( self, vehicle_type, owner, physic=True, parent=False, framerate = 60 ):
+	def __init__( self, vehicle_type, owner, physic=True, parent=False, creator = None, framerate = 60 ):
 		scene = gl.getCurrentScene()
 		self.owner = owner
 		owner['gear']=0
@@ -27,6 +27,7 @@ class vehicleSimulation(object):
 		self.vehicle_type = vehicle_type
 		self.wheels = []
 		self.steering_wheel = None
+		self.creator = creator
 		self.framerate = framerate
 		bge.logic.setLogicTicRate(framerate)
 
@@ -112,7 +113,7 @@ class vehicleSimulation(object):
 		logs.log("debug","Select steering wheel")
 
 	def addPiece( self, piece, mainObject ):
-		child = objects.addObject( self.owner, piece )
+		child = objects.addObject( self.owner, piece, self.creator )
 		if child!=None:
 			if mainObject!=None:
 				logs.log("debug",'main Object : '+str(mainObject))

@@ -266,4 +266,5 @@ def simulate():
 	logs.log("debug", str(int(own['kph'])) + ' kph' )
 
 def respawn(car):
-	car['car'].respawn()
+	if car != None:
+		car['creator'].respawn()

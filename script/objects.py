@@ -16,12 +16,17 @@ def libFree( filePath ):
 	if filePath in gl.LibList():
 			gl.LibFree( filePath )
 
-def addObject( pos_ob, objectName ):
+def addObject( pos_ob, objectName, creator=None ):
 	try:
 		scene = gl.getCurrentScene()
 		child = scene.addObject( objectName, pos_ob, 0 )
 		logs.log("debug",'objet ajouté : '+str(child))
 		logs.log("debug",'-------------------')
+		if creator!=None:
+			child['creator'] = creator
+			for ob in child.childrenRecursive:
+				ob['creator'] = creator
+		logs.log('debug','creator : '+str(creator))
 		return child
 	except:
 		logs.log("error","objet \""+objectName+"\" non trouvé")

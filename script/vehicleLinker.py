@@ -48,7 +48,7 @@ class vehicleLinker(object):
 		logs.log("debug","finish loading vehicle : "+self.vehicle_type)
 		wheels_type=self.wheels_type
 		conf.setFinishLoadedVehicle(self.vehicle_type)
-		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent )
+		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent, self )
 		self.__updateWheels()
 		self.camera.setParams( car = self.car )
 
@@ -83,7 +83,7 @@ class vehicleLinker(object):
 	def __updateWheels( self ):
 		if self.car != None and self.wheels_type != None and self.wheels_type in gl.conf[2] and conf.isLoadedWheel(self.wheels_type):
 			for wheel_conf in self.car.getWheelsConf():
-				wheel = r_wheel(self.car.getMainObject(), wheel_conf[0], self.wheels_type, wheel_conf[1], wheel_conf[2], wheel_conf[3])
+				wheel = r_wheel(self.car.getMainObject(), wheel_conf[0], self.wheels_type, wheel_conf[1], self, wheel_conf[2], wheel_conf[3])
 				self.car.addWheel(wheel)
 			self.wheels_free = False
 

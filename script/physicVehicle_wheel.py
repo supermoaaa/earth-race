@@ -73,7 +73,7 @@ class r_wheel:
 		self.kph = 0.0
 		self.mph = 0.0
 
-	def __init__(self, main_ob, pos_ob, wheel_type, steer, powered=True, handbrake=False):
+	def __init__(self, main_ob, pos_ob, wheel_type, steer, creator=None, powered=True, handbrake=False):
 
 		# load wheel scene
 		scene = gl.getCurrentScene()
@@ -86,10 +86,11 @@ class r_wheel:
 		else:
 			powered=False
 
+		self.creator = creator
 		self.childs = []
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
-				child = objects.addObject( pos_ob, param[1] )
+				child = objects.addObject( pos_ob, param[1], creator )
 				logs.log("debug",child)
 				if child!=None:
 					child.scaling = pos_ob.scaling

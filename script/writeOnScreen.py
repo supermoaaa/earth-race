@@ -25,7 +25,7 @@ class bflManager:
 			log("debug","screen height: {} width : {}".format(self.height, self.width))
 
 			self.texts = []
-			self.fontid = 0
+			self.fontid = blf.load(gl.expandPath('//themes/default/LiquidCrystal-Bold.otf'))
 
 			scene.post_draw = [self.writeAll]
 

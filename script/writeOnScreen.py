@@ -6,8 +6,9 @@ from logs import log
 
 class bflFactory:
 	def __init__( self, x, y, size, cam ):
+		self.fontid = blf.load(gl.expandPath('//themes/default/LiquidCrystal-Bold.otf'))
 		self.manager = bflManager()
-		self.text = Text( x, y, size, cam )
+		self.text = Text( x, y, size, self.fontid, cam )
 		self.manager.addText(self.text)
 
 	def write( self, newText ):
@@ -25,7 +26,6 @@ class bflManager:
 			log("debug","screen height: {} width : {}".format(self.height, self.width))
 
 			self.texts = []
-			self.fontid = blf.load(gl.expandPath('//themes/default/LiquidCrystal-Bold.otf'))
 
 			scene.post_draw = [self.writeAll]
 
@@ -45,12 +45,12 @@ class bflManager:
 	def writeAll(self):
 		self.bglInit()
 		for text in self.texts:
-			blf.size(self.fontid, text.globalSizeX, text.globalSizeY)
-			blf.position( self.fontid, text.globalCenteredX, text.globalCenteredY, 1 )
-			blf.draw( self.fontid, text.text )
+			blf.size( text.fontid, text.globalSizeX, text.globalSizeY )
+			blf.position( text.fontid, text.globalCenteredX, text.globalCenteredY, 1 )
+			blf.draw( text.fontid, text.text )
 
 class Text:
-	def __init__( self, x, y, size, cam):
+	def __init__( self, x, y, size, fontid, cam):
 		self.localX = x
 		self.localY = y
 		self.localSize = size
@@ -65,9 +65,10 @@ class Text:
 		self.globalCenteredX = self.globalX
 		self.globalCenteredY = self.globalY
 		self.text = ''
+		self.fontid = fontid
 
 	def setText( self, text ):
 		self.text = text
-		relativeX, relativeY = blf.dimensions(0, self.text)
+		relativeX, relativeY = blf.dimensions(self.fontid, self.text)
 		self.globalCenteredX = self.globalX - relativeX/2
 		self.globalCenteredY = self.globalY - relativeY/2

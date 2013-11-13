@@ -30,7 +30,6 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['changeCam'] = 0.0
 	child['simulate'] = False
 	child['arrived'] = False
-	child['gear'] = 0
 	child['cam'] = child.childrenRecursive['Camera']
 	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])

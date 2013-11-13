@@ -22,7 +22,7 @@ class vehicleSimulation(object):
 	def __init__( self, vehicle_type, owner, physic=True, parent=False, creator = None, framerate = 60 ):
 		scene = gl.getCurrentScene()
 		self.owner = owner
-		owner['gear']=0
+		owner['gear']=1
 		owner['kph']=0
 		self.vehicle_type = vehicle_type
 		self.wheels = []
@@ -42,6 +42,7 @@ class vehicleSimulation(object):
 		self.simulated = False
 		self.physic = physic
 		self.boostPower = int()
+		self.defaultCam = None
 		self.cams = []
 		self.currentCam = 0
 		logs.log('debug','vehicle init')
@@ -277,8 +278,9 @@ class vehicleSimulation(object):
 		self.start = time()
 
 	def startCam(self):
-		self.defaultCam.useViewport = True
-		gl.getCurrentScene().active_camera = self.defaultCam
+		if self.defaultCam!=None:
+			self.defaultCam.useViewport = True
+			gl.getCurrentScene().active_camera = self.defaultCam
 
 	def stop(self):
 		self.end = time()

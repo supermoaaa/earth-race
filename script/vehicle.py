@@ -312,6 +312,8 @@ class vehicleSimulation(object):
 		zeroVector = Vector([0,0,0])
 		main.applyForce(zeroVector)
 		main.applyTorque(zeroVector)
+		main.setLinearVelocity(zeroVector)
+		main.setAngularVelocity(zeroVector)
 		if self.nextIdCheckpoint >= 1:
 			logs.log("debug",str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
 			main.worldPosition = gl.checkpoints[self.nextIdCheckpoint-1].worldPosition

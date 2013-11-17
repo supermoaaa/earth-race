@@ -5,7 +5,7 @@ from math import cos
 from math import sin
 from math import sqrt
 from math import atan
-import logs
+from logs import log
 
 class camera(object):
 	def __init__( self, **args ):
@@ -80,7 +80,7 @@ class camera(object):
 			# anti object entre la caméra et la voiture
 			distance = self.__camDistance( self.carObj, self.camera ) # y a t'il un obstacle et à quel distance
 			if distance != None:
-				logs.log("debug","distance : "+str(distance))
+				log("debug","distance : "+str(distance))
 				xRelativePosition = min( xRelativePosition, distance/1.1 )
 				zRelativePosition = min( zRelativePosition, distance/2 )
 
@@ -111,7 +111,7 @@ class camera(object):
 				#~ diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
 			# lissage des mouvements de la caméra
 			if -0.785<diff_angle and diff_angle<0.785:
-				logs.log("debug",'smooth')
+				log("debug",'smooth')
 				carRot = camRot[2] + diff_angle*0.1
 			# blocage d'extrémités
 			diff_angle =self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle

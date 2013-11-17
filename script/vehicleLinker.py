@@ -3,7 +3,7 @@ from bge import logic as gl
 import confParser as conf
 from physicVehicle_wheel import r_wheel
 from camera import camera
-import logs
+from logs import log
 
 class vehicleLinker(object):
 	def __init__(self, **args):
@@ -45,7 +45,7 @@ class vehicleLinker(object):
 			self.vehicle_type = vehicle_type
 
 	def onFinishVehicleLoaded(self, st):
-		logs.log("debug","finish loading vehicle : "+self.vehicle_type)
+		log("debug","finish loading vehicle : "+self.vehicle_type)
 		wheels_type=self.wheels_type
 		conf.setFinishLoadedVehicle(self.vehicle_type)
 		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent, self )
@@ -61,7 +61,7 @@ class vehicleLinker(object):
 			self.wheels_type = wheels_type
 
 	def onFinishWheelsLoaded(self, st):
-		logs.log("debug","finish loading wheels : "+self.wheels_type)
+		log("debug","finish loading wheels : "+self.wheels_type)
 		conf.setFinishLoadedWheel(self.wheels_type)
 		self.__updateWheels()
 
@@ -102,7 +102,7 @@ class vehicleLinker(object):
 
 	def __del__( self ):
 		self.delVehicle()
-		logs.log("debug","del vehicleLinker")
+		log("debug","del vehicleLinker")
 
 	def simulate( self ):
 		if self.car != None and conf.isLoadedWheel(self.wheels_type):

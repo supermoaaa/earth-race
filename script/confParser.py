@@ -1,8 +1,8 @@
 from bge import logic as gl
 import os
+from logs import log
 import objects
 import json
-import logs
 
 def lineParse(line):
 	param = line.split("=")
@@ -31,7 +31,7 @@ def loadVehicle(vehicleType, endFunction):
 			gl.conf[1][vehicleType].append( lineParse(line) )
 		gl.conf[1][vehicleType].append(['users',1])
 		propertieFile.close
-		logs.log("info","loadVehicle "+vehicleType)
+		log("info","loadVehicle "+vehicleType)
 	else:
 		for param in gl.conf[1][vehicleType]:
 			if param[0]=="users":
@@ -55,7 +55,7 @@ def freeVehicle(vehicleType):
 				if param[1]==0:
 					objects.libFree(path+vehicleType+".blend")
 					del(gl.conf[1][vehicleType])
-					logs.log("info","freeVehicle "+vehicleType)
+					log("info","freeVehicle "+vehicleType)
 
 def loadWheel(wheelsType,endFunction):
 	path = gl.expandPath("//")+"objects"+os.sep+"wheels"+os.sep+wheelsType+os.sep
@@ -74,7 +74,7 @@ def loadWheel(wheelsType,endFunction):
 				gl.conf[2][wheelsType].append( lineParse(line) )
 		gl.conf[2][wheelsType].append(['users',1])
 		propertieFile.close
-		logs.log("info","loadWheel "+wheelsType)
+		log("info","loadWheel "+wheelsType)
 	else:
 		for param in gl.conf[2][wheelsType]:
 			if param[0]=="users":
@@ -98,7 +98,7 @@ def freeWheels(wheelsType):
 				if param[1]==0:
 					objects.libFree(path+wheelsType+".blend")
 					del(gl.conf[2][wheelsType])
-					logs.log("info","freeWheel "+wheelsType)
+					log("info","freeWheel "+wheelsType)
 
 def loadPlayer():
 	if not hasattr(gl, 'conf'):
@@ -109,7 +109,7 @@ def loadPlayer():
 		try:
 			gl.conf[0] = json.load(f)
 		except:
-			logs.log("error", "json players mal formaté")
+			log("error", "json players mal formaté")
 	checkPlayerConf()
 
 def checkPlayerConf():
@@ -226,7 +226,7 @@ def loadConf():
 			gl.sound = conf[1]
 			gl.skin = conf[2]
 		except:
-			logs.log("error", "json de configuration générale mal formaté")
+			log("error", "json de configuration générale mal formaté")
 	checkConf()
 
 def checkConf():
@@ -246,6 +246,6 @@ def loadCounter():
 		try:
 			gl.counterPos = json.load(f)
 		except:
-			logs.log("error", "json de configuration du counter mal formaté")
+			log("error", "json de configuration du counter mal formaté")
 	if not hasattr(gl, 'counterPos'):
-		gl.counterPos = [ 0.81002893, 0.158075601, 40 ]
+		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ] ]

@@ -5,8 +5,8 @@ from time import time
 import datetime
 import confParser as conf
 from vehicleLinker import vehicleLinker
+from logs import log
 import objects
-import logs
 import writeOnScreen
 
 def addVehicleLoader( source, id, vehicleType, wheelsType ):
@@ -33,7 +33,7 @@ def addVehicleLoader( source, id, vehicleType, wheelsType ):
 	child['cam'] = child.childrenRecursive['Camera']
 	child['car'] = vehicleLinker( posObj = child, vehicle_type = vehicleType, wheels_type = wheelsType, camera_object = child['cam'] )
 	gl.cars.append([child['id'],child])
-	logs.log("debug",child.get('id'))
+	log("debug",child.get('id'))
 	return child
 
 def autoViewport( linker, playerName ):
@@ -105,7 +105,7 @@ def speedometer( id, gear, speed, camera):
 	id=str(id+1)
 	ob = scene.objects.get('gear Counter '+id)
 	if not hasattr(ob, 'bflFactory'):
-		ob['bflFactory'] = writeOnScreen.bflFactory( gl.counterPos[0], gl.counterPos[1], gl.counterPos[2], camera )
+		ob['bflFactory'] = writeOnScreen.bflFactory( gl.counterPos[0][0], gl.counterPos[0][1], gl.counterPos[0][2], camera )
 	if gear==0:
 		ob['bflFactory'].write( 'r' )
 	else:
@@ -124,7 +124,7 @@ def load():
 	own = cont.owner
 	if gl.generalConf[4] == 'rain':
 		own['rain'] = True
-	#~ logs.log("debug","load"+str(own['id']))
+	#~ log("debug","load"+str(own['id']))
 	if own['simulate']==False and own['load']==False:
 		# graphisme
 		setGraphism()
@@ -180,14 +180,14 @@ def countDownStart(own):
 			own['simulate']=True
 			for actualCar in gl.cars:
 				actualCar[1]['car'].start()
-				logs.log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
+				log("debug",'start car '+str(actualCar[1]['id'])+' '+str(actualCar[1]['vehicleType']))
 				actualCar[1]['simulate']=True
 		elif count >= 4:
 			try:
 				gl.getSceneList()[1].end()
-				logs.log('debug', "stop countdown scene")
+				log('debug', "stop countdown scene")
 			except:
-				logs.log('error', "can't stop the countdown scene")
+				log('error', "can't stop the countdown scene")
 			del(own['countdownStartTimeStamp'])
 
 def setCount(countdown):
@@ -237,7 +237,7 @@ def keyMapper():
 		else:
 			for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
 				if currentKey[2] == False and keyboard.events[int(currentKey[1])] == ACTIVE:
-					logs.log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
+					log("debug", str(actualCar[1]) + ' : ' + str(currentKey[0]) )
 					actualCar[1][currentKey[0]] = 1
 				elif currentKey[2] == True and keyboard.events[int(currentKey[1])] == JUST_ACTIVATED:
 					actualCar[1][currentKey[0]] = 1
@@ -256,13 +256,20 @@ def checkArrived():
 		else:
 			scene.replace('stat')
 
+def writeChekpoint(own):
+	if not hasattr(own, 'bflFactoryCheckpoints'):
+		own['bflFactoryCheckpoints'] = writeOnScreen.bflFactory( gl.counterPos[1][0], gl.counterPos[1][1], gl.counterPos[1][2], own['car'].camera )
+	if own['car'].car != None:
+		own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)))
+
 def simulate():
 	cont = gl.getCurrentController()
 	own = cont.owner
-	logs.log("debug","owner : " + str(own) + " id : " + str(own['id']) )
+	log("debug","owner : " + str(own) + " id : " + str(own['id']) )
 	own['car'].simulate()
 	speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
-	logs.log("debug", str(int(own['kph'])) + ' kph' )
+	writeChekpoint(own)
+	log("debug", str(int(own['kph'])) + ' kph' )
 
 def respawn(car):
 	if car != None:

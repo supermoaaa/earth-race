@@ -2,9 +2,9 @@ from bge import logic as gl
 from mathutils import *
 from physicVehicle_math import *
 from math import *
+from logs import log
 import objects
 import os
-import logs
 
 class r_wheel:
 	def __def_init(self, main_ob, wheel_ob, steer, powered=True, handbrake=0):
@@ -30,7 +30,7 @@ class r_wheel:
 		self.w_steer_current = 0.0		#The current steering angle.
 		self.w_steer_state = int(steer)
 		if self.w_steer_state!=1:
-			logs.log('debug','steer '+str(steer))
+			log('debug','steer '+str(steer))
 			self.w_steer_rate = 0			#Rate at which the wheel turns towards the target angle. (Radians/second)
 		else:
 			self.w_steer_rate = 2.0			#Rate at which the wheel turns towards the target angle. (Radians/second)
@@ -91,11 +91,11 @@ class r_wheel:
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
 				child = objects.addObject( pos_ob, param[1], creator )
-				logs.log("debug",child)
+				log("debug",child)
 				if child!=None:
 					child.scaling = pos_ob.scaling
 					child.setParent(main_ob)
-					logs.log("debug",'default init')
+					log("debug",'default init')
 					self.__def_init(main_ob, child, steer, powered, handbrake)
 			elif param[0] == "decoration":
 				if param[1] in self.wheel.children:
@@ -239,7 +239,7 @@ class r_wheel:
 			try:
 				Fnormal = max(s_spring_force, 0)
 			except:
-				logs.log('error','Fnormal = max(s_spring_force, 0) avec s_spring_force='+str(s_spring_force))
+				log('error','Fnormal = max(s_spring_force, 0) avec s_spring_force='+str(s_spring_force))
 
 			#Calculate patch force
 			Fpatch = p_pos * self.main.mass*8/self.p_shift #It is assumed that mass*5 is an appropriate maximum force
@@ -302,11 +302,11 @@ class r_wheel:
 		newOri = self.wheel.worldOrientation.to_euler()
 		newOri[0] = 0.001
 		#newOri[1]=
-		#logs.log("debug",self.wheel.worldOrientation.to_euler())
+		#log("debug",self.wheel.worldOrientation.to_euler())
 		for currentChild in self.childs:
 			currentChild.worldOrientation = newOri.to_matrix()
 			newOri = currentChild.worldOrientation.to_euler()
-			#logs.log("debug",currentChild.worldOrientation.to_euler())
+			#log("debug",currentChild.worldOrientation.to_euler())
 
 		#Calculate ground speed
 		self.kph = self.w_vel*self.w_radius*3.6

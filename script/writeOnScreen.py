@@ -16,6 +16,7 @@ class bflFactory:
 
 	def write( self, newText ):
 		self.text.setText(newText)
+		return self.text
 
 class bflManager:
 	_instance = None

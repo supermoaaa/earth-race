@@ -256,11 +256,21 @@ def checkArrived():
 		else:
 			scene.replace('stat')
 
-def writeChekpoint(own):
+def writeChekpoints(own):
 	if not hasattr(own, 'bflFactoryCheckpoints'):
 		own['bflFactoryCheckpoints'] = writeOnScreen.bflFactory( gl.counterPos[1][0], gl.counterPos[1][1], gl.counterPos[1][2], own['car'].camera )
 	if own['car'].car != None:
-		own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)))
+		return own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)))
+
+def writeLaps( own, lastText = None ):
+	if gl.counterPos[2][0]=="under":
+		x = gl.counterPos[1][0]
+		y = gl.counterPos[1][1] - lastText.localSize - gl.counterPos[2][1]
+		size = gl.counterPos[2][2]
+	if not hasattr(own, 'bflFactoryLaps'):
+		own['bflFactoryLaps'] = writeOnScreen.bflFactory( x, y, size, own['car'].camera )
+	if own['car'].car != None:
+		own['bflFactoryLaps'].write("laps : " + str(own['car'].car.nbLaps)+"/"+str(gl.nbLaps))
 
 def simulate():
 	cont = gl.getCurrentController()
@@ -268,7 +278,9 @@ def simulate():
 	log("debug","owner : " + str(own) + " id : " + str(own['id']) )
 	own['car'].simulate()
 	speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
-	writeChekpoint(own)
+	lastText = writeChekpoints(own)
+	if lastText!=None:
+		writeLaps(own,lastText)
 	log("debug", str(int(own['kph'])) + ' kph' )
 
 def respawn(car):

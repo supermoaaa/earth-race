@@ -248,4 +248,4 @@ def loadCounter():
 		except:
 			log("error", "json de configuration du counter mal formaté")
 	if not hasattr(gl, 'counterPos'):
-		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ] ]
+		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ], [ "under",  0.0,  0.08 ] ]

@@ -34,11 +34,11 @@ class vehicleSimulation(object):
 		self.gearCalcs = []
 		self.gearSelect = 1
 		self.nextIdCheckpoint = 1
-		self.nbTours = 0
+		self.nbLaps = 0
 		try:
-			gl.nbTours = gl.nbTours
+			gl.nbLaps = gl.nbLaps
 		except:
-			gl.nbTours = 1
+			gl.nbLaps = 1
 		self.simulated = False
 		self.physic = physic
 		self.boostPower = int()
@@ -295,16 +295,16 @@ class vehicleSimulation(object):
 			self.nextIdCheckpoint += 1
 			logs.log("debug","pass checkpoint")
 		if self.nextIdCheckpoint >= len(gl.checkpoints):
-			self.nbTours += 1
+			self.nbLaps += 1
 			self.nextIdCheckpoint = 0
-		if self.nbTours == gl.nbTours:
+		if self.nbLaps == gl.nbLaps:
 			self.stop()
 			logs.log("debug","arrived")
 
 		#~ positionning of the objectif for IA
 		if self.nextIdCheckpoint+1 < len(gl.checkpoints):
 			self.owner['AI'].worldPosition = gl.checkpoints[self.nextIdCheckpoint+1].worldPosition
-		elif self.nbTours<=gl.nbTours:
+		elif self.nbLaps<=gl.nbLaps:
 			self.owner['AI'].worldPosition = gl.checkpoints[0].worldPosition
 		else:
 			self.owner['AI'].worldPosition = gl.checkpoints[gl.checkpoints-1]

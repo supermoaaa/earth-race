@@ -11,14 +11,21 @@ class bflFactory:
 		self.text = Text( x, y, size, self.fontid, cam )
 		self.manager.addText(self.text)
 
+	def updateCam( self, cam ):
+		self.text.updateCam(cam)
+
 	def write( self, newText ):
 		self.text.setText(newText)
 
 class bflManager:
-	def __init__( self ):
-		if not hasattr(bflManager,'__instance'):
-			bflManager.__instance = True
+	_instance = None
+	def __new__(cls, *args, **kwargs):
+		if not cls._instance:
+			cls._instance = super(bflManager, cls).__new__(cls, *args, **kwargs)
+		return cls._instance
 
+	def __init__( self ):
+		if not hasattr(self,'texts'):
 			scene = gl.getCurrentScene()
 
 			self.height = render.getWindowHeight()
@@ -29,8 +36,11 @@ class bflManager:
 
 			scene.post_draw = [self.writeAll]
 
+			bflManager._inited = True
+
 	def addText( self, text ):
 		self.texts.append(text)
+		log('debug', 'bflManager : add Text')
 
 	def getScreenInfo(self):
 		return [ self.width, self.height ]
@@ -44,28 +54,39 @@ class bflManager:
 
 	def writeAll(self):
 		self.bglInit()
+		log('debug', 'bflManager : nb Text'+str(len(self.texts)))
 		for text in self.texts:
 			blf.size( text.fontid, text.globalSizeX, text.globalSizeY )
 			blf.position( text.fontid, text.globalCenteredX, text.globalCenteredY, 1 )
 			blf.draw( text.fontid, text.text )
+		self.resetInstance()
+
+	def resetInstance(self):
+		log('debug', 'bflManager : reset instance')
+		bflManager._instance = None
 
 class Text:
 	def __init__( self, x, y, size, fontid, cam):
 		self.localX = x
 		self.localY = y
 		self.localSize = size
-		self.cam = cam
-		viewPort = self.cam.viewPort
-		screenX = (viewPort[2]-viewPort[0])
-		screenY = (viewPort[3]-viewPort[1])
-		self.globalSizeX = int(size*screenX)
-		self.globalSizeY = int(size*screenY)
-		self.globalX = viewPort[0]+x*screenX
-		self.globalY = viewPort[1]+y*screenY
-		self.globalCenteredX = self.globalX
-		self.globalCenteredY = self.globalY
 		self.text = ''
 		self.fontid = fontid
+		self.updateCam( cam )
+
+	def updateCam( self, cam ):
+		if cam != None:
+			viewPort = cam.viewPort
+		else:
+			viewPort = [ 0, 0, render.getWindowHeight(), render.getWindowWidth() ]
+		screenX = viewPort[2] - viewPort[0]
+		screenY = viewPort[3] - viewPort[1]
+		self.globalSizeX = int( self.localSize * screenX )
+		self.globalSizeY = int( self.localSize * screenY )
+		self.globalX = viewPort[0] + self.localX * screenX
+		self.globalY = viewPort[1] + self.localY * screenY
+		self.globalCenteredX = self.globalX
+		self.globalCenteredY = self.globalY
 
 	def setText( self, text ):
 		self.text = text

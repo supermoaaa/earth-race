@@ -260,7 +260,7 @@ def writeChekpoints(own):
 	if not hasattr(own, 'bflFactoryCheckpoints'):
 		own['bflFactoryCheckpoints'] = writeOnScreen.bflFactory( gl.counterPos[1][0], gl.counterPos[1][1], gl.counterPos[1][2], own['car'].camera )
 	if own['car'].car != None:
-		return own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)))
+		return own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)-1))
 
 def writeLaps( own, lastText = None ):
 	if gl.counterPos[2][0]=="under":

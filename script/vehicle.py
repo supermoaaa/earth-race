@@ -275,7 +275,7 @@ class vehicleSimulation(object):
 		self.simulated = True
 		self.setPhysic(True)
 		self.startCam()
-		self.start = time()
+		self.startTime = time()
 
 	def startCam(self):
 		if self.defaultCam!=None:
@@ -283,7 +283,7 @@ class vehicleSimulation(object):
 			gl.getCurrentScene().active_camera = self.defaultCam
 
 	def stop(self):
-		self.end = time()
+		self.endTime = time()
 		self.simulated = False
 		self.setPhysic(False)
 		self.owner['arrived'] = True
@@ -329,7 +329,7 @@ class vehicleSimulation(object):
 
 	def getRaceDuration(self):
 		try:
-			return str(timedelta(seconds=end-self.start))
+			return str(timedelta(seconds=self.endTime-self.startTime))
 		except:
 			return -1
 

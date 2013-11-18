@@ -2,6 +2,7 @@ from bge import logic as gl
 from bge import events as events
 from bge import render as render
 from time import time
+from datetime import timedelta
 import datetime
 import confParser as conf
 from vehicleLinker import vehicleLinker
@@ -256,21 +257,36 @@ def checkArrived():
 		else:
 			scene.replace('stat')
 
-def writeChekpoints(own):
-	if not hasattr(own, 'bflFactoryCheckpoints'):
-		own['bflFactoryCheckpoints'] = writeOnScreen.bflFactory( gl.counterPos[1][0], gl.counterPos[1][1], gl.counterPos[1][2], own['car'].camera )
+def __writer( saver, name, position, camera, text, lastText = None):
+	if position[0]!='under' or lastText!=None:
+		writerName = 'bflFactory'+str(name)
+		if not hasattr(saver, writerName):
+			if position[0]=="under":
+				x = lastText.localX
+				y = lastText.localY - lastText.localSize - position[1]
+			else:
+				x = position[0]
+				y = position[1]
+			size = position[2]
+			saver[writerName] = writeOnScreen.bflFactory( x, y, size, camera )
+		return saver[writerName].write(text)
+
+def writeChekpoints(own, lastText = None):
 	if own['car'].car != None:
-		return own['bflFactoryCheckpoints'].write("checkpoint : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)-1))
+		text = "checkpoints : " + str(own['car'].car.nextIdCheckpoint-1)+"/"+str(len(gl.checkpoints)-1)
+		return __writer( own, 'Checkpoints', gl.counterPos[1], own['car'].camera, text, lastText)
 
 def writeLaps( own, lastText = None ):
-	if gl.counterPos[2][0]=="under":
-		x = gl.counterPos[1][0]
-		y = gl.counterPos[1][1] - lastText.localSize - gl.counterPos[2][1]
-		size = gl.counterPos[2][2]
-	if not hasattr(own, 'bflFactoryLaps'):
-		own['bflFactoryLaps'] = writeOnScreen.bflFactory( x, y, size, own['car'].camera )
 	if own['car'].car != None:
-		own['bflFactoryLaps'].write("laps : " + str(own['car'].car.nbLaps)+"/"+str(gl.nbLaps))
+		text = "laps : " + str(own['car'].car.nbLaps)+"/"+str(gl.nbLaps)
+		return __writer( own, 'Laps', gl.counterPos[2], own['car'].camera, text, lastText)
+
+def writeTime( own, lastText = None):
+	if own['car'].car != None and hasattr(own['car'].car, 'startTime'):
+		duration = timedelta(seconds=time()-own['car'].car.startTime)
+		duration = str(duration).split('.')[0]
+		text = "time : " + str(duration)
+		return __writer( own, 'Time', gl.counterPos[3], own['car'].camera, text, lastText)
 
 def simulate():
 	cont = gl.getCurrentController()
@@ -279,8 +295,8 @@ def simulate():
 	own['car'].simulate()
 	speedometer( own['id'], own['gear'], own['kph'], own['car'].camera )
 	lastText = writeChekpoints(own)
-	if lastText!=None:
-		writeLaps(own,lastText)
+	lastText = writeLaps(own,lastText)
+	writeTime(own,lastText)
 	log("debug", str(int(own['kph'])) + ' kph' )
 
 def respawn(car):

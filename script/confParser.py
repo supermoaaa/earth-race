@@ -253,7 +253,7 @@ def loadCounter():
 def loadScores(mapName):
 	with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json', 'r') as f:
 		try:
-			gl.score = json.load(f)
+			gl.scores = json.load(f)
 		except:
 			log('error', 'json des scores mal formaté')
 	if not hasattr(gl, 'score'):

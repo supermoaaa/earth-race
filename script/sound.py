@@ -11,6 +11,7 @@ class sound(object):
 		self.factory = None
 		self.handle = None
 		self.volume = 1
+		self.looped = False
 
 	def load( self, soundPath):
 		self.factory = aud.Factory(soundPath)
@@ -23,6 +24,7 @@ class sound(object):
 			self.handle = self.device.play(self.factory)
 			self.handle.volume = self.volume
 			self.handle.relative = True
+			self.loop(self.looped)
 
 	def stop(self):
 		if self.handle != None:
@@ -50,6 +52,15 @@ class sound(object):
 	def setPitch( self, pitch ):
 		if self.handle != None:
 			self.handle.pitch = pitch
+
+	def loop( self, looped = True):
+		print('loop'+str(looped))
+		self.looped = looped
+		if self.handle != None:
+			if looped:
+				self.handle.loop_count = 3
+			else:
+				self.handle.loop_count = 0
 
 class music:
 	def __init__( self, playlist ):

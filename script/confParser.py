@@ -249,3 +249,17 @@ def loadCounter():
 			log("error", "json de configuration du counter mal formaté")
 	if not hasattr(gl, 'counterPos'):
 		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ], [ "under",  0.0,  0.08 ] ]
+
+def loadScore(mapName):
+	with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json', 'r') as f:
+		try:
+			gl.score = json.load(f)
+		except:
+			log('error', 'json des scores mal formaté')
+	if not hasattr(gl, 'score'):
+		gl.scores = Scores(mapName)
+
+def saveScore():
+	if hasattr(gl,'scores'):
+		with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json', 'w') as f:
+			json.dump(gl.scores, f, sort_keys=True, indent=4)

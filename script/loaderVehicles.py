@@ -10,10 +10,11 @@ from logs import log
 import objects
 import writeOnScreen
 
-def addVehicleLoader( source, id, vehicleType, wheelsType ):
+def addVehicleLoader( source, id, playerName, vehicleType, wheelsType ):
 	scene = gl.getCurrentScene()
 	child = scene.addObject( 'Car', source, 0 )
 	child['id'] = id
+	child['playerName'] = playerName
 	child['vehicleType'] = vehicleType
 	child['wheelsType'] = wheelsType
 	child['gear'] = 1
@@ -129,6 +130,8 @@ def load():
 	if own['simulate']==False and own['load']==False:
 		# graphisme
 		setGraphism()
+		# score
+		conf.loadScores(gl.mapName)
 		# vehicules
 		gl.cars = []
 		gl.objectsCars = []
@@ -202,7 +205,7 @@ def placeCars(own):
 	x = False
 	while i < len(gl.conf[0]) :
 		if gl.conf[0][j][1]=='human' and ( (not hasattr(gl,"dispPlayers") and i==0) or gl.conf[0][j][0] in gl.dispPlayers) or gl.conf[0][j][0]=='AI':
-			child=addVehicleLoader( own, j, gl.conf[0][i][3], gl.conf[0][i][4] )
+			child=addVehicleLoader( own, j, gl.conf[0][i][0], gl.conf[0][i][3], gl.conf[0][i][4] )
 			child['AI']=child.childrenRecursive['AI']
 			child['AI'].removeParent()
 			if gl.conf[0][j][1]=='human':
@@ -233,8 +236,8 @@ def keyMapper():
 	ACTIVE = gl.KX_INPUT_ACTIVE
 	JUST_ACTIVATED = gl.KX_INPUT_JUST_ACTIVATED
 	for actualCar in gl.cars: # for each car
-		if actualCar[1]['arrived'] and actualCar[0] not in gl.carArrived: # if just arrived
-			gl.carArrived.append([ actualCar[0], actualCar[1]['car'].getRaceDuration() ])
+		if actualCar[1]['arrived'] and actualCar[0] not in [carArrived[0] for carArrived in gl.carArrived]: # if just arrived
+			gl.carArrived.append([ actualCar[0], actualCar[1]['playerName'], actualCar[1]['car'].getRaceDuration() ])
 		else:
 			for currentKey in gl.conf[0][int(actualCar[1]['id'])][2]: # for each actions
 				if currentKey[2] == False and keyboard.events[int(currentKey[1])] == ACTIVE:
@@ -249,6 +252,9 @@ def checkArrived():
 	scene = gl.getCurrentScene()
 	nbCar=len(gl.cars)
 	if len(gl.carArrived)==nbCar:
+		for car in gl.carArrived:
+			gl.scores.newScore(car[1], car[2])
+		conf.saveScores()
 		if gl.mapName == 'anneauDeTest':
 			with open('menustat', 'w') as f:
 				f.write(gl.mapName)

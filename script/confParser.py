@@ -3,6 +3,7 @@ import os
 from logs import log
 import objects
 import json
+from scores import Scores
 
 def lineParse(line):
 	param = line.split("=")
@@ -251,15 +252,17 @@ def loadCounter():
 		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ], [ "under",  0.0,  0.08 ] ]
 
 def loadScores(mapName):
-	with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json', 'r') as f:
-		try:
-			gl.scores = json.load(f)
-		except:
-			log('error', 'json des scores mal formaté')
-	if not hasattr(gl, 'score'):
-		gl.scores = Scores(mapName)
+	scoresFile = gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json'
+	gl.scores = Scores(mapName)
+	if os.path.isfile(scoresFile):
+		with open(scoresFile, 'r') as f:
+			try:
+				gl.scores.scores = json.load(f)
+			except:
+				log('error', 'json des scores mal formaté')
+
 
 def saveScores():
 	if hasattr(gl,'scores'):
-		with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(mapName)+os.sep+'scores.json', 'w') as f:
-			json.dump(gl.scores, f, sort_keys=True, indent=4)
+		with open(gl.expandPath("//")+'objects'+os.sep+'maps'+os.sep+str(gl.scores.mapName)+os.sep+'scores.json', 'w') as f:
+			json.dump(gl.scores.scores, f, sort_keys=True, indent=4)

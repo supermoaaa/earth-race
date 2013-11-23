@@ -1,8 +1,8 @@
 # -- coding: utf-8 --
 
 import bgui
-import bge
 import webbrowser
+import confParser as conf
 
 from bge import logic as gl
 from bge import render as rd
@@ -92,11 +92,13 @@ class StatSys(bgui.System):
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 		# Create a keymap for keyboard input
-		self.keymap = {getattr(bge.events, val): getattr(bgui, val) for val in dir(bge.events) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val) }
+		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val) }
+		
+		print(conf.loadScores(gl.mapName))
 
 
 		# Now setup the scene callback so we can draw
-		bge.logic.getCurrentScene().post_draw.append(self.render)
+		gl.getCurrentScene().post_draw.append(self.render)
 
 	def main(self):
 		"""A high-level method to be run every frame"""
@@ -104,46 +106,45 @@ class StatSys(bgui.System):
 		#self.update()
 
 		# Handle the mouse
-		mouse = bge.logic.mouse
+		mouse = gl.mouse
 
 		pos = list(mouse.position)
-		pos[0] *= bge.render.getWindowWidth()
-		pos[1] = bge.render.getWindowHeight() - (bge.render.getWindowHeight() * pos[1])
+		pos[0] *= rd.getWindowWidth()
+		pos[1] = rd.getWindowHeight() - (rd.getWindowHeight() * pos[1])
 
 		mouse_state = bgui.BGUI_MOUSE_NONE
 		mouse_events = mouse.events
 
-		if mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_JUST_ACTIVATED:
+		if mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_JUST_ACTIVATED:
 			mouse_state = bgui.BGUI_MOUSE_CLICK
 			handle_buffered = gl.device.play(gl.factory_buffered)
-		elif mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_JUST_RELEASED:
+		elif mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_JUST_RELEASED:
 			mouse_state = bgui.BGUI_MOUSE_RELEASE
-		elif mouse_events[bge.events.LEFTMOUSE] == bge.logic.KX_INPUT_ACTIVE:
+		elif mouse_events[ev.LEFTMOUSE] == gl.KX_INPUT_ACTIVE:
 			mouse_state = bgui.BGUI_MOUSE_ACTIVE
 
 		self.update_mouse(pos, mouse_state)
 
 		# Handle the keyboard
-		keyboard = bge.logic.keyboard
+		keyboard = gl.keyboard
 
 		key_events = keyboard.events
-		is_shifted = key_events[bge.events.LEFTSHIFTKEY] == bge.logic.KX_INPUT_ACTIVE or \
-					key_events[bge.events.RIGHTSHIFTKEY] == bge.logic.KX_INPUT_ACTIVE
+		is_shifted = key_events[ev.LEFTSHIFTKEY] == gl.KX_INPUT_ACTIVE or \
+					key_events[ev.RIGHTSHIFTKEY] == gl.KX_INPUT_ACTIVE
 
 		for key, state in keyboard.events.items():
-			if state == bge.logic.KX_INPUT_JUST_ACTIVATED:
+			if state == gl.KX_INPUT_JUST_ACTIVATED:
 				self.update_keyboard(self.keymap[key], is_shifted)
 
 		# Now setup the scene callback so we can draw
-		bge.logic.getCurrentScene().pre_draw = [self.render]
+		gl.getCurrentScene().pre_draw = [self.render]
 
 def main(cont):
 	own = cont.owner
-	mouse = bge.logic.mouse
 
 	if 'Stat' not in own:
 		# Create our system and show the mouse
 		own['Stat'] = StatSys()
-		mouse.visible = True
+		gl.mouse.visible = True
 	else:
 		own['Stat'].main()

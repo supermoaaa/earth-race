@@ -1,4 +1,4 @@
-from os import path, rename
+from os import path, rename, remove
 import logging
 
 def initLogs():
@@ -8,7 +8,11 @@ def initLogs():
 	#~ except:
 		#~ pass
 	if path.isfile('earth-race.log'):
-		rename('earth-race.log','earth-race.log.old')
+		try:
+			rename('earth-race.log','earth-race.log.old')
+		except:
+			remove('earth-race.log.old')
+			rename('earth-race.log','earth-race.log.old')
 	logger = logging.getLogger('earth-race')
 	logger.setLevel(logging.DEBUG) # niveau max de log que peuvent prendre le log ou la console
 	fh = logging.FileHandler('earth-race.log')

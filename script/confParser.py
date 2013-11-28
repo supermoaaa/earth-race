@@ -243,7 +243,7 @@ def saveConf():
 		json.dump([gl.graphic,gl.sound,gl.skin], f, sort_keys=True, indent=4)
 
 def loadCounter():
-	with open(gl.expandPath("//")+'counter.json', 'r') as f:
+	with open(gl.expandPath("//")+'textInGame.json', 'r') as f:
 		try:
 			gl.counterPos = json.load(f)
 		except:
@@ -260,7 +260,6 @@ def loadScores(mapName):
 				gl.scores.scores = json.load(f)
 			except:
 				log('error', 'json des scores mal formaté')
-
 
 def saveScores():
 	if hasattr(gl,'scores'):

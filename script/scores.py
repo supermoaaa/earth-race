@@ -2,6 +2,7 @@ class Scores:
 	def __init__(self, mapName):
 		self.mapName=mapName;
 		self.scores={};
+		self.lastScores=[];
 
 	def __json__(self, request):
 		return dict(
@@ -15,6 +16,10 @@ class Scores:
 		self.scores[playerName].append(duration)
 		self.scores[playerName].sort()
 		self.scores[playerName]=self.scores[playerName][0:4]
+		self.lastScores.append([playerName, duration])
+
+	def getLastScores(self):
+		return sorted(self.lastScores, key=lambda x:x[1])
 
 	def getBestScores(self):
 		orderedScores = sorted(self.scores.items(), key=lambda x: x[1])[:8]

@@ -334,7 +334,8 @@ class vehicleSimulation(object):
 			else:
 				main.worldPosition = gl.checkpoints[len(gl.checkpoints)-1].worldPosition
 				main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
-			self.respawned = 2
+			self.gearSelect = 1
+			self.respawned = 10
 			self.main.suspendDynamics()
 
 	def __checkRespaw(self):

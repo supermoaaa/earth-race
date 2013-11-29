@@ -73,6 +73,7 @@ class vehicleSimulation(object):
 				else:
 					logs.log("error","impossible de trouver l'objet : "+param[1]+" comme fils de : "+str(self.main))
 		self.main.suspendDynamics()
+		self.respawned = 0
 
 	def __del__(self):
 		self.unloadWheel()
@@ -133,7 +134,7 @@ class vehicleSimulation(object):
 		return child
 
 	def simulate( self ):
-		if self.simulated and self.physic and len(self.wheels)>0:
+		if self.simulated and self.physic and len(self.wheels)>0 and self.respawned==0:
 			logs.log("debug","-----------------------------")
 			logs.log("debug","simulate")
 			cont = gl.getCurrentController()
@@ -248,6 +249,13 @@ class vehicleSimulation(object):
 
 			if respawn:
 				self.respawn()
+		elif self.respawned>0:
+			self.respawn()
+			self.respawned -= 1
+			if self.respawned == 0:
+				self.setPhysic(True)
+		#~ else:
+			#~ self.__checkRespaw()
 
 	def __run(self):
 		if len(self.wheels)>0:
@@ -316,13 +324,24 @@ class vehicleSimulation(object):
 		main.applyTorque(zeroVector)
 		main.setLinearVelocity(zeroVector)
 		main.setAngularVelocity(zeroVector)
-		if self.nextIdCheckpoint >= 1:
-			logs.log("debug",str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
-			main.worldPosition = gl.checkpoints[self.nextIdCheckpoint-1].worldPosition
-			main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
-		else:
-			main.worldPosition = gl.checkpoints[len(gl.checkpoints)-1].worldPosition
-			main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
+		for w in self.wheels:
+			w.respawn()
+		if self.respawned==0:
+			if self.nextIdCheckpoint >= 1:
+				logs.log("debug",str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
+				main.worldPosition = gl.checkpoints[self.nextIdCheckpoint-1].worldPosition
+				main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
+			else:
+				main.worldPosition = gl.checkpoints[len(gl.checkpoints)-1].worldPosition
+				main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
+			self.respawned = 2
+			self.main.suspendDynamics()
+
+	def __checkRespaw(self):
+		if self.respawned>0:
+			self.respawned -= 1
+			if self.respawned == 0 and self.physic:
+				self.main.restoreDynamics()
 
 	def getAI(self):
 		return self.owner['AI']

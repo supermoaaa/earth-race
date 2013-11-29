@@ -318,3 +318,25 @@ class r_wheel:
 		else:
 			return 1
 		#~ return 1
+
+	def respawn(self):
+		self.p_vel = Vector([0,0,0])
+		self.w_vel = 0.0
+		self.w_ang = 0.0
+		self.w_steer_current = 0.0
+		self.w_steer = 0.0
+		self.p_pos = Vector([0,0,0])
+		self.ray = [None,None,None]
+		self.hit = False
+		self.hpos = Vector([0,0,0])
+		self.hmat = None
+		self.hvel = Vector([0,0,0])
+		self.force = Vector([0,0,0])
+		self.force_pos = Vector([0,0,0])
+		self.kph = 0.0
+		self.mph = 0.0
+		zeroVector = Vector([0,0,0])
+		#~ self.wheel.applyForce(zeroVector)
+		self.wheel.applyTorque(zeroVector)
+		#~ self.wheel.setLinearVelocity(zeroVector)
+		self.wheel.setAngularVelocity(zeroVector)

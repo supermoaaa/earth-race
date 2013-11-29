@@ -1,3 +1,4 @@
+from bge import logic as gl
 from operator import itemgetter
 
 class Scores:

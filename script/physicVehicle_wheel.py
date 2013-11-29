@@ -144,7 +144,7 @@ class r_wheel:
 
 	def setSteer(self, steer):
 		steer_rate = ( self.w_steer_state-0.001 )*( 300-abs( self.kph ) )/300 + 0.001
-		self.w_steer = -steer*self.w_steer_state
+		self.w_steer = -steer*steer_rate
 
 	def step(self, dt):
 

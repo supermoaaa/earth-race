@@ -14,7 +14,8 @@ class StatSys(bgui.System):
 	A subclass to handle our game specific gui
 	"""
 
-	### fonctions de retour a menu principal
+	def quitter(self, quitter_button):
+		gl.endGame()
 
 	def retour(self, retour_button):
 		for lib in gl.LibList():
@@ -52,9 +53,18 @@ class StatSys(bgui.System):
 		self.main_stat.img = bgui.Image(self.main_stat, 'menuItems/menu.jpg', size=[1.0, 1.0],
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
+#############bouton quitter############################
+		self.quitter_button = bgui.ImageButton(self.main_stat, 'quitter', sub_theme='menu',
+				size=[0.24, 0.08], pos=[0.75, 0.08])
+
+		self.quitter_label = bgui.Label(self.quitter_button, 'quitter', text="QUITTER", pt_size=24,
+				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+		# Setup an on_click callback
+		self.quitter_button.on_click = self.quitter
 #############bouton retour au menu############################
 		self.retour_button = bgui.ImageButton(self.main_stat, 'retour', sub_theme='menu',
-				size=[0.24, 0.08], pos=[0.75, 0.08])
+				size=[0.24, 0.08], pos=[0.75, 0.18])
 
 		self.retour_label = bgui.Label(self.retour_button, 'retour', text="RETOUR AU MENU", pt_size=24,
 				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -64,7 +74,7 @@ class StatSys(bgui.System):
 
 #############bouton relancer############################
 		self.relancer_button = bgui.ImageButton(self.main_stat, 'relancer', sub_theme='menu',
-				size=[0.24, 0.08], pos=[0.75, 0.18])
+				size=[0.24, 0.08], pos=[0.75, 0.28])
 
 		self.relancer_label = bgui.Label(self.relancer_button, 'relancer', text="RECOMMENCER", pt_size=24,
 				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -74,7 +84,7 @@ class StatSys(bgui.System):
 
 #############bouton credits############################
 		self.credits_button = bgui.ImageButton(self.main_stat, 'credits', sub_theme='menu',
-				size=[0.24, 0.08], pos=[0.75, 0.28])
+				size=[0.24, 0.08], pos=[0.75, 0.38])
 
 		self.credits_label = bgui.Label(self.credits_button, 'credits', text="CREDITS", pt_size=24,
 				options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -94,7 +104,9 @@ class StatSys(bgui.System):
 		# Create a keymap for keyboard input
 		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val) }
 		
-		print(conf.loadScores(gl.mapName))
+		
+		conf.loadScores(gl.mapName)
+		print(gl.scores.scores)
 
 
 		# Now setup the scene callback so we can draw

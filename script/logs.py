@@ -8,8 +8,10 @@ def initLogs():
 	#~ except:
 		#~ pass
 	if path.isfile('earth-race.log'):
-		if path.isfile('earth-race.log.old'):
+		try:
 			remove('earth-race.log.old')
+		except:
+			pass
 		rename('earth-race.log','earth-race.log.old')
 	logger = logging.getLogger('earth-race')
 	logger.setLevel(logging.DEBUG) # niveau max de log que peuvent prendre le log ou la console

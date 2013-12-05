@@ -1,7 +1,8 @@
 import aud
 import threading
+from logs import log
 
-class sound(object):
+class Sound(object):
 	""" sound manager """
 
 	def __init__ ( self, buffered=False):
@@ -14,9 +15,12 @@ class sound(object):
 		self.looped = False
 
 	def load( self, soundPath):
-		self.factory = aud.Factory(soundPath)
-		if self.buffered:
-			self.factory = aud.Factory.buffer(self.factory)
+		try:
+			self.factory = aud.Factory(soundPath)
+			if self.buffered:
+				self.factory = aud.Factory.buffer(self.factory)
+		except:
+			log("error","impossible de trouver le fichier "+soundPath)
 
 	def play(self):
 		self.stop()
@@ -51,20 +55,20 @@ class sound(object):
 
 	def setPitch( self, pitch ):
 		if self.handle != None:
+			if pitch<0:pitch=-pitch
 			self.handle.pitch = pitch
 
 	def loop( self, looped = True):
-		print('loop'+str(looped))
 		self.looped = looped
 		if self.handle != None:
 			if looped:
-				self.handle.loop_count = 3
+				self.handle.loop_count = -1 #3 pour les tests, sinon -1
 			else:
 				self.handle.loop_count = 0
 
-class music:
+class Music:
 	def __init__( self, playlist ):
-		self.player = sound()
+		self.player = Sound()
 		self.playlist = playlist
 		self.idPlayed = -1
 		self.stepThread = None

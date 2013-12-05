@@ -11,6 +11,7 @@ from time import time
 from datetime import timedelta
 import os
 from mathutils import Vector
+from sound import Sound
 import objects
 import logs
 
@@ -41,6 +42,8 @@ class vehicleSimulation(object):
 			gl.nbLaps = 1
 		self.simulated = False
 		self.physic = physic
+		self.sound = Sound(True)
+		self.sound.loop()
 		self.boostPower = int()
 		self.defaultCam = None
 		self.cams = []
@@ -72,6 +75,8 @@ class vehicleSimulation(object):
 					self.cams.append(cam)
 				else:
 					logs.log("error","impossible de trouver l'objet : "+param[1]+" comme fils de : "+str(self.main))
+			elif param[0] == "sound":
+				self.sound.load(param[1])
 		self.main.suspendDynamics()
 		self.respawned = 0
 
@@ -171,6 +176,9 @@ class vehicleSimulation(object):
 			logs.log("debug","gear"+str(self.gearSelect))
 			if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
 			if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
+			logs.log("debug", "gas : "+str(gas))
+			if gas<0:gas=-gas
+			self.sound.setPitch(gas/3000+0.2)
 
 			#Camera-steering
 			#~ cambase = main.childrenRecursive["camera"]
@@ -284,6 +292,7 @@ class vehicleSimulation(object):
 		self.setPhysic(True)
 		self.startCam()
 		self.startTime = time()
+		self.sound.play()
 
 	def startCam(self):
 		if self.defaultCam!=None:

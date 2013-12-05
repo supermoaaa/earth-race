@@ -29,10 +29,15 @@ def loadVehicle(vehicleType, endFunction):
 		# load vehicle properties
 		propertieFile = open(path+vehicleType+".cfg", "r")
 		for line in propertieFile:
-			gl.conf[1][vehicleType].append( lineParse(line) )
+			param = lineParse(line)
+			if param[0]=="sound":
+				param[1] = path+param[1]
+			gl.conf[1][vehicleType].append( param )
+
 		gl.conf[1][vehicleType].append(['users',1])
 		propertieFile.close
 		log("info","loadVehicle "+vehicleType)
+		log("debug","vehicle conf : "+str(gl.conf[1][vehicleType]))
 	else:
 		for param in gl.conf[1][vehicleType]:
 			if param[0]=="users":

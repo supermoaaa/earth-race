@@ -174,11 +174,10 @@ class vehicleSimulation(object):
 				self.gearSelect -= 1
 			gas = 0
 			logs.log("debug","gear"+str(self.gearSelect))
-			if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
-			if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
+			#~ if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
+			if accelerate>0.0: gas = self.__calcGear(speed,self.gearSelect) * accelerate
+			#~ if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 			logs.log("debug", "gas : "+str(gas))
-			if gas<0:gas=-gas
-			self.sound.setPitch(gas/3000+0.2)
 
 			#Camera-steering
 			#~ cambase = main.childrenRecursive["camera"]
@@ -287,6 +286,47 @@ class vehicleSimulation(object):
 			main.applyForce(lin_f)
 			main.applyTorque(ang_f)
 
+	def __calcGear(self, speed, gear):
+		if gear == 0:
+			minSpeed=-20
+			maxSpeed=10
+			maxPower=-1500
+		elif gear == 1:
+			minSpeed=-20
+			maxSpeed=40
+			maxPower=3000
+		elif gear == 2:
+			minSpeed=-15
+			maxSpeed=75
+			maxPower=2000
+		elif gear == 3:
+			minSpeed=0
+			maxSpeed=95
+			maxPower=1500
+		elif gear == 4:
+			minSpeed=30
+			maxSpeed=130
+			maxPower=1500
+		elif gear == 5:
+			minSpeed=60
+			maxSpeed=160
+			maxPower=1500
+		elif gear == 6:
+			minSpeed=90
+			maxSpeed=190
+			maxPower=1500
+
+		rangeSpeed = maxSpeed-minSpeed
+		middleSpeed = rangeSpeed/2+minSpeed
+		coef = ((rangeSpeed / 51)**6)*100000000.0
+		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
+
+		self.sound.setPitch(force/(maxPower/2)+0.2)
+		logs.log("debug","speed : "+str(speed))
+		logs.log("debug","gear : "+str(gear))
+		logs.log("debug","force : "+str(force))
+		return force
+
 	def start(self):
 		self.simulated = True
 		self.setPhysic(True)
@@ -301,6 +341,7 @@ class vehicleSimulation(object):
 
 	def stop(self):
 		self.endTime = time()
+		self.sound.stop()
 		self.simulated = False
 		self.setPhysic(False)
 		self.owner['arrived'] = True

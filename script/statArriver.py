@@ -3,6 +3,7 @@
 import bgui
 import webbrowser
 import confParser as conf
+#import scores
 
 from bge import logic as gl
 from bge import render as rd
@@ -101,12 +102,30 @@ class StatSys(bgui.System):
 		self.tableau.img = bgui.Image(self.tableau, 'menuItems/fondStat.png', size=[1.0, 1.0],
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
+
+		print(gl.scores.getLastScores())
+		# entete
+		self.JoueurCol=bgui.Label(self.tableau, 'JoueurCol', text="JOUEUR", pt_size=24, pos=[0.12, 0.85])
+		self.TempsCol=bgui.Label(self.tableau, 'TempsCol', text="TEMPS", pt_size=24, pos=[0.36, 0.85])
+		self.ToursCol=bgui.Label(self.tableau, 'ToursCol', text="TOURS", pt_size=24, pos=[0.76, 0.85])
+		
+		joueurListe = ''
+		joueurTemps = ''
+		joueurTours = ''
+		for element in gl.scores.getLastScores():
+			joueurListe += element[0] + '\n'
+			joueurTemps += element[1] + '\n'
+			joueurTours += str(element[2]) + '\n'
+		
+		self.JoueurListe = bgui.Label(self.tableau, 'JoueurListe', text = joueurListe, pt_size=24, pos=[0.12, 0.80])
+		self.JoueurTemps = bgui.Label(self.tableau, 'JoueurTemps', text = joueurTemps, pt_size=24, pos=[0.36, 0.80])
+		self.JoueurTours = bgui.Label(self.tableau, 'JoueurTours', text = joueurTours, pt_size=24, pos=[0.76, 0.80])
+
+
+
 		# Create a keymap for keyboard input
 		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val) }
 		
-		
-		conf.loadScores(gl.mapName)
-		print(gl.scores.scores)
 
 
 		# Now setup the scene callback so we can draw

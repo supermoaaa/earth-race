@@ -322,15 +322,18 @@ class vehicleSimulation(object):
 		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
 
 		#~ self.sound.setPitch(force/(maxPower/2)+0.2)
+		self.__motorSound(speed, minSpeed, maxSpeed)
+		logs.log("debug","speed : "+str(speed))
+		logs.log("debug","gear : "+str(gear))
+		logs.log("debug","force : "+str(force))
+		return force
+
+	def __motorSound(self, speed, minSpeed, maxSpeed):
 		if speed>minSpeed:
 			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
 		else:
 			pitch = 0
 		self.sound.setPitch(pitch+0.2)
-		logs.log("debug","speed : "+str(speed))
-		logs.log("debug","gear : "+str(gear))
-		logs.log("debug","force : "+str(force))
-		return force
 
 	def start(self):
 		self.simulated = True

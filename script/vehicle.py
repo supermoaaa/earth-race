@@ -321,7 +321,12 @@ class vehicleSimulation(object):
 		coef = ((rangeSpeed / 51)**6)*100000000.0
 		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
 
-		self.sound.setPitch(force/(maxPower/2)+0.2)
+		#~ self.sound.setPitch(force/(maxPower/2)+0.2)
+		if speed>minSpeed:
+			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
+		else:
+			pitch = 0
+		self.sound.setPitch(pitch+0.2)
 		logs.log("debug","speed : "+str(speed))
 		logs.log("debug","gear : "+str(gear))
 		logs.log("debug","force : "+str(force))

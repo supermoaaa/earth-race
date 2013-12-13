@@ -175,7 +175,9 @@ class vehicleSimulation(object):
 			gas = 0
 			logs.log("debug","gear"+str(self.gearSelect))
 			#~ if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
-			if accelerate>0.0: gas = self.__calcGear(speed,self.gearSelect) * accelerate
+			gas, maxPower, speed, minSpeed, maxSpeed = self.__calcGear( speed, self.gearSelect )
+			gas *= accelerate
+			self.__motorSound( (gas/maxPower), speed, minSpeed, maxSpeed)
 			#~ if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 			logs.log("debug", "gas : "+str(gas))
 
@@ -320,19 +322,20 @@ class vehicleSimulation(object):
 		middleSpeed = rangeSpeed/2+minSpeed
 		coef = ((rangeSpeed / 51)**6)*100000000.0
 		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
-
-		#~ self.sound.setPitch(force/(maxPower/2)+0.2)
-		self.__motorSound(speed, minSpeed, maxSpeed)
 		logs.log("debug","speed : "+str(speed))
 		logs.log("debug","gear : "+str(gear))
 		logs.log("debug","force : "+str(force))
-		return force
+		return force, maxPower, speed, minSpeed, maxSpeed
 
-	def __motorSound(self, speed, minSpeed, maxSpeed):
+	def __motorSound(self, gas, speed, minSpeed, maxSpeed):
 		if speed>minSpeed:
 			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
 		else:
 			pitch = 0
+		if pitch<0.5:
+			pitch *= gas+1
+		else:
+			pitch *= 2
 		self.sound.setPitch(pitch+0.2)
 
 	def start(self):

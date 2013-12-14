@@ -62,7 +62,7 @@ class vehicleSimulation(object):
 				pos_ob = self.owner.childrenRecursive.get(param[1])
 				#self.addSteeringWheel( pos_ob ) # pos_ob, steering_wheel
 			elif param[0] == "gear":
-				self.gearCalcs.append(''.join(param[1:]))
+				self.gearCalcs.append(param[1])
 			elif param[0] == "boostPower":
 				self.boostPower=int(param[1])
 			elif param[0] == "mass":
@@ -289,35 +289,7 @@ class vehicleSimulation(object):
 			main.applyTorque(ang_f)
 
 	def __calcGear(self, speed, gear):
-		if gear == 0:
-			minSpeed=-20
-			maxSpeed=10
-			maxPower=-1500
-		elif gear == 1:
-			minSpeed=-20
-			maxSpeed=40
-			maxPower=3000
-		elif gear == 2:
-			minSpeed=-15
-			maxSpeed=75
-			maxPower=2000
-		elif gear == 3:
-			minSpeed=0
-			maxSpeed=95
-			maxPower=1500
-		elif gear == 4:
-			minSpeed=30
-			maxSpeed=130
-			maxPower=1500
-		elif gear == 5:
-			minSpeed=60
-			maxSpeed=160
-			maxPower=1500
-		elif gear == 6:
-			minSpeed=90
-			maxSpeed=190
-			maxPower=1500
-
+		minSpeed, maxSpeed, maxPower = self.gearCalcs[gear]
 		rangeSpeed = maxSpeed-minSpeed
 		middleSpeed = rangeSpeed/2+minSpeed
 		coef = ((rangeSpeed / 51)**6)*100000000.0

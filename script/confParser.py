@@ -9,12 +9,26 @@ def lineParse(line):
 	param = line.split("=")
 	param[0] = param[0].split(" ")[0]
 	param = [param[0]]+param[1].split(" ")
+	#delete return character
 	try:
 		param[-1] = param[-1].replace('\n','')
 	except:
 		pass
 	param.remove("")
+	#try to parse a simple array
+	try:
+		param[1]=(''.join(param[1:])).split('[')[1].split(']')[0].split(',')
+		param[1]=list(map(typeParse,param[1]))
+	except:
+		pass
 	return param
+
+def typeParse(var):
+	try:
+		var = float(var)
+	except:
+		pass
+	return var
 
 def loadVehicle(vehicleType, endFunction):
 	path = gl.expandPath("//")+"objects"+os.sep+"vehicles"+os.sep+vehicleType+os.sep

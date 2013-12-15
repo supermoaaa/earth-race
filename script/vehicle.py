@@ -32,7 +32,7 @@ class vehicleSimulation(object):
 		self.framerate = framerate
 		bge.logic.setLogicTicRate(framerate)
 
-		self.gearCalcs = []
+		self.gears = []
 		self.gearSelect = 1
 		self.nextIdCheckpoint = 1
 		self.nbLaps = 0
@@ -62,7 +62,7 @@ class vehicleSimulation(object):
 				pos_ob = self.owner.childrenRecursive.get(param[1])
 				#self.addSteeringWheel( pos_ob ) # pos_ob, steering_wheel
 			elif param[0] == "gear":
-				self.gearCalcs.append(param[1])
+				self.gears.append(param[1])
 			elif param[0] == "boostPower":
 				self.boostPower=int(param[1])
 			elif param[0] == "mass":
@@ -168,16 +168,15 @@ class vehicleSimulation(object):
 			self.__keyChangeCam( changeCam )
 
 			speed = main['kph']
-			if upGear and self.gearSelect < ( len(self.gearCalcs) - 1) and not downGear:
+			if upGear and self.gearSelect < ( len(self.gears) - 1) and not downGear:
 				self.gearSelect += 1
 			if downGear and self.gearSelect > 0 and not upGear:
 				self.gearSelect -= 1
 			gas = 0
 			logs.log("debug","gear"+str(self.gearSelect))
-			#~ if accelerate>0.0: gas += eval(self.gearCalcs[self.gearSelect]) * accelerate	# accelerate
 			gas, maxPower, speed, minSpeed, maxSpeed = self.__calcGear( speed, self.gearSelect )
 			gas *= accelerate
-			self.__motorSound( (gas/maxPower), speed, minSpeed, maxSpeed)
+			self.__motorSound( gas, maxPower, speed, minSpeed, maxSpeed)
 			#~ if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
 			logs.log("debug", "gas : "+str(gas))
 
@@ -289,23 +288,22 @@ class vehicleSimulation(object):
 			main.applyTorque(ang_f)
 
 	def __calcGear(self, speed, gear):
-		minSpeed, maxSpeed, maxPower = self.gearCalcs[gear]
+		minSpeed, maxSpeed, maxPower = self.gears[gear]
 		rangeSpeed = maxSpeed-minSpeed
 		middleSpeed = rangeSpeed/2+minSpeed
 		coef = ((rangeSpeed / 51)**6)*100000000.0
 		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
-		logs.log("debug","speed : "+str(speed))
-		logs.log("debug","gear : "+str(gear))
-		logs.log("debug","force : "+str(force))
 		return force, maxPower, speed, minSpeed, maxSpeed
 
-	def __motorSound(self, gas, speed, minSpeed, maxSpeed):
-		if speed>minSpeed:
+	def __motorSound(self, gas, maxPower, speed, minSpeed, maxSpeed):
+		if (maxPower>=0 and speed>minSpeed) or (maxPower<0 and speed<maxSpeed):
+			if maxPower<0:
+				speed = -speed
 			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
 		else:
 			pitch = 0
 		if pitch<0.5:
-			pitch *= gas+1
+			pitch *= gas/maxPower + 1
 		else:
 			pitch *= 2
 		self.sound.setPitch(pitch+0.2)

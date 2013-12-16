@@ -296,12 +296,17 @@ class vehicleSimulation(object):
 		return force, maxPower, speed, minSpeed, maxSpeed
 
 	def __motorSound(self, gas, maxPower, speed, minSpeed, maxSpeed):
-		if (maxPower>=0 and speed>minSpeed) or (maxPower<0 and speed<maxSpeed):
-			if maxPower<0:
-				speed = -speed
+		if (maxPower>=0 and speed>minSpeed):
+			if gas==0 and minSpeed<0:
+				minSpeed=0
 			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
+		elif (maxPower<0 and speed<maxSpeed):
+			if gas==0 and maxSpeed>0:
+				maxSpeed=0
+			pitch = (speed-maxSpeed)/(minSpeed-maxSpeed)
 		else:
 			pitch = 0
+		logs.log("error","pitch : "+str(pitch))
 		if pitch<0.5:
 			pitch *= gas/maxPower + 1
 		else:

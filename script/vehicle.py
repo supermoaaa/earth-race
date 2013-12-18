@@ -20,7 +20,7 @@ from physicVehicle_math import *
 #from steeringWheel import *
 
 class vehicleSimulation(object):
-	def __init__( self, vehicle_type, owner, physic=True, parent=False, creator = None, framerate = 60 ):
+	def __init__( self, vehicle_type, owner, physic=True, parent=False, shadowObj = None, creator = None, framerate = 60 ):
 		scene = gl.getCurrentScene()
 		self.owner = owner
 		owner['gear']=1
@@ -28,6 +28,7 @@ class vehicleSimulation(object):
 		self.vehicle_type = vehicle_type
 		self.wheels = []
 		self.steering_wheel = None
+		self.shadowObj = shadowObj
 		self.creator = creator
 		self.framerate = framerate
 		bge.logic.setLogicTicRate(framerate)
@@ -240,6 +241,8 @@ class vehicleSimulation(object):
 			self.__run()
 			self.__checkCheckpoint()
 
+			self.__positionShadowObj()
+
 			#Turn the steering wheel
 			#~ sw = main.children["evo_hull"].childrenRecursive["evo_steeringwheel"]
 			#~ sw.localOrientation = [(wheels[0].w_steer_current + wheels[1].w_steer_current)*2,-pi/8,-pi/2]
@@ -306,12 +309,18 @@ class vehicleSimulation(object):
 			pitch = (speed-maxSpeed)/(minSpeed-maxSpeed)
 		else:
 			pitch = 0
-		logs.log("error","pitch : "+str(pitch))
 		if pitch<0.5:
 			pitch *= gas/maxPower + 1
 		else:
 			pitch *= 2
 		self.sound.setPitch(pitch+0.2)
+
+	def __positionShadowObj(self):
+		tmpPosition = list(self.main.worldPosition)
+		tmpPosition[0]+=5
+		tmpPosition[1]+=1
+		tmpPosition[2]+=10
+		self.shadowObj.worldPosition = tmpPosition
 
 	def start(self):
 		self.simulated = True

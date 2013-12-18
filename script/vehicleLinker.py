@@ -12,6 +12,7 @@ class vehicleLinker(object):
 		self.camera = camera()
 		self.vehicle_type = None
 		self.car = None
+		self.shadowObj = None
 		self.wheels_type = None
 		self.wheels_free = True
 		self.physic = True
@@ -26,6 +27,7 @@ class vehicleLinker(object):
 		if 'wheels_type' in args: self.setWheels( args['wheels_type'] )
 		if 'camera_object' in args: self.camera.setParams( camera = args['camera_object'] )
 		if 'viewPort' in args: self.camera.setParams( viewPort = args['viewPort'] )
+		if 'shadowObj' in args: self.shadowObj = args['shadowObj']
 
 	def setParent( self, parent ):
 		if self.car != None:
@@ -48,7 +50,7 @@ class vehicleLinker(object):
 		log("debug","finish loading vehicle : "+self.vehicle_type)
 		wheels_type=self.wheels_type
 		conf.setFinishLoadedVehicle(self.vehicle_type)
-		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent, self )
+		self.car = vehicle.vehicleSimulation( self.vehicle_type, self.objPos, self.physic, self.parent, self.shadowObj, self )
 		self.__updateWheels()
 		self.camera.setParams( car = self.car )
 

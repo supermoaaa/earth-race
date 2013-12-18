@@ -125,6 +125,10 @@ class vehicleLinker(object):
 			self.car.start()
 			self.__updateCamera()
 
+	def startSound( self ):
+		if self.car != None and self.isVehicleLoaded():
+			self.car.startSound()
+
 	def startCam( self ):
 		if self.car != None and self.isVehicleLoaded():
 			self.__updateCamera()

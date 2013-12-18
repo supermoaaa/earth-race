@@ -329,6 +329,10 @@ class vehicleSimulation(object):
 		self.startTime = time()
 		self.sound.play()
 
+	def startSound(self):
+		self.sound.play()
+		self.__motorSound( 0, 1, 0, 0, 1)
+
 	def startCam(self):
 		if self.defaultCam!=None:
 			self.defaultCam.useViewport = True

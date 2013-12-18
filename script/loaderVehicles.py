@@ -173,6 +173,7 @@ def countDownStart(own):
 		own['load'] = True
 		for actualCar in gl.cars:
 			actualCar[1]['car'].startCam()
+			actualCar[1]['car'].startSound()
 	elif 'countdownStartTimeStamp' in own:
 		compteurOnTop()
 		count = time()-(own['countdownStartTimeStamp']/100)

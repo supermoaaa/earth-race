@@ -291,37 +291,29 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.gPosJoueur1 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur1', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.75], options=bgui.BGUI_DEFAULT)
 		self.gPosJoueur1.img = bgui.Image(self.gPosJoueur1 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
-		# Setup an on_click callback
-		#self.gPosJoueur1.on_click = self.leftTours
 
 
 ############|||||||position 2||||||||########################
 		self.gPosJoueur2 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur2', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.63], options=bgui.BGUI_DEFAULT)
 		self.gPosJoueur2.img = bgui.Image(self.gPosJoueur2 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
-		# Setup an on_click callback
-		#self.gPosJoueur2.on_click = self.leftTours
 
 ############|||||||position 3||||||||########################
 		self.gPosJoueur3 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur3', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.49], options=bgui.BGUI_DEFAULT)
 		self.gPosJoueur3.img = bgui.Image(self.gPosJoueur3 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
-		# Setup an on_click callback
-		#self.gPosJoueur3.on_click = self.leftTours
 
 ############|||||||position 4||||||||########################
 		self.gPosJoueur4 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur4', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.36], options=bgui.BGUI_DEFAULT)
 		self.gPosJoueur4.img = bgui.Image(self.gPosJoueur4 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
-		# Setup an on_click callback
-		#self.gPosJoueur4.on_click = self.leftTours
+
 
 ############|||||||position 5||||||||########################
 		self.gPosJoueur5 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur5', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.16, 0.23], options=bgui.BGUI_DEFAULT)
 		self.gPosJoueur5.img = bgui.Image(self.gPosJoueur5 , 'menuItems/departjoueurs.png', size=[1.0, 1.0], texco=[(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)], options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
-		# Setup an on_click callback
-		#self.gPosJoueur5.on_click = self.leftTours
+
 
 ############|||||||position 6||||||||########################
 		self.gPosJoueur6 = bgui.Frame(self.grillePosJoueurs, 'gPosJoueur6', sub_theme='ecran', border=3, size=[0.21, 0.16], pos=[0.64, 0.09], options=bgui.BGUI_DEFAULT)

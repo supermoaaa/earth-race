@@ -92,6 +92,7 @@ class StatSys(bgui.System):
 
 		# Setup an on_click callback
 		self.credits_button.on_click = self.credits
+
 #--------------frame tableau----------------#
 #
 #
@@ -103,12 +104,12 @@ class StatSys(bgui.System):
 			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 
 
-		print(gl.scores.getLastScores())
 		# entete
 		self.JoueurCol=bgui.Label(self.tableau, 'JoueurCol', text="JOUEUR", pt_size=24, pos=[0.12, 0.85])
 		self.TempsCol=bgui.Label(self.tableau, 'TempsCol', text="TEMPS", pt_size=24, pos=[0.36, 0.85])
 		self.ToursCol=bgui.Label(self.tableau, 'ToursCol', text="TOURS", pt_size=24, pos=[0.76, 0.85])
 		
+		# infos
 		joueurListe = ''
 		joueurTemps = ''
 		joueurTours = ''

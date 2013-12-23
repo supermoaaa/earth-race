@@ -245,7 +245,7 @@ class MenuSelectionCircuitGui(BaseGui):
 
 		self.nbToursText_label = bgui.Label(self.frame, 'circuit_nbTours', text="nombre de tours:", pt_size=30, pos=[0.11, 0.38], options=bgui.BGUI_DEFAULT)
 		self.fondNbTours = bgui.Frame(self.frame, 'fondNbTours', sub_theme='fondDigit', border=1, size=[0.05, 0.05], pos=[0.14, 0.32], options=bgui.BGUI_DEFAULT)
-		self.nbTours_label = bgui.Label(self.fondNbTours, 'nbTours_label', sub_theme='fondDigit', text=str(gl.nbTours), pt_size=30, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.nbTours_label = bgui.Label(self.fondNbTours, 'nbTours_label', sub_theme='fondDigit', text=str(gl.nbLaps), pt_size=30, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 #############bouton flechetoursDR############################
 		self.flecheToursDR_button = bgui.ImageButton(self.frame, 'flecheToursDR', sub_theme='selFleche',
@@ -333,18 +333,18 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.circuit_label.text = "nom du circuit:"+str(gl.mapName)
 
 	def rightTours(self, widget):
-		if gl.nbTours <= 8:
-			gl.nbTours += 1
+		if gl.nbLaps <= 8:
+			gl.nbLaps += 1
 		else:
-			gl.nbTours = 1
-		self.nbTours_label.text = str(gl.nbTours)
+			gl.nbLaps = 1
+		self.nbTours_label.text = str(gl.nbLaps)
 
 	def leftTours(self, widget):
-		if gl.nbTours >= 2:
-			gl.nbTours -= 1
+		if gl.nbLaps >= 2:
+			gl.nbLaps -= 1
 		else:
-			gl.nbTours = 9
-		self.nbTours_label.text = str(gl.nbTours)
+			gl.nbLaps = 9
+		self.nbTours_label.text = str(gl.nbLaps)
 
 	def rightClimat(self, widget):
 		if gl.generalConf[4] == 'sun':

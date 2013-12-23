@@ -47,7 +47,7 @@ def main():
 	gl.posRoueJun = listRoue.index(str(gl.conf[0][0][4]))
 	gl.lstRoue = coll.deque(listRoue)
 	gl.dispPlayers=[0, gl.conf[0][0][0]]
-	gl.nbTours = 1
+	gl.nbLaps = 1
 	gl.skin = 'themes/default'
 
 	# mirror, Anisotropic, mist start, mist end

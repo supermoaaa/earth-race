@@ -25,12 +25,13 @@ class camera(object):
 		self.ray2 = None
 		self.ray3 = None
 
-	def setParams( self, **args):
-		if 'car' in args: self.__setCar(args['car'])
-		if 'camera' in args: self.__setCam(args['camera'])
-		if 'viewPort' in args: self.viewPort = args['viewPort']
-		if 'lens' in args: self.lens = args['lens']
-		if 'far' in args: self.far = args['far']
+	def setParams( self, car=None, camera=None, viewPort=None,
+				lens=None, far=None):
+		if car is not None: self.__setCar(car)
+		if camera is not None: self.__setCam(camera)
+		if viewPort is not None: self.viewPort = viewPort
+		if lens is not None: self.lens = lens
+		if far is not None: self.far = far
 		self.updateCam()
 
 	def __setCar( self, car ):

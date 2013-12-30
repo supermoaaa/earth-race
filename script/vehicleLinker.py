@@ -6,28 +6,26 @@ from camera import camera
 from logs import log
 
 class vehicleLinker(object):
-	def __init__(self, **args):
+	def __init__(self, physic=True, parent=False, posObj=gl.getCurrentController().owner,
+				vehicle_type=None, wheels_type=None,
+				camera_object=None, viewPort=None, shadowObj=None):
 		if not hasattr(gl,"objectsCars"):
 			gl.objectsCars = []
 		self.camera = camera()
-		self.vehicle_type = None
+		self.camera.setParams(camera = camera_object, viewPort = viewPort)
 		self.car = None
-		self.shadowObj = None
+		self.vehicle_type = None
+		self.setVehicle(vehicle_type)
+		self.shadowObj = shadowObj
 		self.wheels_type = None
 		self.wheels_free = True
-		self.physic = True
+		self.setWheels(wheels_type)
+		self.physic = physic
 		self.parent = False
-		if 'physic' in args: self.setPhysic(args['physic'])
-		if 'parent' in args and args['parent'] == True:
+		if parent == True:
 			self.parent = True
 			self.physic = False
-		if 'posObj' in args: self.objPos = args['posObj']
-		else: self.objPos = gl.getCurrentController().owner
-		if 'vehicle_type' in args: self.setVehicle( args['vehicle_type'] )
-		if 'wheels_type' in args: self.setWheels( args['wheels_type'] )
-		if 'camera_object' in args: self.camera.setParams( camera = args['camera_object'] )
-		if 'viewPort' in args: self.camera.setParams( viewPort = args['viewPort'] )
-		if 'shadowObj' in args: self.shadowObj = args['shadowObj']
+		self.objPos = posObj
 
 	def setParent( self, parent ):
 		if self.car != None:

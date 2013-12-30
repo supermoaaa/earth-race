@@ -333,6 +333,9 @@ class vehicleSimulation(object):
 		self.sound.play()
 		self.__motorSound( 0, 1, 0, 0, 1)
 
+	def stopSound(self)
+		self.sound.stop()
+
 	def startCam(self):
 		if self.defaultCam!=None:
 			self.defaultCam.useViewport = True

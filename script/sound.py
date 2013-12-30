@@ -15,11 +15,11 @@ class Sound(object):
 		self.handle = None
 		self.looped = False
 		if volume is not False:
-			volume = volume
+			self.volume = volume
 		elif hasattr(gl, 'sound'):
-			volume = gl.sound[0]
+			self.volume = gl.sound[0]
 		else:
-			volume = 1
+			self.volume = 1
 
 	def load( self, soundPath):
 		try:

@@ -1,18 +1,23 @@
 import aud
 import threading
 from logs import log
+from bge import logic as gl
+import os
 
 class Sound(object):
 	""" sound manager """
 
-	def __init__ ( self, buffered=False):
+	def __init__ ( self, buffered=False, volume=False):
 		""" Class initialiser """
 		self.device = aud.device()
 		self.buffered = buffered
 		self.factory = None
 		self.handle = None
-		self.volume = 1
 		self.looped = False
+		if volume is not False:
+			volume = volume
+		else:
+			volume = gl.sound[0]
 
 	def load( self, soundPath):
 		try:
@@ -67,16 +72,15 @@ class Sound(object):
 				self.handle.loop_count = 0
 
 class Music:
-	def __init__( self, playlist ):
+	def __init__( self, playlist, volume=False ):
 		self.player = Sound()
 		self.playlist = playlist
 		self.idPlayed = -1
-		self.stepThread = None
 		self.state = False
-
-	def step( player, playNext ):
-		if player.getState()==0:
-			playNext()
+		if volume is not False:
+			self.setVolume(volume)
+		else:
+			self.setVolume(gl.sound[1])
 
 	def play( self ):
 		if len(self.playlist) >= 1 and (self.player.getState()==0 or self.player.getState()==None) and self.state == False:
@@ -108,3 +112,13 @@ class Music:
 
 	def __del__( self ):
 		self.stop()
+
+def musicPlayer():
+	if not hasattr(gl,'music'):
+		if hasattr(gl,'sound'):
+			path = gl.expandPath("//")+"music"+os.sep+gl.sound[2]
+			playlist = [ path+os.sep+f for f in os.listdir(path) if os.path.isfile(path+os.sep+f) ]
+			gl.music = Music(playlist)
+			gl.music.play()
+	else:
+		gl.music.step()

@@ -9,6 +9,7 @@ from vehicleLinker import vehicleLinker
 from logs import log
 import objects
 import writeOnScreen
+import sound
 
 def addVehicleLoader( source, id, playerName, vehicleType, wheelsType, shadowObj=None ):
 	scene = gl.getCurrentScene()
@@ -147,6 +148,7 @@ def load():
 	else:
 		countDownStart(own) #to end it
 		keyMapper()
+		sound.musicPlayer()
 		checkArrived()
 
 def waitAndStart(own):

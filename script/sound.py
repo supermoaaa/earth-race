@@ -16,8 +16,10 @@ class Sound(object):
 		self.looped = False
 		if volume is not False:
 			volume = volume
-		else:
+		elif hasattr(gl, 'sound'):
 			volume = gl.sound[0]
+		else:
+			volume = 1
 
 	def load( self, soundPath):
 		try:
@@ -79,7 +81,7 @@ class Music:
 		self.state = False
 		if volume is not False:
 			self.setVolume(volume)
-		else:
+		elif hasattr(gl, 'sound'):
 			self.setVolume(gl.sound[1])
 
 	def play( self ):

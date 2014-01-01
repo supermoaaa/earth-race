@@ -776,31 +776,31 @@ class jouerSoloGui(BaseGui):
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
-		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=26, pos=[0.45, 0.92], options=bgui.BGUI_DEFAULT)
-		self.voiture_label = bgui.Label(self.frame, 'voiture_label', text="voiture", pt_size=26, pos=[0.51, 0.92], options=bgui.BGUI_DEFAULT)
+		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=29, pos=[0.67, 0.82], options=bgui.BGUI_DEFAULT)
+		self.voiture_label = bgui.Label(self.frame, 'voiture_label', sub_theme='MenuInfo', text="voiture", pt_size=29, pos=[0.73, 0.82], options=bgui.BGUI_DEFAULT)
 
-		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=26, pos=[0.45, 0.86], options=bgui.BGUI_DEFAULT)
-		self.roue_label = bgui.Label(self.frame, 'roue_label', text="Roue", pt_size=26, pos=[0.5, 0.86], options=bgui.BGUI_DEFAULT)
+		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=29, pos=[0.67, 0.78], options=bgui.BGUI_DEFAULT)
+		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=29, pos=[0.73, 0.78], options=bgui.BGUI_DEFAULT)
 
 #############bouton flecheG############################
-		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.38], pos=[0.18, 0.48])
+		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.38], pos=[0.05, 0.48])
 
 		# Setup an on_click callback
 		self.flecheG_button.on_click = self.leftcar
 
 #############bouton fleche############################
-		self.fleche_button = bgui.ImageButton(self.frame, 'fleche', sub_theme='selFleche', size=[0.05, 0.38], pos=[0.78, 0.48])
+		self.fleche_button = bgui.ImageButton(self.frame, 'fleche', sub_theme='selFleche', size=[0.05, 0.38], pos=[0.57, 0.48])
 
 		# Setup an on_click callback
 		self.fleche_button.on_click = self.rightcar
 
 #############bouton flecheGRoue############################
-		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.22], pos=[0.18, 0.25])
+		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.22], pos=[0.05, 0.25])
 
 		# Setup an on_click callback
 		self.flecheGRoue_button.on_click = self.leftwheels
 #############bouton flecheRoue############################
-		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.22], pos=[0.78, 0.25])
+		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.22], pos=[0.57, 0.25])
 
 		# Setup an on_click callback
 		self.flecheRoue_button.on_click = self.rightwheels

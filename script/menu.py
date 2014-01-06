@@ -17,6 +17,7 @@ own = cont.owner
 def main():
 
 	gl.mouse.visible = True
+	confParser.loadConf()
 	confParser.loadPlayer()
 	confParser.loadCounter()
 	mainDir = gl.expandPath("//")

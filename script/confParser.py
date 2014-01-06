@@ -1,4 +1,5 @@
 from bge import logic as gl
+from bge import render as rd
 import os
 from logs import log
 import objects
@@ -128,7 +129,7 @@ def loadPlayer():
 	with open(gl.expandPath("//")+'players.json', 'r') as f:
 		try:
 			gl.conf[0] = json.load(f)
-		except:
+		except ValueError:
 			log("error", "json players mal formaté")
 	checkPlayerConf()
 
@@ -245,7 +246,7 @@ def loadConf():
 			gl.graphic = conf[0]
 			gl.sound = conf[1]
 			gl.skin = conf[2]
-		except:
+		except ValueError:
 			log("error", "json de configuration générale mal formaté")
 	checkConf()
 
@@ -265,7 +266,7 @@ def loadCounter():
 	with open(gl.expandPath("//")+'textInGame.json', 'r') as f:
 		try:
 			gl.counterPos = json.load(f)
-		except:
+		except ValueError:
 			log("error", "json de configuration du counter mal formaté")
 	if not hasattr(gl, 'counterPos'):
 		gl.counterPos = [ [ 0.81002893, 0.158075601, 40 ], [ 0.5, 0.932432, 40 ], [ "under",  0.0,  0.08 ] ]
@@ -277,7 +278,7 @@ def loadScores(mapName):
 		with open(scoresFile, 'r') as f:
 			try:
 				gl.scores.scores = json.load(f)
-			except:
+			except ValueError:
 				log('error', 'json des scores mal formaté')
 
 def saveScores():

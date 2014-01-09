@@ -85,6 +85,8 @@ def main (self):
 
 				gl.dispPlayers[0] = 0
 				gl.LibLoad("carSelect.blend", "Scene")
+				scene = gl.getCurrentScene()
+				scene.active_camera = scene.objects['CameraPlayer1']
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])
 				gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)

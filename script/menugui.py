@@ -776,11 +776,20 @@ class jouerSoloGui(BaseGui):
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
-		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=29, pos=[0.67, 0.82], options=bgui.BGUI_DEFAULT)
-		self.voiture_label = bgui.Label(self.frame, 'voiture_label', sub_theme='MenuInfo', text="voiture", pt_size=29, pos=[0.73, 0.82], options=bgui.BGUI_DEFAULT)
+		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=31, pos=[0.67, 0.82], options=bgui.BGUI_DEFAULT)
+		self.voiture_label = bgui.Label(self.frame, 'voiture_label', sub_theme='MenuInfo', text="voiture", pt_size=31, pos=[0.73, 0.82], options=bgui.BGUI_DEFAULT)
 
-		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=29, pos=[0.67, 0.78], options=bgui.BGUI_DEFAULT)
-		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=29, pos=[0.73, 0.78], options=bgui.BGUI_DEFAULT)
+		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=31, pos=[0.67, 0.78], options=bgui.BGUI_DEFAULT)
+		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=31, pos=[0.73, 0.78], options=bgui.BGUI_DEFAULT)
+
+		
+#############bouton testSound############################
+		self.Sound_label = bgui.Label(self.frame, 'Sound', text="Sound:", pt_size=31, pos=[0.67, 0.58], options=bgui.BGUI_DEFAULT)
+		self.testSound_button = bgui.ImageButton(self.frame, 'testSound', sub_theme='menu', size=[0.10, 0.05], pos=[0.73, 0.58])
+		self.testSound_label = bgui.Label(self.testSound_button, 'testSound', text="play", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.testSound_button.on_click = self.testSound
 
 #############bouton flecheG############################
 		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.38], pos=[0.05, 0.48])
@@ -855,6 +864,14 @@ class jouerSoloGui(BaseGui):
 		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		self.voiture_label.text = str(gl.conf[0][0][3])
 
+	def testSound(self, widget):
+		if self.testSound_label.text == "play":
+			gl.voiture.startSound()
+			self.testSound_label.text = "stop"
+		elif self.testSound_label.text == "stop":
+			gl.voiture.stopSound()
+			self.testSound_label.text = "play"
+		
 	def testerVoiture(self, widget):
 		rd.showMouse(0)
 		gl.dispPlayers=[0, gl.conf[0][0][0]]

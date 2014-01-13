@@ -4,10 +4,10 @@ from bge import events as ev
 cont = G.getCurrentController()
 scene = G.getCurrentScene()
 
-
 obj = cont.owner
-def init():
 
+
+def init():
 
 	matID = VT.materialID(obj, 'MAvd')
 	G.video = VT.Texture(obj, matID)
@@ -24,7 +24,7 @@ def init():
 
 def update():
 
-	if hasattr(G , 'video'):
+	if hasattr(G, 'video'):
 		G.video.refresh(True)
 		if obj['time'] < 450:
 			obj['time'] += 1

@@ -9,7 +9,6 @@ USE_MOUSE_STEERING = False
 from bge import logic as gl
 from time import time
 from datetime import timedelta
-import os
 from mathutils import Vector
 from sound import Sound
 import objects
@@ -19,12 +18,13 @@ import logs
 from physicVehicle_math import *
 #from steeringWheel import *
 
+
 class vehicleSimulation(object):
-	def __init__( self, vehicle_type, owner, physic=True, parent=False, shadowObj = None, creator = None, framerate = 60 ):
-		scene = gl.getCurrentScene()
+	def __init__(self, vehicle_type, owner, physic=True, parent=False,
+			shadowObj=None, creator=None, framerate=60):
 		self.owner = owner
-		owner['gear']=1
-		owner['kph']=0
+		owner['gear'] = 1
+		owner['kph'] = 0
 		self.vehicle_type = vehicle_type
 		self.wheels = []
 		self.steering_wheel = None
@@ -49,33 +49,36 @@ class vehicleSimulation(object):
 		self.defaultCam = None
 		self.cams = []
 		self.currentCam = 0
-		logs.log('debug','vehicle init')
-		logs.log("debug",'type du véhicule : '+vehicle_type)
+		logs.log('debug', 'vehicle init')
+		logs.log("debug", 'type du véhicule : ' + vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
 			if param[0] == "car":
-				mainObject = self.addPiece( param[1], None )
+				mainObject = self.addPiece(param[1], None)
 				self.main = mainObject
 				self.setParent(parent)
 				gl.objectsCars.append(mainObject)
 			#~ elif param[0] == "child":
 				#~ self.addPiece( line[8:-1], mainObject )
 			elif param[0] == "steering_wheel":
-				pos_ob = self.owner.childrenRecursive.get(param[1])
+				pass  # disable for correct later
+				#pos_ob = self.owner.childrenRecursive.get(param[1])
 				#self.addSteeringWheel( pos_ob ) # pos_ob, steering_wheel
 			elif param[0] == "gear":
 				self.gears.append(param[1])
 			elif param[0] == "boostPower":
-				self.boostPower=int(param[1])
+				self.boostPower = int(param[1])
 			elif param[0] == "mass":
-				logs.log("debug","mass "+param[1])
+				logs.log("debug", "mass " + param[1])
 				self.main.mass = float(param[1])
 			elif param[0] == "cam":
 				cam = self.main.childrenRecursive.get(param[1])
-				if cam != None:
-					logs.log("debug","add sub cam "+param[1])
+				if cam is not None:
+					logs.log("debug", "add sub cam " + param[1])
 					self.cams.append(cam)
 				else:
-					logs.log("error","impossible de trouver l'objet : "+param[1]+" comme fils de : "+str(self.main))
+					logs.log("error",
+							"impossible de trouver l'objet : " + param[1] +
+							" comme fils de : " + str(self.main))
 			elif param[0] == "sound":
 				self.sound.load(param[1])
 		self.main.suspendDynamics()
@@ -84,13 +87,13 @@ class vehicleSimulation(object):
 	def __del__(self):
 		self.unloadWheel()
 
-	def setParent( self, parent ):
+	def setParent(self, parent):
 		if parent:
 			self.main.setParent(self.owner)
 		else:
 			self.main.removeParent()
 
-	def setPhysic( self, activate ):
+	def setPhysic(self, activate):
 		if activate:
 			self.main.restoreDynamics()
 		else:
@@ -98,11 +101,11 @@ class vehicleSimulation(object):
 		self.physic = activate
 
 	def getWheelsConf(self):
-		scene = gl.getCurrentScene()
-		wheelsConf=[]
+		wheelsConf = []
 		for param in gl.conf[1][self.vehicle_type]:
 			if param[0] == "wheel":
-				wheelsConf.append([ self.main.childrenRecursive.get(param[4]), param[1], param[2], param[3] ])
+				wheelsConf.append(
+						[self.main.childrenRecursive.get(param[4]), param[1], param[2], param[3]])
 		return wheelsConf
 
 	def getMainObject(self):
@@ -118,13 +121,13 @@ class vehicleSimulation(object):
 
 	def addSteeringWheel(self, pos_ob):
 		self.steering_wheel = steering_wheel(pos_ob)
-		logs.log("debug","Select steering wheel")
+		logs.log("debug", "Select steering wheel")
 
-	def addPiece( self, piece, mainObject ):
-		child = objects.addObject( self.owner, piece, self.creator )
-		if child!=None:
-			if mainObject!=None:
-				logs.log("debug",'main Object : '+str(mainObject))
+	def addPiece(self, piece, mainObject):
+		child = objects.addObject(self.owner, piece, self.creator)
+		if child is not None:
+			if mainObject is not None:
+				logs.log("debug", 'main Object : ' + str(mainObject))
 				#position
 				objects.copyRelatifPosition(self.owner, child, mainObject)
 				#orientation
@@ -136,16 +139,14 @@ class vehicleSimulation(object):
 			try:
 				self.pieces.append(child)
 			except:
-				self.pieces=[child]
+				self.pieces = [child]
 		return child
 
-	def simulate( self ):
-		if self.simulated and self.physic and len(self.wheels)>0 and self.respawned==0:
-			logs.log("debug","-----------------------------")
-			logs.log("debug","simulate")
-			cont = gl.getCurrentController()
-
-			sce = gl.getCurrentScene()
+	def simulate(self):
+		if (self.simulated and self.physic and len(self.wheels) > 0 and
+				self.respawned == 0):
+			logs.log("debug", "-----------------------------")
+			logs.log("debug", "simulate")
 
 			main = self.owner
 
@@ -166,20 +167,21 @@ class vehicleSimulation(object):
 			respawn = main["respawn"]
 			changeCam = main["changeCam"]
 
-			self.__keyChangeCam( changeCam )
+			self.__keyChangeCam(changeCam)
 
 			speed = main['kph']
-			if upGear and self.gearSelect < ( len(self.gears) - 1) and not downGear:
+			if upGear and self.gearSelect < (len(self.gears) - 1) and not downGear:
 				self.gearSelect += 1
 			if downGear and self.gearSelect > 0 and not upGear:
 				self.gearSelect -= 1
 			gas = 0
-			logs.log("debug","gear"+str(self.gearSelect))
-			gas, maxPower, speed, minSpeed, maxSpeed = self.__calcGear( speed, self.gearSelect )
+			logs.log("debug", "gear" + str(self.gearSelect))
+			gas, maxPower, speed, minSpeed, maxSpeed = \
+					self.__calcGear(speed, self.gearSelect)
 			gas *= accelerate
-			self.__motorSound( gas, maxPower, speed, minSpeed, maxSpeed)
+			self.__motorSound(gas, maxPower, speed, minSpeed, maxSpeed)
 			#~ if reverse>0.0: gas -= 800 + boost*300 * reverse							# reverse
-			logs.log("debug", "gas : "+str(gas))
+			logs.log("debug", "gas : " + str(gas))
 
 			#Camera-steering
 			#~ cambase = main.childrenRecursive["camera"]
@@ -192,7 +194,7 @@ class vehicleSimulation(object):
 			STEER_BASE = 0.8
 			STEERING_DECAY = 0.1
 			ANTIDRIFT = 0.5
-			YAW_DAMP = 0#.1
+			YAW_DAMP = 0  # .1
 
 			av = main.getAngularVelocity(1)
 			lv = main.getLinearVelocity(1)
@@ -203,25 +205,26 @@ class vehicleSimulation(object):
 				#~ input_steer = steer
 				#~ if lv[1] < 0.0: input_steer = -steer
 			else:
-				input_steer = right*STEER_BASE-left*STEER_BASE
+				input_steer = right * STEER_BASE - left * STEER_BASE
 
 			drift_steer = 0.0
 			drift_vec = Vector([lv[0], lv[1]])
 
-			if lv[1]>0.0: drift_steer = drift_vec.angle(Vector([0, 1])) * ((lv[0]>0.0)-0.5)*2.0
-			if lv[1]<0.0: drift_steer = drift_vec.angle(Vector([0,-1])) * ((lv[0]>0.0)-0.5)*2.0
+			if lv[1] > 0.0:
+				drift_steer = drift_vec.angle(Vector([0, 1])) * ((lv[0] > 0.0) - 0.5) * 2.0
+			elif lv[1] < 0.0:
+				drift_steer = drift_vec.angle(Vector([0, -1])) * ((lv[0] > 0.0) - 0.5) * 2.0
 
 			#~ if self.steering_wheel!=None:
 				#~ self.steering_wheel.setSteer(input_steer)
 
 			drift_steer *= (abs(lv[1]) > 10)
 
-
 			drift_vel = Vector([lv[0], lv[1]]).length
 
-			input_steer = input_steer/(1+abs(lv[1]**0.9)*STEERING_DECAY)
-			drift_steer = drift_steer*((1 - (1/(1+drift_vel)))*ANTIDRIFT)
-			ydamp_steer = av[2]*YAW_DAMP
+			input_steer = input_steer / (1 + abs(lv[1] ** 0.9) * STEERING_DECAY)
+			drift_steer = drift_steer * ((1 - (1 / (1 + drift_vel))) * ANTIDRIFT)
+			ydamp_steer = av[2] * YAW_DAMP
 
 			steer = input_steer + drift_steer + ydamp_steer
 
@@ -231,7 +234,7 @@ class vehicleSimulation(object):
 				w.setSteer(steer)
 				if w.w_grip < -0.4 and w.hit:
 					pass
-					#~ skid = sce.addObject("skid", "evo_main", 500)
+					#~ skid = gl.getCurrentScene().addObject("skid", "evo_main", 500)
 					#~ skid.worldPosition = w.hpos+w.hmat.col[2]*0.01
 					#~ o = vectrack(w.hmat.col[2], w.hvel)
 					#~ o[1].length = w.hvel.length/24
@@ -245,10 +248,11 @@ class vehicleSimulation(object):
 
 			#Turn the steering wheel
 			#~ sw = main.children["evo_hull"].childrenRecursive["evo_steeringwheel"]
-			#~ sw.localOrientation = [(wheels[0].w_steer_current + wheels[1].w_steer_current)*2,-pi/8,-pi/2]
+			#~ sw.localOrientation = \
+			#~		[(wheels[0].w_steer_current + wheels[1].w_steer_current)*2,-pi/8,-pi/2]
 
 			main['steer'] = steer
-			logs.log("debug",'voiture :'+str(main))
+			logs.log("debug", 'voiture :' + str(main))
 			main['kph'] = 0
 			main['mph'] = 0
 			for wheel in self.wheels:
@@ -260,7 +264,7 @@ class vehicleSimulation(object):
 
 			if respawn:
 				self.respawn()
-		elif self.respawned>0:
+		elif self.respawned > 0:
 			self.respawn()
 			self.respawned -= 1
 			if self.respawned == 0:
@@ -269,57 +273,57 @@ class vehicleSimulation(object):
 			#~ self.__checkRespaw()
 
 	def __run(self):
-		if len(self.wheels)>0:
+		if len(self.wheels) > 0:
 			main = self.main
 
-			dt = (1/self.framerate)
+			dt = (1 / self.framerate)
 
-			lin_f = Vector([0,0,0])
-			ang_f = Vector([0,0,0])
+			lin_f = Vector([0, 0, 0])
+			ang_f = Vector([0, 0, 0])
 
 			#~ physics engine's' compensation
-			groundContact=len(self.wheels)
+			groundContact = len(self.wheels)
 			for wheel in self.wheels:
 				wheel.step(dt)
 				lin_f += wheel.force
 				ang_f += wheel.force_pos.cross(wheel.force)
 				if wheel.hit:
-					groundContact-=1
-			lin_f[2]+=-10*self.main.mass*groundContact/len(self.wheels)
+					groundContact -= 1
+			lin_f[2] += -10 * self.main.mass * groundContact / len(self.wheels)
 
 			main.applyForce(lin_f)
 			main.applyTorque(ang_f)
 
 	def __calcGear(self, speed, gear):
 		minSpeed, maxSpeed, maxPower = self.gears[gear]
-		rangeSpeed = maxSpeed-minSpeed
-		middleSpeed = rangeSpeed/2+minSpeed
-		coef = ((rangeSpeed / 51)**6)*100000000.0
-		force = maxPower / ((speed - middleSpeed)**6 / coef + 1)
+		rangeSpeed = maxSpeed - minSpeed
+		middleSpeed = rangeSpeed / 2 + minSpeed
+		coef = ((rangeSpeed / 51) ** 6) * 100000000.0
+		force = maxPower / ((speed - middleSpeed) ** 6 / coef + 1)
 		return force, maxPower, speed, minSpeed, maxSpeed
 
 	def __motorSound(self, gas, maxPower, speed, minSpeed, maxSpeed):
-		if (maxPower>=0 and speed>minSpeed):
-			if gas==0 and minSpeed<0:
-				minSpeed=0
-			pitch = (speed-minSpeed)/(maxSpeed-minSpeed)
-		elif (maxPower<0 and speed<maxSpeed):
-			if gas==0 and maxSpeed>0:
-				maxSpeed=0
-			pitch = (speed-maxSpeed)/(minSpeed-maxSpeed)
+		if (maxPower >= 0 and speed > minSpeed):
+			if gas == 0 and minSpeed < 0:
+				minSpeed = 0
+			pitch = (speed - minSpeed) / (maxSpeed - minSpeed)
+		elif (maxPower < 0 and speed < maxSpeed):
+			if gas == 0 and maxSpeed > 0:
+				maxSpeed = 0
+			pitch = (speed - maxSpeed) / (minSpeed - maxSpeed)
 		else:
 			pitch = 0
-		if pitch<0.5:
-			pitch *= gas/maxPower + 1
+		if pitch < 0.5:
+			pitch *= gas / maxPower + 1
 		else:
 			pitch *= 2
-		self.sound.setPitch(pitch+0.2)
+		self.sound.setPitch(pitch + 0.2)
 
 	def __positionShadowObj(self):
 		tmpPosition = list(self.main.worldPosition)
-		tmpPosition[0]+=5
-		tmpPosition[1]+=1
-		tmpPosition[2]+=10
+		tmpPosition[0] += 5
+		tmpPosition[1] += 1
+		tmpPosition[2] += 10
 		self.shadowObj.worldPosition = tmpPosition
 
 	def start(self):
@@ -331,13 +335,13 @@ class vehicleSimulation(object):
 
 	def startSound(self):
 		self.sound.play()
-		self.__motorSound( 0, 1, 0, 0, 1)
+		self.__motorSound(0, 1, 0, 0, 1)
 
 	def stopSound(self):
 		self.sound.stop()
 
 	def startCam(self):
-		if self.defaultCam!=None:
+		if self.defaultCam is not None:
 			self.defaultCam.useViewport = True
 			gl.getCurrentScene().active_camera = self.defaultCam
 
@@ -350,48 +354,54 @@ class vehicleSimulation(object):
 
 	def __checkCheckpoint(self):
 		main = self.main
-		logs.log("debug",str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
-		if self.nextIdCheckpoint < len(gl.checkpoints) and main.getDistanceTo( gl.checkpoints[self.nextIdCheckpoint] )<3:
+		logs.log("debug",
+				str(self.nextIdCheckpoint) + " / " + str(len(gl.checkpoints)))
+		if (self.nextIdCheckpoint < len(gl.checkpoints) and
+				main.getDistanceTo(gl.checkpoints[self.nextIdCheckpoint]) < 3):
 			self.nextIdCheckpoint += 1
-			logs.log("debug","pass checkpoint")
+			logs.log("debug", "pass checkpoint")
 		if self.nextIdCheckpoint >= len(gl.checkpoints):
 			self.nbLaps += 1
 			self.nextIdCheckpoint = 0
 		if self.nbLaps == gl.nbLaps:
 			self.stop()
-			logs.log("debug","arrived")
+			logs.log("debug", "arrived")
 
 		#~ positionning of the objectif for IA
-		if self.nextIdCheckpoint+1 < len(gl.checkpoints):
-			self.owner['AI'].worldPosition = gl.checkpoints[self.nextIdCheckpoint+1].worldPosition
-		elif self.nbLaps<=gl.nbLaps:
+		if self.nextIdCheckpoint + 1 < len(gl.checkpoints):
+			self.owner['AI'].worldPosition = \
+					gl.checkpoints[self.nextIdCheckpoint + 1].worldPosition
+		elif self.nbLaps <= gl.nbLaps:
 			self.owner['AI'].worldPosition = gl.checkpoints[0].worldPosition
 		else:
-			self.owner['AI'].worldPosition = gl.checkpoints[gl.checkpoints-1]
+			self.owner['AI'].worldPosition = gl.checkpoints[gl.checkpoints - 1]
 
 	def respawn(self):
 		main = self.main
-		zeroVector = Vector([0,0,0])
+		zeroVector = Vector([0, 0, 0])
 		main.applyForce(zeroVector)
 		main.applyTorque(zeroVector)
 		main.setLinearVelocity(zeroVector)
 		main.setAngularVelocity(zeroVector)
 		for w in self.wheels:
 			w.respawn()
-		if self.respawned==0:
+		if self.respawned == 0:
 			if self.nextIdCheckpoint >= 1:
-				logs.log("debug",str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint-1]))
-				main.worldPosition = gl.checkpoints[self.nextIdCheckpoint-1].worldPosition
-				main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
+				logs.log("debug",
+						str(self.main) + " to " + str(gl.checkpoints[self.nextIdCheckpoint - 1]))
+				main.worldPosition = gl.checkpoints[self.nextIdCheckpoint - 1].worldPosition
+				main.worldOrientation = \
+						gl.checkpoints[self.nextIdCheckpoint - 1].worldOrientation
 			else:
-				main.worldPosition = gl.checkpoints[len(gl.checkpoints)-1].worldPosition
-				main.worldOrientation = gl.checkpoints[self.nextIdCheckpoint-1].worldOrientation
+				main.worldPosition = gl.checkpoints[len(gl.checkpoints) - 1].worldPosition
+				main.worldOrientation = \
+						gl.checkpoints[self.nextIdCheckpoint - 1].worldOrientation
 			self.gearSelect = 1
 			self.respawned = 10
 			self.main.suspendDynamics()
 
 	def __checkRespaw(self):
-		if self.respawned>0:
+		if self.respawned > 0:
 			self.respawned -= 1
 			if self.respawned == 0 and self.physic:
 				self.main.restoreDynamics()
@@ -401,30 +411,31 @@ class vehicleSimulation(object):
 
 	def getRaceDuration(self):
 		try:
-			return str(timedelta(seconds=self.endTime-self.startTime))
+			return str(timedelta(seconds=self.endTime - self.startTime))
 		except:
 			return -1
 
 	def setCamsParams(self, far, viewPort):
 		self.viewPort = viewPort
 		for cam in self.cams:
-			if far!=None: cam.far = far
-			cam.setViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] )
+			if far is not None:
+				cam.far = far
+			cam.setViewport(viewPort[0], viewPort[1], viewPort[2], viewPort[3])
 
 	def setDefaultCam(self, cam):
 		self.defaultCam = cam
 		self.currentCam = len(self.cams)
 
 	def __keyChangeCam(self, changeCam):
-		if len(self.cams)>0 and changeCam>0:
-				if self.currentCam==len(self.cams)-1:
-					self.changeCam( self.cams[self.currentCam], self.defaultCam )
+		if len(self.cams) > 0 and changeCam > 0:
+				if self.currentCam == len(self.cams) - 1:
+					self.changeCam(self.cams[self.currentCam], self.defaultCam)
 					self.currentCam += 1
-				elif self.currentCam>=len(self.cams):
-					self.changeCam( self.defaultCam, self.cams[0] )
+				elif self.currentCam >= len(self.cams):
+					self.changeCam(self.defaultCam, self.cams[0])
 					self.currentCam = 0
 				else:
-					self.changeCam( self.cams[self.currentCam], self.cams[self.currentCam+1] )
+					self.changeCam(self.cams[self.currentCam], self.cams[self.currentCam + 1])
 					self.currentCam += 1
 				for cam in gl.camsCompteur:
 					cam.setOnTop()

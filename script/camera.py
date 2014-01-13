@@ -7,13 +7,16 @@ from math import sqrt
 from math import atan
 from logs import log
 
+
 class camera(object):
-	def __init__( self, **args ):
+
+	def __init__(self, **args):
 		self.car = None
 		self.carObj = None
 		self.compteurOwner = None
 		self.camera = None
-		self.viewPort = [ 0, 0, render.getWindowWidth(), render.getWindowHeight() ]
+		self.viewPort = [0, 0,
+				render.getWindowWidth(), render.getWindowHeight()]
 		self.lens = None
 		self.far = None
 		self.setParams(*args)
@@ -25,36 +28,44 @@ class camera(object):
 		self.ray2 = None
 		self.ray3 = None
 
-	def setParams( self, car=None, camera=None, viewPort=None,
+	def setParams(self, car=None, camera=None, viewPort=None,
 				lens=None, far=None):
-		if car is not None: self.__setCar(car)
-		if camera is not None: self.__setCam(camera)
-		if viewPort is not None: self.viewPort = viewPort
-		if lens is not None: self.lens = lens
-		if far is not None: self.far = far
+		if car is not None:
+			self.__setCar(car)
+		if camera is not None:
+			self.__setCam(camera)
+		if viewPort is not None:
+			self.viewPort = viewPort
+		if lens is not None:
+			self.lens = lens
+		if far is not None:
+			self.far = far
 		self.updateCam()
 
-	def __setCar( self, car ):
+	def __setCar(self, car):
 		self.car = car
 		self.carObj = car.getMainObject()
 		self.compteurOwner = car.owner
 
-	def __setCam( self, cam ):
+	def __setCam(self, cam):
 		self.camera = cam
 		self.ray1 = cam.childrenRecursive['camRayView']
 		self.ray2 = cam.childrenRecursive['camRayHorizon']
 		self.ray3 = cam.childrenRecursive['camRayView2']
-		if self.lens == None:
+		if self.lens is None:
 			self.lens = self.camera.lens
 
 	def updateCam(self):
-		if self.camera!=None:
+		if self.camera is not None:
 			self.camera.removeParent()
-			self.camera.setViewport( self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3] )
-			if self.lens!=None: self.camera.lens = self.lens
-			if self.far!=None: self.camera.far = self.far
-			if self.car!=None:
-				self.car.setCamsParams(self.far,self.viewPort)
+			self.camera.setViewport(
+				self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3])
+			if self.lens is not None:
+				self.camera.lens = self.lens
+			if self.far is not None:
+				self.camera.far = self.far
+			if self.car is not None:
+				self.car.setCamsParams(self.far, self.viewPort)
 				self.car.setDefaultCam(self.camera)
 
 	def reset(self):
@@ -62,100 +73,115 @@ class camera(object):
 		self.downView = 0.0
 		self.lastModifDownView = 0.0
 
-	def simulate( self ):
-		if self.car != None and self.camera != None:
+	def simulate(self):
+		if self.car is not None and self.camera is not None:
 			# variables initiales
 			carPosX, carPosY, carPosZ = self.carObj.worldPosition
-			carPosZ += 0.2 #correct the center of view
-			ticRate = gl.getLogicTicRate()*2
-			speed = abs(self.compteurOwner['kph'])+0.5
-			smoothSpeed = (speed+self.lastSpeed*ticRate)/(ticRate-1)
+			carPosZ += 0.2  # correct the center of view
+			ticRate = gl.getLogicTicRate() * 2
+			speed = abs(self.compteurOwner['kph']) + 0.5
+			smoothSpeed = (speed + self.lastSpeed * ticRate) / (ticRate - 1)
 			self.lastSpeed = speed
 			carRot = self.carObj.localOrientation.to_euler('XYZ')[2]
 			camRot = self.camera.localOrientation.to_euler('XYZ')
-			camRot[2] = self.__diffAngle( camRot[2], 1.57 )
-			xRelativePosition = smoothSpeed/150+5 # le dernier chiffre est la distance min
+			camRot[2] = self.__diffAngle(camRot[2], 1.57)
+			# le dernier chiffre est la distance min
+			xRelativePosition = smoothSpeed / 150 + 5
 			yRelativePosition = 0
-			zRelativePosition = 3.2-(smoothSpeed/150)*1.5
+			zRelativePosition = 3.2 - (smoothSpeed / 150) * 1.5
 
 			# anti object entre la caméra et la voiture
-			distance = self.__camDistance( self.carObj, self.camera ) # y a t'il un obstacle et à quel distance
-			if distance != None:
-				log("debug","distance : "+str(distance))
-				xRelativePosition = min( xRelativePosition, distance/1.1 )
-				zRelativePosition = min( zRelativePosition, distance/2 )
+			# y a t'il un obstacle et à quel distance
+			distance = self.__camDistance(self.carObj, self.camera)
+			if distance is not None:
+				log("debug", "distance : " + str(distance))
+				xRelativePosition = min(xRelativePosition, distance / 1.1)
+				zRelativePosition = min(zRelativePosition, distance / 2)
 
 			# anti vue trop courte
 			carYRot = self.carObj.localOrientation.to_euler('XYZ')[1]
-			zRelativePosition = zRelativePosition*cos(-carYRot)+zRelativePosition*sin(-carYRot)
+			zRelativePosition = zRelativePosition * \
+				cos(-carYRot) + zRelativePosition * sin(-carYRot)
 
 			# limite
-			xRelativePosition = max( xRelativePosition, 0.3 )
-			zRelativePosition = max( zRelativePosition, 0.3 )
-			camRot[0] = atan(xRelativePosition/(zRelativePosition/1.5))
+			xRelativePosition = max(xRelativePosition, 0.3)
+			zRelativePosition = max(zRelativePosition, 0.3)
+			camRot[0] = atan(xRelativePosition / (zRelativePosition / 1.5))
 
 			# début des calculs
-			if self.car.gearSelect == 0: # si en marche arrière
-				carRot = (carRot)%6.28-3.14
-				if not self.rev: # si on vient de passer en marche arrière
+			if self.car.gearSelect == 0:  # si en marche arrière
+				carRot = (carRot) % 6.28 - 3.14
+				if not self.rev:  # si on vient de passer en marche arrière
 					self.rev = True
 					camRot[2] = carRot
 					self.down = 0
-			elif self.car.gearSelect!=0 and self.rev: # si on vient de passer en marche avant
+			# si on vient de passer en marche avant
+			elif self.car.gearSelect != 0 and self.rev:
 				self.rev = False
 				camRot[2] = carRot
 				self.down = 0
-			diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
+			# calcul de la différence d'angle
+			diff_angle = self.__diffAngle(carRot, camRot[2])
 			# compensation pour le cas d'un bug sur l'axe z
 			#~ if abs(diff_angle)>1.7:
 				#~ carRot = (6.28-carRot)%6.28-3.14
-				#~ diff_angle = self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
+				# calcul de la différence d'angle
+				# ~ diff_angle = self.__diffAngle( carRot, camRot[2] )
 			# lissage des mouvements de la caméra
-			if -0.785<diff_angle and diff_angle<0.785:
-				log("debug",'smooth')
-				carRot = camRot[2] + diff_angle*0.1
+			if -0.785 < diff_angle and diff_angle < 0.785:
+				log("debug", 'smooth')
+				carRot = camRot[2] + diff_angle * 0.1
 			# blocage d'extrémités
-			diff_angle =self.__diffAngle( carRot, camRot[2] ) # calcul de la différence d'angle
-			if diff_angle<-0.785:
+			# calcul de la différence d'angle
+			diff_angle = self.__diffAngle(carRot, camRot[2])
+			if diff_angle < -0.785:
 				carRot = carRot + 0.785
-			elif diff_angle>0.785:
+			elif diff_angle > 0.785:
 				carRot = carRot - 0.785
 			carRot %= 6.28
 			# calcul de la position de la caméra
-			camPosX = carPosX+xRelativePosition*cos(carRot)-yRelativePosition*sin(carRot)
-			camPosY = carPosY+xRelativePosition*sin(carRot)+yRelativePosition*cos(carRot)
+			camPosX = carPosX + xRelativePosition * \
+				cos(carRot) - yRelativePosition * sin(carRot)
+			camPosY = carPosY + xRelativePosition * \
+				sin(carRot) + yRelativePosition * cos(carRot)
 			# application de la position et orientation sur la caméra
-			self.camera.worldPosition = [camPosX,camPosY,carPosZ+zRelativePosition]
-			self.camera.localOrientation = Euler([camRot[0],camRot[1],(carRot+(3.14/2))%6.28],'XYZ').to_matrix()
+			self.camera.worldPosition = [camPosX,
+										camPosY, carPosZ + zRelativePosition]
+			self.camera.localOrientation = Euler(
+				[camRot[0], camRot[1], (carRot + (3.14 / 2)) % 6.28], 'XYZ').to_matrix()
 			self.__dynamicLens()
 
-	def __dynamicLens( self ):
-		self.camera.lens = self.lens - self.lens * (self.compteurOwner['kph'])/300
+	def __dynamicLens(self):
+		self.camera.lens = self.lens - self.lens * \
+			(self.compteurOwner['kph']) / 300
 
-	def __diffAngle( self, angle1, angle2 ):
-		return ( angle1-angle2 + 3.14 ) % 6.28 - 3.14
+	def __diffAngle(self, angle1, angle2):
+		return (angle1 - angle2 + 3.14) % 6.28 - 3.14
 
-	def __camDistance( self, obj1, obj2 ):
+	def __camDistance(self, obj1, obj2):
 		pos1 = obj1.position
 		pos2 = obj2.position
-		dist = self.__distance( pos1, pos2 )
-		obj, point, normal = obj1.rayCast( obj2, None, dist*1.5)
-		if obj==None:
+		dist = self.__distance(pos1, pos2)
+		obj, point, normal = obj1.rayCast(obj2, None, dist * 1.5)
+		if obj is None:
 			return None
-		return self.__distance( pos1, point )
+		return self.__distance(pos1, point)
 
-	def __distance( self, pos1, pos2 ):
-		return sqrt( (pos1[0]-pos2[0])**2 + (pos1[1]-pos2[1])**2 + (pos1[2]-pos2[2])**2 )
+	def __distance(self, pos1, pos2):
+		return sqrt((pos1[0] - pos2[0]) ** 2 +
+				(pos1[1] - pos2[1]) ** 2 +
+				(pos1[2] - pos2[2]) ** 2)
 
-	def __camRay( self, ray1, ray2): # retourne True si il faut descendre la cam sinon False
-		obj, point, normal = self.carObj.rayCast( ray1, self.camera )
+	# retourne True si il faut descendre la cam sinon False
+	def __camRay(self, ray1, ray2):
+		obj, point, normal = self.carObj.rayCast(ray1, self.camera)
 		pos1 = self.camera.position
-		if obj!=None:
-			dist1 = self.__distance( pos1, point)
-			obj, point, normal = self.carObj.rayCast( ray2, self.camera )
-			if obj==None:
+		if obj is not None:
+			dist1 = self.__distance(pos1, point)
+			obj, point, normal = self.carObj.rayCast(ray2, self.camera)
+			if obj is None:
 				return False
-			dist2 = self.__distance( pos1, point)
+			dist2 = self.__distance(pos1, point)
 			if dist2 > (dist1 + 1):
-				return 1/dist1
+				return 1 / dist1
 		return False

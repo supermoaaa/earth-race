@@ -6,6 +6,8 @@ from logs import log
 import objects
 import os
 
+from sound import Sound
+
 
 class r_wheel:
 
@@ -124,6 +126,7 @@ class r_wheel:
 
 		self.creator = creator
 		self.childs = []
+		self.skidSound = Sound(buffered=True, looped=True)
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
 				child = objects.addObject(pos_ob, param[1], creator)
@@ -172,6 +175,8 @@ class r_wheel:
 				self.s_damp = float(param[1])
 			elif param[0] == "exponent":
 				self.s_exp = float(param[1])
+			elif param[0] == "skidSound":
+				self.skidSound.load(param[1])
 
 	def __del__(self):
 		if hasattr(self, "mainObject"):
@@ -376,6 +381,12 @@ class r_wheel:
 			return gl.matFriction[ray[3].material_name]
 		else:
 			return 1
+
+	def playSkidSound(self):
+		self.skidSound.play(forceStop=False)
+
+	def stopSkidSound(self):
+		self.skidSound.stop()
 
 	def respawn(self):
 		self.p_vel = Vector([0, 0, 0])

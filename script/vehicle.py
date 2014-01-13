@@ -43,8 +43,7 @@ class vehicleSimulation(object):
 			gl.nbLaps = 1
 		self.simulated = False
 		self.physic = physic
-		self.sound = Sound(True)
-		self.sound.loop()
+		self.motorSound = Sound(buffered=True, looped=True)
 		self.boostPower = int()
 		self.defaultCam = None
 		self.cams = []
@@ -79,8 +78,8 @@ class vehicleSimulation(object):
 					logs.log("error",
 							"impossible de trouver l'objet : " + param[1] +
 							" comme fils de : " + str(self.main))
-			elif param[0] == "sound":
-				self.sound.load(param[1])
+			elif param[0] == "motorSound":
+				self.motorSound.load(param[1])
 		self.main.suspendDynamics()
 		self.respawned = 0
 
@@ -233,12 +232,14 @@ class vehicleSimulation(object):
 				w.w_handbrake = brake
 				w.setSteer(steer)
 				if w.w_grip < -0.4 and w.hit:
-					pass
+					w.playSkidSound()
 					#~ skid = gl.getCurrentScene().addObject("skid", "evo_main", 500)
 					#~ skid.worldPosition = w.hpos+w.hmat.col[2]*0.01
 					#~ o = vectrack(w.hmat.col[2], w.hvel)
 					#~ o[1].length = w.hvel.length/24
 					#~ skid.worldOrientation = o
+				else:
+					w.stopSkidSound()
 
 			#Simulate the vehicle
 			self.__run()
@@ -317,7 +318,7 @@ class vehicleSimulation(object):
 			pitch *= gas / maxPower + 1
 		else:
 			pitch *= 2
-		self.sound.setPitch(pitch + 0.2)
+		self.motorSound.setPitch(pitch + 0.2)
 
 	def __positionShadowObj(self):
 		tmpPosition = list(self.main.worldPosition)
@@ -331,14 +332,14 @@ class vehicleSimulation(object):
 		self.setPhysic(True)
 		self.startCam()
 		self.startTime = time()
-		self.sound.play()
+		self.motorSound.play()
 
 	def startSound(self):
-		self.sound.play()
+		self.motorSound.play()
 		self.__motorSound(0, 1, 0, 0, 1)
 
 	def stopSound(self):
-		self.sound.stop()
+		self.motorSound.stop()
 
 	def startCam(self):
 		if self.defaultCam is not None:
@@ -347,7 +348,7 @@ class vehicleSimulation(object):
 
 	def stop(self):
 		self.endTime = time()
-		self.sound.stop()
+		self.motorSound.stop()
 		self.simulated = False
 		self.setPhysic(False)
 		self.owner['arrived'] = True

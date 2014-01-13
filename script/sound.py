@@ -7,19 +7,22 @@ import os
 class Sound(object):
 	""" sound manager """
 
-	def __init__(self, buffered=False, volume=False):
+	def __init__(self, buffered=False, looped=False, volume=False):
 		""" Class initialiser """
 		self.device = aud.device()
 		self.buffered = buffered
 		self.factory = None
 		self.handle = None
-		self.looped = False
+		self.loop(looped)
+		self.isPlaying = False
 		if volume is not False:
 			self.volume = volume
 		elif hasattr(gl, 'sound'):
 			self.volume = gl.sound[0]
 		else:
 			self.volume = 1
+		self.play()
+		self.stop()
 
 	def load(self, soundPath):
 		try:
@@ -29,17 +32,21 @@ class Sound(object):
 		except:
 			log("error", "impossible de trouver le fichier " + soundPath)
 
-	def play(self):
-		self.stop()
-		if self.factory is not None:
+	def play(self, forceStop=True):
+		if forceStop:
+			self.stop()
+		if self.factory is not None and not self.isPlaying:
 			self.handle = self.device.play(self.factory)
 			self.handle.volume = self.volume
 			self.handle.relative = True
 			self.loop(self.looped)
+			self.isPlaying = True
 
 	def stop(self):
 		if self.handle is not None:
+			log("debug", "sound stop sound")
 			self.handle.stop()
+			self.isPlaying = False
 
 	def setVolume(self, volume):
 		self.volume = volume
@@ -73,6 +80,9 @@ class Sound(object):
 				self.handle.loop_count = -1  # 3 pour les tests, sinon -1
 			else:
 				self.handle.loop_count = 0
+
+	def __del__(self):
+		self.stop()
 
 
 class Music:

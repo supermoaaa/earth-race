@@ -37,7 +37,8 @@ def initLogs():
 	sys.excepthook = log_uncaught_exceptions  # log uncaught exception
 
 
-def log(level, message):
+def log(level, *allMessages):
+	message = " ".join([str(m) for m in allMessages])
 	logger = logging.getLogger('earth-race')
 	if level == "debug":
 		logger.debug(message)

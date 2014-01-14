@@ -1,4 +1,3 @@
-from os import path, rename, remove
 import logging
 import sys
 import traceback

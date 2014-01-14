@@ -5,17 +5,7 @@ import traceback
 
 
 def initLogs():
-	#~ try:
-		#~ with open('earth-race.log', 'w') as file:
-			#~ file.close()
-	#~ except:
-		#~ pass
-	if path.isfile('earth-race.log'):
-		try:
-			remove('earth-race.log.old')
-		except:
-			pass
-		rename('earth-race.log', 'earth-race.log.old')
+	rotateLog()
 	logger = logging.getLogger('earth-race')
 	# niveau max de log que peuvent prendre le log ou la console
 	logger.setLevel(logging.DEBUG)
@@ -35,6 +25,12 @@ def initLogs():
 		logger.critical('{0}: {1}'.format(ex_cls, ex))
 
 	sys.excepthook = log_uncaught_exceptions  # log uncaught exception
+
+
+def rotateLog():
+	with open("earth-race.log.old", "w+") as outFile, \
+			open("earth-race.log", "r") as inFile:
+		outFile.write(inFile.read())
 
 
 def log(level, *allMessages):

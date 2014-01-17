@@ -1613,11 +1613,39 @@ class MenuOptionsSon(BaseGui):
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
+		
 
+		self.radio_label = bgui.Label(self.frame, 'radio', text="radio par défaut:", pt_size=38, pos=[0.05, 0.85])
+		
+		#fleche radio gauche
+		self.flecheRadioGauche_button = bgui.ImageButton(self.frame, 'flecheRadioGauche', sub_theme='selFlecheG', size=[0.04, 0.06], pos=[0.04, 0.75])
+		
+		# Setup an on_click callback
+		self.flecheRadioGauche_button.on_click = self.flecheRadioGauche
+		
+		# affichage de la radio
+		self.radio_frame = bgui.Frame(self.frame, 'fond', sub_theme='fondDigit', size=[0.20, 0.06], pos=[0.08, 0.75])
+		self.radio_name_label = bgui.Label(self.radio_frame, 'radio_name_label', text=gl.sound[2], pt_size=35, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+		#fleche radio droite
+
+		self.flecheRadioDroite_button = bgui.ImageButton(self.frame, 'flecheRadioDroite', sub_theme='selFleche', size=[0.04, 0.06], pos=[0.28, 0.75])
+		
+		# Setup an on_click callback
+		self.flecheRadioDroite_button.on_click = self.flecheRadioDroite		
+		
 		# Autres attributs
 		self.action = None
 
+	def flecheRadioGauche(self, widget):
+		gl.listeRadio.rotate(1)
+		gl.sound = gl.listeRadio[0]
+		self.radio_name_label.text = gl.sound
 
+	def flecheRadioDroite(self, widget):
+		gl.listeRadio.rotate(-1)
+		gl.sound = gl.listeRadio[0]
+		self.radio_name_label.text = gl.sound
 
 	def detruire(self) :
 		"""Détruit les widgets"""

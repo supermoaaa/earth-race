@@ -41,6 +41,14 @@ def main():
 	except:
 		pass
 
+	listRadio = os.listdir(os.path.expanduser(mainDir+"music"))
+	try:
+		listRoue.remove('.svn')
+	except:
+		pass
+
+	gl.currentRadio = listRadio.index(gl.sound[2])
+	gl.listeRadio = coll.deque(listRadio)
 	gl.mapName = listMaps[0]
 	gl.listMaps = coll.deque(listMaps)
 	gl.posVoitureJun = listVt.index(str(gl.conf[0][0][3]))

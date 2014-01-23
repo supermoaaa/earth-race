@@ -39,8 +39,11 @@ class MassRenamer(bpy.types.Operator):
         obs = context.selected_editable_objects
         obs = sorted(obs, key=lambda ob: ob.name)
         iFormat = '0' + str(int(len(obs) / 10)) + 'd'
+        #avoid name conflict
+        for ob in obs:
+        	ob.name = "tmpNameMassRename"
         for i, ob in enumerate(obs):
-            ob.name = context.window_manager.mass_renamer.prefix + format(i, iFormat)
+            ob.name = context.window_manager.mass_renamer.prefix + format(i+1, iFormat)
         return {'FINISHED'}
 
 

@@ -823,7 +823,7 @@ class jouerSoloGui(BaseGui):
 
 #############bouton validerVoiture############################
 		self.validerVoiture_button = bgui.ImageButton(self.frame, 'validerVoiture', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
-		self.retour_label = bgui.Label(self.validerVoiture_button, 'validerVoiture', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.valider_label = bgui.Label(self.validerVoiture_button, 'validerVoiture', text="VALIDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.validerVoiture_button.on_click = self.circuitMenu
@@ -1634,6 +1634,19 @@ class MenuOptionsSon(BaseGui):
 		# Setup an on_click callback
 		self.flecheRadioDroite_button.on_click = self.flecheRadioDroite		
 		
+		'''attention cette partie est temporaire ainsi que les fonctions qui lui sont attribuer'''
+		
+		self.volume_radio_label = bgui.Label(self.frame, 'volume_radio', text="volume de la musique", pt_size=38, pos=[0.05, 0.65])
+		
+		''' fin block temporaire '''
+		
+#############bouton saveAudio############################
+		self.saveAudio_button = bgui.ImageButton(self.frame, 'saveAudio', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
+		self.saveAudio_label = bgui.Label(self.saveAudio_button, 'saveAudio', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.saveAudio_button.on_click = self.saveRadio
+
 		# Autres attributs
 		self.action = None
 
@@ -1646,6 +1659,10 @@ class MenuOptionsSon(BaseGui):
 		gl.listeRadio.rotate(-1)
 		gl.sound = gl.listeRadio[0]
 		self.radio_name_label.text = gl.sound
+
+
+	def saveRadio(self, widjet):
+		confParser.saveConf()
 
 	def detruire(self) :
 		"""Détruit les widgets"""

@@ -289,7 +289,7 @@ def checkConf():
 
 
 def saveConf():
-	with open(gl.expandPath("//") + 'players.json', 'w') as f:
+	with open(gl.expandPath("//") + 'conf.json', 'w') as f:
 		json.dump([gl.graphic, gl.sound, gl.skin], f, sort_keys=True, indent=4)
 
 

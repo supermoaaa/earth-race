@@ -2,6 +2,8 @@ import logging
 import sys
 import traceback
 
+from bge import logic
+
 
 def initLogs():
 	rotateLog()
@@ -20,8 +22,8 @@ def initLogs():
 	#~ les niveaux de log sont dans l'ordre DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 	def log_uncaught_exceptions(ex_cls, ex, tb):
-		logger.critical(''.join(traceback.format_tb(tb)))
-		logger.critical('{0}: {1}'.format(ex_cls, ex))
+		log('critical', ''.join(traceback.format_tb(tb)))
+		log('critical', '{0}: {1}'.format(ex_cls, ex))
 
 	sys.excepthook = log_uncaught_exceptions  # log uncaught exception
 
@@ -30,6 +32,8 @@ def rotateLog():
 	with open("earth-race.log.old", "w+") as outFile, \
 			open("earth-race.log", "r") as inFile:
 		outFile.write(inFile.read())
+	with open("earth-race.log", "w+") as outFile:
+		outFile.write("")
 
 
 def log(level, *allMessages):
@@ -44,7 +48,9 @@ def log(level, *allMessages):
 	elif level == "error":
 		logger.error(message)
 	elif level == "critical":
+		logger.critical(logic.conf)
 		logger.critical(message)
+		logic.endGame()
 	else:
 		# si on ne reconnais pas le level on le met en niveau debug
 		logger.debug(message)

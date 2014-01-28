@@ -208,6 +208,8 @@ def main (self):
 				own["sys"] = MenuOptionsSon(own["fond"].frame)
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
+				own["fond"].frame.img.visible = False
+				gl.LibLoad("son.blend", "Scene")
 				gl.status = "MenuSon"
 
 			elif sys.action == "commandes" :
@@ -308,3 +310,5 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
+				own["fond"].frame.img.visible = True
+				gl.LibFree("son.blend")

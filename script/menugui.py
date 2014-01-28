@@ -1615,37 +1615,40 @@ class MenuOptionsSon(BaseGui):
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 		
 
-		self.radio_label = bgui.Label(self.frame, 'radio', text="radio par défaut:", pt_size=38, pos=[0.05, 0.85])
+		self.radio_label = bgui.Label(self.frame, 'radio', text="radio par défaut:", pt_size=38, pos=[0.05, 0.90])
 		
 		#fleche radio gauche
-		self.flecheRadioGauche_button = bgui.ImageButton(self.frame, 'flecheRadioGauche', sub_theme='selFlecheG', size=[0.04, 0.06], pos=[0.04, 0.75])
+		self.flecheRadioGauche_button = bgui.ImageButton(self.frame, 'flecheRadioGauche', sub_theme='selFlecheG', size=[0.04, 0.06], pos=[0.04, 0.80])
 		
 		# Setup an on_click callback
 		self.flecheRadioGauche_button.on_click = self.flecheRadioGauche
 		
 		# affichage de la radio
-		self.radio_frame = bgui.Frame(self.frame, 'fond', sub_theme='fondDigit', size=[0.20, 0.06], pos=[0.08, 0.75])
+		self.radio_frame = bgui.Frame(self.frame, 'fond', sub_theme='fondDigit', size=[0.20, 0.06], pos=[0.08, 0.80])
 		self.radio_name_label = bgui.Label(self.radio_frame, 'radio_name_label', text=gl.sound[2], pt_size=35, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		#fleche radio droite
 
-		self.flecheRadioDroite_button = bgui.ImageButton(self.frame, 'flecheRadioDroite', sub_theme='selFleche', size=[0.04, 0.06], pos=[0.28, 0.75])
+		self.flecheRadioDroite_button = bgui.ImageButton(self.frame, 'flecheRadioDroite', sub_theme='selFleche', size=[0.04, 0.06], pos=[0.28, 0.80])
 		
 		# Setup an on_click callback
 		self.flecheRadioDroite_button.on_click = self.flecheRadioDroite		
 		
-		'''attention cette partie est temporaire ainsi que les fonctions qui lui sont attribuer'''
-		
-		self.volume_radio_label = bgui.Label(self.frame, 'volume_radio', text="volume de la musique", pt_size=38, pos=[0.05, 0.65])
-		
-		''' fin block temporaire '''
+
 		
 #############bouton saveAudio############################
 		self.saveAudio_button = bgui.ImageButton(self.frame, 'saveAudio', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
-		self.saveAudio_label = bgui.Label(self.saveAudio_button, 'saveAudio', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.saveAudio_label = bgui.Label(self.saveAudio_button, 'saveAudioL', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.saveAudio_button.on_click = self.saveRadio
+
+#############bouton playAudio############################
+		self.playAudio_button = bgui.ImageButton(self.frame, 'playAudio', sub_theme='menu', size=[0.14, 0.08], pos=[0.09, 0.38])
+		self.playAudio_label = bgui.Label(self.playAudio_button, 'playAudioL', text="PLAY", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		self.playAudio_button.on_click = self.playRadio
 
 		# Autres attributs
 		self.action = None
@@ -1660,6 +1663,12 @@ class MenuOptionsSon(BaseGui):
 		gl.sound = gl.listeRadio[0]
 		self.radio_name_label.text = gl.sound
 
+
+	def playRadio(self, widjet):
+		if self.playAudio_label.text == "PLAY":
+			self.playAudio_label.text = "STOP"
+		else:
+			self.playAudio_label.text = "PLAY"
 
 	def saveRadio(self, widjet):
 		confParser.saveConf()

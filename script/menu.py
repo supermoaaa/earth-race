@@ -43,7 +43,7 @@ def main():
 
 	listRadio = os.listdir(os.path.expanduser(mainDir+"music"))
 	try:
-		listRoue.remove('.svn')
+		listRadio.remove('.svn')
 	except:
 		pass
 

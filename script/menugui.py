@@ -701,32 +701,32 @@ class MenuPrincipalGui(BaseGui):
 ############///////////frame info \\\\\\\\\\\\\\#################
 
 		self.info_ecran = bgui.Frame(self.frame, 'info_ecran', sub_theme='Invisible', border=1, size=[0.44, 0.75], pos=[0.06, 0.02], options=bgui.BGUI_DEFAULT)
-		self.info_label = bgui.Label(self.info_ecran, 'info_label', text="bienvenue " + str(gl.conf[0][0][0]), pt_size=24, pos=[0.02, 0.84], options=bgui.BGUI_DEFAULT)
+		self.info_label = bgui.Label(self.info_ecran, 'info_label', text=gl.word[1]+" " + str(gl.conf[0][0][0]), pt_size=24, pos=[0.02, 0.84], options=bgui.BGUI_DEFAULT)
 
 #############bouton joueursolo ############################
 		self.joueursolo_button = bgui.ImageButton(self.frame, 'joueursolo', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.48])
-		self.joueursolo_label = bgui.Label(self.joueursolo_button, 'joueursolo', text="JOUEUR SOLO", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.joueursolo_label = bgui.Label(self.joueursolo_button, 'joueursolo', text=gl.word[2], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		# Setup an on_click callback
 		self.joueursolo_button.on_click = self.joueurSoloM
 
 #############bouton multijoueur ############################
 		self.multijoueur_button = bgui.ImageButton(self.frame, 'multijoueur', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.38])
-		self.multijoueur_label = bgui.Label(self.multijoueur_button, 'multijoueur', text="MULTIJOUEURS", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.multijoueur_label = bgui.Label(self.multijoueur_button, 'multijoueur', text=gl.word[3], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		# Setup an on_click callback
 		self.multijoueur_button.on_click = self.multijoueurM
 
 #############bouton telechargements ############################
 		self.telechargements_button = bgui.ImageButton(self.frame, 'telechargements', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.28])
-		self.telechargements_label = bgui.Label(self.telechargements_button, 'telechargements', text="ADDONS", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.telechargements_label = bgui.Label(self.telechargements_button, 'telechargements', text=gl.word[4], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 		# Setup an on_click callback
 		self.telechargements_button.on_click = self.telechargementM
 
 #############bouton options############################
 		self.options_button = bgui.ImageButton(self.frame, 'options', sub_theme='menu', size=[0.24, 0.08], pos=[0.75, 0.18])
-		self.options_label = bgui.Label(self.options_button, 'options', text="OPTIONS", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.options_label = bgui.Label(self.options_button, 'options', text=gl.word[5], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 		# Setup an on_click callback
 		self.options_button.on_click = self.optionsM
 

@@ -5,6 +5,7 @@ import os
 import time
 from menugui import *
 
+
 cont = gl.getCurrentController()
 own = cont.owner
 
@@ -21,6 +22,15 @@ def main():
 	confParser.loadPlayer()
 	confParser.loadCounter()
 	mainDir = gl.expandPath("//")
+	gl.word =[]
+	listLangue = os.listdir(os.path.expanduser(mainDir+"lang"))
+	currentLangue = listLangue[2]
+	with open(mainDir+"lang"+os.sep+listLangue[2], 'r') as f:
+		for element in f.readlines():
+			gl.word.append(element.rstrip('\n'))
+	print(listLangue, gl.word)
+	
+	
 	listVt = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"vehicles"))
 	try:
 		listVt.remove('.svn')
@@ -75,6 +85,7 @@ def main():
 	# if the audio is not too big and will be used often you can buffer it
 	gl.factory_buffered = aud.Factory.buffer(factory)
 	gl.device.volume = 0.3
+
 
 	if hasattr(gl, 'menuStat'):
 		gl.status = "MenuselectionVoiture1J"

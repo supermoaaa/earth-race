@@ -1,0 +1,6 @@
+choix du language
+bienvenue
+JOUEUR SOLO
+MULTIJOUEURS
+ADDONS
+OPTIONS

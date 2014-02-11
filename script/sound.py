@@ -142,3 +142,21 @@ def musicPlayer():
 			gl.music.play()
 	else:
 		gl.music.step()
+
+
+class Test:
+	def init(self):
+		self.motorSound = Sound(buffered=True, looped=True)
+		self.motorSound.load(gl.expandPath("//") + 'testMotorSound.ogg')
+		self.motorSound.setPitch(0.2)
+
+	def start(self):
+		musicPlayer()
+		self.motorSound.start()
+
+	def step(self):
+		musicPlayer()
+
+	def stop(self):
+		self.motorSound.stop()
+		gl.music.stop()

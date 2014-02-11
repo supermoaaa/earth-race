@@ -91,10 +91,13 @@ class Music:
 		self.playlist = playlist
 		self.idPlayed = -1
 		self.state = False
+		self.updateVolume = True
 		if volume is not False:
-			self.setVolume(volume)
+			self.setVolume(volume, False)
 		elif hasattr(gl, 'sound'):
 			self.setVolume(gl.sound[1])
+		else:
+			self.setVolume(1, False)
 
 	def play(self):
 		if (len(self.playlist) >= 1 and
@@ -103,6 +106,8 @@ class Music:
 			self.state = True
 
 	def step(self):
+		if self.updateVolume and hasattr(gl, 'sound'):
+			self.setVolume(gl.sound[1])
 		if ((self.player.getState() == 0 or self.player.getState() is None) and
 				self.state):
 			self.playNext()
@@ -117,7 +122,11 @@ class Music:
 			self.player.play()
 			self.state = True
 
-	def setVolume(self, volume):
+	def getState(self):
+		return self.state
+
+	def setVolume(self, volume, updateVolume=True):
+		self.updateVolume = updateVolume
 		self.player.setVolume(volume)
 
 	def getVolume(self):
@@ -140,6 +149,8 @@ def musicPlayer():
 					if os.path.isfile(path + os.sep + f)]
 			gl.music = Music(playlist)
 			gl.music.play()
+	elif not gl.music.getState():
+		gl.music.play()
 	else:
 		gl.music.step()
 
@@ -156,7 +167,11 @@ class TestSoundVolume:
 
 	def step(self):
 		musicPlayer()
+		self.motorSound.setVolume(gl.sound[0])
 
 	def stop(self):
 		self.motorSound.stop()
 		gl.music.stop()
+
+	def __del__(self):
+		self.stop()

@@ -274,7 +274,8 @@ def loadConf():
 			gl.graphic = conf[0]
 			gl.sound = conf[1]
 			gl.skin = conf[2]
-		except ValueError:
+			gl.generalConf = conf[3]
+		except (ValueError, IndexError):
 			log("error", "json de configuration générale mal formaté")
 	checkConf()
 
@@ -286,11 +287,15 @@ def checkConf():
 		gl.sound = [50, 50, "electro"]
 	if not hasattr(gl, 'skin'):
 		gl.skin = 'themes/default'
+	if not hasattr(gl, 'generalConf'):
+		gl.generalConf = [True, rd.getAnisotropicFiltering(),
+				25, 50, 'sun', 'Francais']
 
 
 def saveConf():
 	with open(gl.expandPath("//") + 'conf.json', 'w') as f:
-		json.dump([gl.graphic, gl.sound, gl.skin], f, sort_keys=True, indent=4)
+		json.dump([gl.graphic, gl.sound, gl.skin, gl.generalConf],
+				f, sort_keys=True, indent=4)
 
 
 def loadCounter():

@@ -22,8 +22,8 @@ def initLogs():
 	#~ les niveaux de log sont dans l'ordre DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 	def log_uncaught_exceptions(ex_cls, ex, tb):
-		log('critical', ''.join(traceback.format_tb(tb)))
-		log('critical', '{0}: {1}'.format(ex_cls, ex))
+		log('critical', 'uncaught ' + ''.join(traceback.format_tb(tb)))
+		log('critical', 'trace ' + '{0}: {1}'.format(ex_cls, ex))
 
 	sys.excepthook = log_uncaught_exceptions  # log uncaught exception
 
@@ -48,7 +48,6 @@ def log(level, *allMessages):
 	elif level == "error":
 		logger.error(message)
 	elif level == "critical":
-		logger.critical(logic.conf)
 		logger.critical(message)
 		logic.endGame()
 	else:

@@ -288,6 +288,7 @@ def checkConf():
 	if not hasattr(gl, 'skin'):
 		gl.skin = 'themes/default'
 	if not hasattr(gl, 'generalConf'):
+		# mirror, Anisotropic, mist start, mist end, language
 		gl.generalConf = [True, rd.getAnisotropicFiltering(),
 				25, 50, 'sun', 'Francais']
 

@@ -69,9 +69,6 @@ def main():
 	gl.nbLaps = 1
 	gl.skin = 'themes/default'
 
-	# mirror, Anisotropic, mist start, mist end
-	gl.generalConf = [True, rd.getAnisotropicFiltering(), 25, 50, 'sun']
-
 	logs.log("info", gl.lstRoue)
 	logs.log("info", gl.dispPlayers)
 	logs.log("info", gl.lstVoiture)

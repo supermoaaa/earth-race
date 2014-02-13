@@ -7,6 +7,8 @@ import confParser
 import collections as coll
 import logs
 from vehicleLinker import vehicleLinker
+from sound import TestSoundVolume as TestSound
+import sound
 
 class BaseGui(bgui.System):
 	"""
@@ -19,10 +21,12 @@ class BaseGui(bgui.System):
 		self.ouvert = True
 
 
+
 	def main(self):
 		"""A high-level method to be run every frame"""
 
 		#self.update()
+		sound.musicPlayer()
 
 
 		# Handle the mouse
@@ -1610,6 +1614,9 @@ class MenuOptionsSon(BaseGui):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
 
+		self.soundMusic = TestSound
+		self.soundMusic.init(self)
+
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
@@ -1655,20 +1662,24 @@ class MenuOptionsSon(BaseGui):
 
 	def flecheRadioGauche(self, widget):
 		gl.listeRadio.rotate(1)
-		gl.sound = gl.listeRadio[0]
-		self.radio_name_label.text = gl.sound
+		gl.sound[2] = gl.listeRadio[0]
+		self.radio_name_label.text = gl.sound[2]
+		del gl.music
 
 	def flecheRadioDroite(self, widget):
 		gl.listeRadio.rotate(-1)
-		gl.sound = gl.listeRadio[0]
-		self.radio_name_label.text = gl.sound
+		gl.sound[2] = gl.listeRadio[0]
+		self.radio_name_label.text = gl.sound[2]
+		del gl.music
 
 
 	def playRadio(self, widjet):
 		if self.playAudio_label.text == "PLAY":
 			self.playAudio_label.text = "STOP"
+			self.soundMusic.stop(self)
 		else:
 			self.playAudio_label.text = "PLAY"
+			self.soundMusic.start(self)
 
 	def saveRadio(self, widjet):
 		confParser.saveConf()

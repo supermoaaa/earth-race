@@ -5,9 +5,17 @@
         3
     ], 
     [
-        50, 
-        50, 
-        "electro"
+        5, 
+        10, 
+        "rock"
     ], 
-    "themes/default"
+    "themes/default", 
+    [
+        true, 
+        2, 
+        25, 
+        50, 
+        "sun", 
+        "Francais"
+    ]
 ]

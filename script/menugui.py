@@ -27,6 +27,7 @@ class BaseGui(bgui.System):
 
 		#self.update()
 		sound.musicPlayer()
+		sound.TestSoundVolume
 
 
 		# Handle the mouse
@@ -1616,6 +1617,7 @@ class MenuOptionsSon(BaseGui):
 
 		self.soundMusic = TestSound
 		self.soundMusic.init(self)
+		self.soundMusic.start(self)
 
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
@@ -1652,7 +1654,7 @@ class MenuOptionsSon(BaseGui):
 
 #############bouton playAudio############################
 		self.playAudio_button = bgui.ImageButton(self.frame, 'playAudio', sub_theme='menu', size=[0.14, 0.08], pos=[0.09, 0.38])
-		self.playAudio_label = bgui.Label(self.playAudio_button, 'playAudioL', text="PLAY", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.playAudio_label = bgui.Label(self.playAudio_button, 'playAudioL', text="STOP", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.playAudio_button.on_click = self.playRadio

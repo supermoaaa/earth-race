@@ -163,7 +163,7 @@ class TestSoundVolume:
 
 	def start(self):
 		musicPlayer()
-		self.motorSound.start()
+		self.motorSound.play()
 
 	def step(self):
 		musicPlayer()

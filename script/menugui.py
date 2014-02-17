@@ -21,12 +21,13 @@ class BaseGui(bgui.System):
 		self.ouvert = True
 
 
-
 	def main(self):
 		"""A high-level method to be run every frame"""
 
 		#self.update()
 		sound.musicPlayer()
+		if hasattr(gl, 'testMotorSound'):
+			gl.testMotorSound.step()
 
 
 		# Handle the mouse
@@ -786,7 +787,7 @@ class jouerSoloGui(BaseGui):
 		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=31, pos=[0.67, 0.78], options=bgui.BGUI_DEFAULT)
 		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=31, pos=[0.73, 0.78], options=bgui.BGUI_DEFAULT)
 
-		
+
 #############bouton testSound############################
 		self.Sound_label = bgui.Label(self.frame, 'Sound', text="Sound:", pt_size=31, pos=[0.67, 0.58], options=bgui.BGUI_DEFAULT)
 		self.testSound_button = bgui.ImageButton(self.frame, 'testSound', sub_theme='menu', size=[0.10, 0.05], pos=[0.73, 0.58])
@@ -875,7 +876,7 @@ class jouerSoloGui(BaseGui):
 		elif self.testSound_label.text == "stop":
 			gl.voiture.stopSound()
 			self.testSound_label.text = "play"
-		
+
 	def testerVoiture(self, widget):
 		rd.showMouse(0)
 		gl.dispPlayers=[0, gl.conf[0][0][0]]
@@ -1614,23 +1615,22 @@ class MenuOptionsSon(BaseGui):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
 
-		self.soundMusic = TestSound
-		self.soundMusic.init(self)
-		self.soundMusic.start(self)
+		gl.testMotorSound = TestSound()
+		gl.testMotorSound.start()
 
 		# Cadre général
 		self.frame = bgui.Frame(parent, 'frame', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
-		
+
 
 		self.radio_label = bgui.Label(self.frame, 'radio', text="radio par défaut:", pt_size=38, pos=[0.05, 0.90])
-		
+
 		#fleche radio gauche
 		self.flecheRadioGauche_button = bgui.ImageButton(self.frame, 'flecheRadioGauche', sub_theme='selFlecheG', size=[0.04, 0.06], pos=[0.04, 0.80])
-		
+
 		# Setup an on_click callback
 		self.flecheRadioGauche_button.on_click = self.flecheRadioGauche
-		
+
 		# affichage de la radio
 		self.radio_frame = bgui.Frame(self.frame, 'fond', sub_theme='fondDigit', size=[0.20, 0.06], pos=[0.08, 0.80])
 		self.radio_name_label = bgui.Label(self.radio_frame, 'radio_name_label', text=gl.sound[2], pt_size=35, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -1638,12 +1638,12 @@ class MenuOptionsSon(BaseGui):
 		#fleche radio droite
 
 		self.flecheRadioDroite_button = bgui.ImageButton(self.frame, 'flecheRadioDroite', sub_theme='selFleche', size=[0.04, 0.06], pos=[0.28, 0.80])
-		
-		# Setup an on_click callback
-		self.flecheRadioDroite_button.on_click = self.flecheRadioDroite		
-		
 
-		
+		# Setup an on_click callback
+		self.flecheRadioDroite_button.on_click = self.flecheRadioDroite
+
+
+
 #############bouton saveAudio############################
 		self.saveAudio_button = bgui.ImageButton(self.frame, 'saveAudio', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
 		self.saveAudio_label = bgui.Label(self.saveAudio_button, 'saveAudioL', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -1680,3 +1680,6 @@ class MenuOptionsSon(BaseGui):
 	def main(self) :
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)
+
+	def __del__(self):
+		del(gl.testMotorSound)

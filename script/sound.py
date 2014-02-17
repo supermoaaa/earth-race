@@ -44,7 +44,6 @@ class Sound(object):
 
 	def stop(self):
 		if self.handle is not None:
-			log("debug", "sound stop sound")
 			self.handle.stop()
 			self.isPlaying = False
 
@@ -156,22 +155,19 @@ def musicPlayer():
 
 
 class TestSoundVolume:
-	def init(self):
+	def __init__(self):
 		self.motorSound = Sound(buffered=True, looped=True)
 		self.motorSound.load(gl.expandPath("//") + 'testMotorSound.ogg')
 		self.motorSound.setPitch(0.2)
 
 	def start(self):
-		musicPlayer()
 		self.motorSound.play()
 
 	def step(self):
-		musicPlayer()
 		self.motorSound.setVolume(gl.sound[0])
 
 	def stop(self):
 		self.motorSound.stop()
-		gl.music.stop()
 
 	def __del__(self):
 		self.stop()

@@ -209,7 +209,6 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = False
-				own["sys"].soundMusic.step()
 				gl.LibLoad("son.blend", "Scene")
 				gl.status = "MenuSon"
 
@@ -293,7 +292,7 @@ def main (self):
 				gl.dispPlayers=[1, gl.conf[0][0][0], gl.conf[0][1][0]]
 				for lib in gl.LibList():
 					gl.LibFree(lib)
-				
+
 				own["fond"].detruire()
 				own["fond"] = FondGui()
 				own["sys"].detruire()

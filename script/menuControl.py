@@ -209,6 +209,7 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = False
+				own["sys"].soundMusic.step()
 				gl.LibLoad("son.blend", "Scene")
 				gl.status = "MenuSon"
 

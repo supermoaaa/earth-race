@@ -27,7 +27,6 @@ class BaseGui(bgui.System):
 
 		#self.update()
 		sound.musicPlayer()
-		sound.TestSoundVolume
 
 
 		# Handle the mouse
@@ -1652,12 +1651,7 @@ class MenuOptionsSon(BaseGui):
 				# Setup an on_click callback
 		self.saveAudio_button.on_click = self.saveRadio
 
-#############bouton playAudio############################
-		self.playAudio_button = bgui.ImageButton(self.frame, 'playAudio', sub_theme='menu', size=[0.14, 0.08], pos=[0.09, 0.38])
-		self.playAudio_label = bgui.Label(self.playAudio_button, 'playAudioL', text="STOP", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
-				# Setup an on_click callback
-		self.playAudio_button.on_click = self.playRadio
 
 		# Autres attributs
 		self.action = None
@@ -1675,13 +1669,6 @@ class MenuOptionsSon(BaseGui):
 		del gl.music
 
 
-	def playRadio(self, widjet):
-		if self.playAudio_label.text == "PLAY":
-			self.playAudio_label.text = "STOP"
-			self.soundMusic.stop(self)
-		else:
-			self.playAudio_label.text = "PLAY"
-			self.soundMusic.start(self)
 
 	def saveRadio(self, widjet):
 		confParser.saveConf()

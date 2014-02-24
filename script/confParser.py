@@ -9,6 +9,8 @@ from scores import Scores
 
 def lineParse(line):
 	try:
+		if line == '\n' or line == '\r\n':
+			return ['','']
 		param = line.split("=")
 		param[0] = param[0].strip()
 		param = [param[0]] + param[1].split(" ")
@@ -25,8 +27,9 @@ def lineParse(line):
 		except:
 			pass
 		return param
-	except IndexError e:
+	except IndexError:
 		log("error", "failed to parse line '" + str(line)+"'")
+		return ['','']
 
 def typeParse(var):
 	try:

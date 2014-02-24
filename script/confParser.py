@@ -8,23 +8,25 @@ from scores import Scores
 
 
 def lineParse(line):
-	param = line.split("=")
-	param[0] = param[0].split(" ")[0]
-	param = [param[0]] + param[1].split(" ")
-	# delete return character
 	try:
-		param[-1] = param[-1].replace('\n', '')
-	except:
-		pass
-	param.remove("")
-	# try to parse a simple array
-	try:
-		param[1] = (''.join(param[1:])).split('[')[1].split(']')[0].split(',')
-		param[1] = list(map(typeParse, param[1]))
-	except:
-		pass
-	return param
-
+		param = line.split("=")
+		param[0] = param[0].strip()
+		param = [param[0]] + param[1].split(" ")
+		# delete return character
+		try:
+			param[-1] = param[-1].replace('\n', '')
+		except:
+			pass
+		param.remove("")
+		# try to parse a simple array
+		try:
+			param[1] = (''.join(param[1:])).split('[')[1].split(']')[0].split(',')
+			param[1] = list(map(typeParse, param[1]))
+		except:
+			pass
+		return param
+	except IndexError e:
+		log("error", "failed to parse line '" + str(line)+"'")
 
 def typeParse(var):
 	try:

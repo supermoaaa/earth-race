@@ -50,7 +50,10 @@ class Sound(object):
 	def setVolume(self, volume):
 		self.volume = volume
 		if self.handle is not None:
-			self.handle.volume = volume
+			try:
+				self.handle.volume = volume
+			except aud.error:
+				pass
 
 	def getVolume(self):
 		return self.volume

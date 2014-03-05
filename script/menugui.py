@@ -981,6 +981,10 @@ class MenuNomsJoueursGui(BaseGui):
 		self.joueur4_input = bgui.TextInput(self.frame, 'joueur4_input', str(gl.conf[0][3][0]), pt_size=30, size=[.2, .05], pos=[0.02, 0.13], input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
 		self.joueur4_input.activate()
 		self.joueur4_input.on_enter_key = self.joueur4_on_input_enter
+		
+		
+		# Keymap pour la correspondance entre bge.events et bgui
+		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val)}
 
 	def detruire(self) :
 		"""Détruit les widgets"""
@@ -1143,6 +1147,9 @@ class MenuCommandesGui(BaseGui):
 
 				# Setup an on_click callback
 		self.Modifierupcam_button.on_click = self.Modifierupcam
+
+		# Keymap pour la correspondance entre bge.events et bgui
+		self.keymap = {getattr(ev, val): getattr(bgui, val) for val in dir(ev) if (val.endswith('KEY') or val.startswith('PAD')) and hasattr(bgui, val)}
 
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:

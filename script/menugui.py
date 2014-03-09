@@ -10,6 +10,9 @@ from vehicleLinker import vehicleLinker
 from sound import TestSoundVolume as TestSound
 import sound
 
+cont = gl.getCurrentController()
+own = cont.owner
+
 class BaseGui(bgui.System):
 	"""
 	Classe de base pour le gui (pour conserver la meme methode main)
@@ -64,7 +67,8 @@ class BaseGui(bgui.System):
 			if state == gl.KX_INPUT_JUST_ACTIVATED:
 				self.update_keyboard(self.keymap[key], is_shifted)
 				if gl.status == "MenuCommandes" :
-					print(ev.EventToString(key))
+					own["sys"].updateKeys(key)
+
 
 
 		# Now setup the scene callback so we can draw
@@ -1359,7 +1363,39 @@ class MenuCommandesGui(BaseGui):
 		elif self.cur_upcam_label.state == 1:
 			self.cur_respawn_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = 0
+	
+	def updateKeys(self, key) :
+		#print(self.cur_respawn_label.state, ev.EventToString(key))
+		if self.cur_accelerateur_label.state == 1:
+			self.cur_accelerateur_label.text = ev.EventToString(key)
 
+		if self.cur_frein_label.state == 1:
+			self.cur_frein_label.text = ev.EventToString(key)
+
+		if self.cur_droite_label.state == 1:
+			self.cur_droite_label.text = ev.EventToString(key)
+
+		if self.cur_gauche_label.state == 1:
+			self.cur_gauche_label.text = ev.EventToString(key)
+
+		if self.cur_freinMain_label.state == 1:
+			self.cur_freinMain_label.text = ev.EventToString(key)
+
+		if self.cur_nitro_label.state == 1:
+			self.cur_nitro_label.text = ev.EventToString(key)
+
+		if self.cur_passerVitesse_label.state == 1:
+			self.cur_passerVitesse_label.text = ev.EventToString(key)
+
+		if self.cur_retrograder_label.state == 1:
+			self.cur_retrograder_label.text = ev.EventToString(key)
+
+		if self.cur_upcam_label.state == 1:
+			self.cur_upcam_label.text = ev.EventToString(key)
+
+		if self.cur_respawn_label.state == 1:
+			self.cur_respawn_label.text = ev.EventToString(key)
+			
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

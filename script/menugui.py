@@ -1166,7 +1166,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][1][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][1][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][1][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][1][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[1]:
 			self.joueur_label.text = gl.configurablePlayers[2]
@@ -1178,7 +1179,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][2][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][2][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][2][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[2]:
 			self.joueur_label.text = gl.configurablePlayers[3]
@@ -1190,7 +1192,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][3][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][3][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][3][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][3][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[3]:
 			self.joueur_label.text = gl.configurablePlayers[0]
@@ -1202,7 +1205,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][0][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][0][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][0][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][9][1]))
 
 	def leftjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
@@ -1368,33 +1372,44 @@ class MenuCommandesGui(BaseGui):
 		#print(self.cur_respawn_label.state, ev.EventToString(key))
 		if self.cur_accelerateur_label.state == 1:
 			self.cur_accelerateur_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][0][1] = key
 
 		if self.cur_frein_label.state == 1:
 			self.cur_frein_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][1][1] = key
+
 
 		if self.cur_droite_label.state == 1:
 			self.cur_droite_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][2][1] = key
 
 		if self.cur_gauche_label.state == 1:
 			self.cur_gauche_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][3][1] = key
 
 		if self.cur_freinMain_label.state == 1:
 			self.cur_freinMain_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][4][1] = key
 
 		if self.cur_nitro_label.state == 1:
 			self.cur_nitro_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][5][1] = key
 
 		if self.cur_passerVitesse_label.state == 1:
 			self.cur_passerVitesse_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][6][1] = key
 
 		if self.cur_retrograder_label.state == 1:
 			self.cur_retrograder_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][7][1] = key
 
 		if self.cur_upcam_label.state == 1:
 			self.cur_upcam_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][9][1] = key
 
 		if self.cur_respawn_label.state == 1:
 			self.cur_respawn_label.text = ev.EventToString(key)
+			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][8][1] = key
 			
 	def detruire(self) :
 		"""Détruit les widgets"""

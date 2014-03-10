@@ -1154,6 +1154,13 @@ class MenuCommandesGui(BaseGui):
 				# Setup an on_click callback
 		self.Modifierupcam_button.on_click = self.Modifierupcam
 
+		
+#############bouton sauvgarderComm############################
+		self.sauvgarderComm_button = bgui.ImageButton(self.frame, 'sauvgarderComm', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
+		self.sauvgarderComm_label = bgui.Label(self.sauvgarderComm_button, 'sauvgarderComm', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+
+				# Setup an on_click callback
+		#self.sauvgarderComm_button.on_click = self.sauvgarderComm
 
 	def rightjoueur(self, widget):
 		if self.joueur_label.text == gl.configurablePlayers[0]:
@@ -1219,7 +1226,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][3][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][3][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][3][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][3][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[1]:
 			self.joueur_label.text = gl.configurablePlayers[0]
@@ -1231,7 +1239,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][0][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][0][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][0][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][0][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[2]:
 			self.joueur_label.text = gl.configurablePlayers[1]
@@ -1243,7 +1252,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][1][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][1][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][1][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][1][2][9][1]))
 
 		elif self.joueur_label.text == gl.configurablePlayers[3]:
 			self.joueur_label.text = gl.configurablePlayers[2]
@@ -1255,7 +1265,8 @@ class MenuCommandesGui(BaseGui):
 			self.cur_nitro_label.text = ev.EventToString(int(gl.conf[0][2][2][5][1]))
 			self.cur_passerVitesse_label.text = ev.EventToString(int(gl.conf[0][2][2][6][1]))
 			self.cur_retrograder_label.text = ev.EventToString(int(gl.conf[0][2][2][7][1]))
-			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][8][1]))
+			self.cur_respawn_label.text = ev.EventToString(int(gl.conf[0][0][2][8][1]))
+			self.cur_upcam_label.text = ev.EventToString(int(gl.conf[0][2][2][9][1]))
 
 
 	def ModifierAccelerateur(self, widget):
@@ -1411,6 +1422,9 @@ class MenuCommandesGui(BaseGui):
 			self.cur_respawn_label.text = ev.EventToString(key)
 			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][8][1] = key
 			
+	def sauvgarderComm(self, widget):
+		confParser.savePlayer()
+	
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

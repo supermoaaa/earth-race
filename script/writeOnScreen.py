@@ -23,6 +23,7 @@ class bflFactory:
 
 class bflManager:
 	_instance = None
+	inited = False
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
@@ -30,18 +31,17 @@ class bflManager:
 		return cls._instance
 
 	def __init__(self):
+		log("debug", "init BflManager")
 		if not hasattr(self, 'texts'):
-			scene = gl.getCurrentScene()
+			self.texts = []
 
+		if not self.inited:
+			scene = gl.getCurrentScene()
 			self.height = render.getWindowHeight()
 			self.width = render.getWindowWidth()
 			log("debug", "screen height: {} width : {}".format(self.height, self.width))
-
-			self.texts = []
-
 			scene.post_draw = [self.writeAll]
-
-			bflManager._inited = True
+			self._inited = True
 
 	def addText(self, text):
 		self.texts.append(text)
@@ -69,7 +69,6 @@ class bflManager:
 	def resetInstance(self):
 		log('debug', 'bflManager : reset instance')
 		bflManager._instance = None
-
 
 class Text:
 	def __init__(self, x, y, size, fontid, cam):

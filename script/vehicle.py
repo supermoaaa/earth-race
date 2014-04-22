@@ -52,6 +52,7 @@ class vehicleSimulation(object):
 		logs.log("debug", 'type du véhicule : ' + vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
 			if param[0] == "car":
+				logs.log("debug","scene objects : "+str(gl.getCurrentScene().objects))
 				mainObject = self.addPiece(param[1], None)
 				self.main = mainObject
 				self.setParent(parent)

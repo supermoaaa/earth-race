@@ -117,7 +117,7 @@ class vehicleLinker(object):
 	def simulate(self):
 		if self.car is not None and conf.isLoadedWheel(self.wheels_type):
 			self.car.simulate()
-			self.camera.simulate()
+			self.camera.simulate(self.car.owner['kph'])
 
 	def respawn(self):
 		if self.car is not None and conf.isLoadedWheel(self.wheels_type):

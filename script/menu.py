@@ -96,6 +96,7 @@ def main():
 		gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
 		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+		gl.getCurrentScene().active_camera = gl.getCurrentScene().objects['CameraPlayer1']
 		delattr(gl, 'menuStat')
 
 	else:

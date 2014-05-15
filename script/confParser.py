@@ -39,7 +39,7 @@ def typeParse(var):
 	return var
 
 
-def loadVehicle(vehicleType, endFunction):
+def loadVehicle(vehicleType, endFunction, onlyConf=False):
 	path = gl.expandPath("//") + "objects" + os.sep + \
 		"vehicles" + os.sep + vehicleType + os.sep
 	if (vehicleType not in gl.conf[1] or

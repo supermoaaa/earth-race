@@ -34,7 +34,7 @@ from bpy.props import *
 class MassRenamer(bpy.types.Operator):
     bl_idname = "mass_renamer.rename"
     bl_label = "Mass renaming of objects"
-    
+
     def execute(self, context):
         obs = context.selected_editable_objects
         obs = sorted(obs, key=lambda ob: ob.name)
@@ -50,7 +50,7 @@ class MassRenamer(bpy.types.Operator):
 class MassSwitch(bpy.types.Operator):
     bl_idname = "mass_renamer.switch"
     bl_label = "Mass switch name of objects"
-    
+
     def execute(self, context):
         obs = context.selected_editable_objects
         obs = sorted(obs, key=lambda ob: ob.name)
@@ -68,11 +68,11 @@ class MassRenamerProps(bpy.types.PropertyGroup):
                             default='New Name',
                             description='Rename all with this String')
 
-class ToolsPanel(bpy.types.Panel):
+class MassRenamerPanel(bpy.types.Panel):
     bl_label = "Rename"
     bl_space_type = "VIEW_3D"
     bl_region_type = "TOOLS"
- 
+
     def draw(self, context):
         #context.window_manager.mass_renamer = MassRenamerProps()
         #prefix = StringProperty(name='Prefix Name',

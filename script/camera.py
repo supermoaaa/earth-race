@@ -81,9 +81,9 @@ class camera:
 			carPosX, carPosY, carPosZ = self.carObj.worldPosition
 			carPosZ += 0.2  # correct the center of view
 			ticRate = gl.getLogicTicRate() * 2
-			speed = abs(speed) + 0.5
-			smoothSpeed = (speed + self.lastSpeed * ticRate) / (ticRate + 1)
-			self.lastSpeed = speed
+			absSpeed = abs(speed) + 0.5
+			smoothSpeed = (absSpeed + self.lastSpeed * ticRate) / (ticRate + 1)
+			self.lastSpeed = absSpeed
 			self.carRotEuler.setEuler(self.carObj.localOrientation.to_euler("YXZ"), "YXZ")
 			carRotZ = self.carRotEuler.getEuler()[2]
 			self.smoothCarRotY = (self.carRotEuler.getEuler()[0] + self.smoothCarRotY * (ticRate/6)) / ((ticRate/6) + 1)
@@ -91,7 +91,7 @@ class camera:
 			camRot[2] = self.__diffAngle(camRot[2], 1.57)
 
 			# inversion de la caméra si on passe en marche arrière
-			carRotZ, camRot[2], smoothSpeed = self.__autoReverseCamFromGear(self.car.gearSelect, carRotZ, camRot[2], smoothSpeed)
+			carRotZ, camRot[2], smoothSpeed = self.__autoReverseCam(speed>=0, carRotZ, camRot[2], smoothSpeed)
 
 			# le dernier chiffre est la distance min
 			xRelativePosition = smoothSpeed / 150 + 5
@@ -188,15 +188,15 @@ class camera:
 		return carRotZ
 
 	# inversion de la caméra si on passe en marche arrière
-	def __autoReverseCamFromGear(self, gearSelect, carRotZ, camRotZ, smoothSpeed):
-		if self.car.gearSelect == 0:  # si on est en marche arrière
+	def __autoReverseCam(self, forward, carRotZ, camRotZ, smoothSpeed):
+		if not forward:  # si on est en marche arrière
 			carRotZ = (carRotZ) % 6.28 - 3.14
 			if smoothSpeed<0: smoothSpeed = smoothSpeed * 4
 			if not self.rev:  # si on vient de passer en marche arrière
 				self.rev = True
 				camRotZ = carRotZ
 				self.down = 0
-		elif self.car.gearSelect != 0 and self.rev: # si on vient de passer en marche avant
+		elif forward and self.rev: # si on vient de passer en marche avant
 			self.rev = False
 			camRotZ = carRotZ
 			self.down = 0

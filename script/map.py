@@ -2,6 +2,7 @@ from bge import logic as gl
 import os
 from logs import log
 import loaderVehicles
+import confParser
 
 
 def loadMap():
@@ -20,19 +21,29 @@ def loadMap():
 
 
 def loadSky():
-	path = os.path.join(gl.expandPath("//"), "objects", "sky") + os.sep
-	blend = path + "skydome" + \
-			gl.generalConf[4][0].upper() + gl.generalConf[4][1:] + ".blend"
+	name = "skydome" + gl.generalConf[4][0].upper() + gl.generalConf[4][1:]
+	path = os.path.join(gl.expandPath("//"), "objects", "sky")
+	blend = os.path.join(path, name, name + ".blend")
 	if not os.path.isfile(blend):
 		log("error", "couldn't find file " + str(blend))
-		blend = path + "skydomeCloud.blend"
+		blend = os.path.join(path, "skydomeCloud", "skydomeCloud.blend")
+		gl.generalConf[4] = "cloud"
 	gl.LibLoad(blend, "Scene", load_actions=True, load_scripts=True, async=False)
+	onFinishSkyLoaded()
 
 
-def t(status):
-	print("Library (%s) loaded in %.2fms." %
-			(status.libraryName, status.timeTaken))
-	onFinishMapLoaded()
+def onFinishSkyLoaded():
+	print("finishLoading : " + gl.generalConf[4][0].upper() + gl.generalConf[4][1:])
+	name = "skydome" + gl.generalConf[4][0].upper() + gl.generalConf[4][1:]
+	path = os.path.join(gl.expandPath("//"), "objects", "sky")
+	conf = os.path.join(path, name, name + ".cfg")
+	gl.sky = confParser.parseConfFile(conf)
+
+
+#~ def t(status):
+	#~ print("Library (%s) loaded in %.2fms." %
+			#~ (status.libraryName, status.timeTaken))
+	#~ onFinishMapLoaded()
 
 
 def onFinishMapLoaded():

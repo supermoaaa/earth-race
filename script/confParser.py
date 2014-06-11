@@ -7,6 +7,14 @@ import json
 from scores import Scores
 
 
+def typeParse(var):
+	try:
+		var = float(var)
+	except:
+		pass
+	return var
+
+
 def lineParse(line):
 	try:
 		if line == '\n' or line == '\r\n':
@@ -22,7 +30,7 @@ def lineParse(line):
 		param.remove("")
 		# try to parse a simple array
 		try:
-			param[1] = (''.join(param[1:])).split('[')[1].split(']')[0].split(',')
+			param[1] = (''.join(param[1:])).split('[')[1].split(']')[0].split(',') # bad convertion with spaces ex:test = [1, 2]
 			param[1] = list(map(typeParse, param[1]))
 		except:
 			pass
@@ -31,12 +39,21 @@ def lineParse(line):
 		log("error", "failed to parse line '" + str(line)+"'")
 		return ['','']
 
-def typeParse(var):
-	try:
-		var = float(var)
-	except:
-		pass
-	return var
+
+def parseConfFile(confFilePath, defaultPath = ""):
+	allParams = []
+	if defaultPath=="":
+		defaultPath = os.path.dirname(confFilePath)
+	if os.path.isfile(confFilePath):
+		with open(confFilePath, "r") as propertieFile:
+			for line in propertieFile:
+				param = lineParse(line)
+				if param[0].endswith("Sound"):
+					param[1] = os.path.join(defaultPath, param[1])
+				allParams.append(param)
+	else:
+		log("error", "fichier " + str(confFilePath) + " non trouvé")
+	return allParams
 
 
 def loadVehicle(vehicleType, endFunction, onlyConf=False):
@@ -54,15 +71,10 @@ def loadVehicle(vehicleType, endFunction, onlyConf=False):
 				load_scripts=True, async=True).onFinish = endFunction
 
 		# load vehicle properties
-		propertieFile = open(path + vehicleType + ".cfg", "r")
-		for line in propertieFile:
-			param = lineParse(line)
-			if param[0].endswith("Sound"):
-				param[1] = path + param[1]
-			gl.conf[1][vehicleType].append(param)
+		gl.conf[1][vehicleType].extend(parseConfFile(path + vehicleType + ".cfg"))
 
+		# number of usage of the car
 		gl.conf[1][vehicleType].append(['users', 1])
-		propertieFile.close
 		log("info", "loadVehicle " + vehicleType)
 		log("debug", "vehicle conf : " + str(gl.conf[1][vehicleType]))
 	else:
@@ -110,14 +122,11 @@ def loadWheel(wheelsType, endFunction):
 				load_scripts=True, async=True).onFinish = endFunction
 
 		# load wheel properties
-		propertieFile = open(path + wheelsType + ".cfg", "r")
-		for line in propertieFile:
-			param = lineParse(line)
-			if param[0].endswith("Sound"):
-				param[1] = path + param[1]
-			gl.conf[2][wheelsType].append(param)
+		gl.conf[2][wheelsType].extend(parseConfFile(path + wheelsType + ".cfg"))
+
+		# number of usage of the wheel
+		# more exactly the number of call of the load function
 		gl.conf[2][wheelsType].append(['users', 1])
-		propertieFile.close
 		log("info", "loadWheel " + wheelsType)
 	else:
 		for param in gl.conf[2][wheelsType]:

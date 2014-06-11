@@ -7,6 +7,7 @@ from math import sqrt
 from math import atan
 from logs import log
 from eulerCorrector import eulerCorrector
+import objects
 
 class camera:
 
@@ -29,6 +30,7 @@ class camera:
 		self.ray3 = None
 		self.carRotEuler = eulerCorrector()
 		self.smoothCarRotY = 0
+		self.attachedToCam = []
 
 	def setParams(self, car=None, camera=None, viewPort=None,
 				lens=None, far=None):
@@ -59,6 +61,7 @@ class camera:
 
 	def updateCam(self):
 		if self.camera is not None:
+			self.__cleanAttached()
 			self.camera.removeParent()
 			self.camera.setViewport(
 				self.viewPort[0], self.viewPort[1], self.viewPort[2], self.viewPort[3])
@@ -69,6 +72,34 @@ class camera:
 			if self.car is not None:
 				self.car.setCamsParams(self.far, self.viewPort)
 				self.car.setDefaultCam(self.camera)
+			self.__setAttached()
+
+	def __cleanAttached(self):
+		for attachedObj in self.attachedToCam:
+			attachedObj[0].endObject()
+		self.attachedToCam = []
+
+	def __setAttached(self):
+		for skyParam in gl.sky:
+			if skyParam[0] == "attachedToCam":
+				child = objects.addObject(self.camera, skyParam[1])
+				if child is not None:
+					self.attachedToCam.append([child, \
+												float(skyParam[2]), \
+												float(skyParam[3]), \
+												float(skyParam[4])])
+
+	def __positionAttached(self, speed):
+		for attachedObj, decalZ, decalX, speedMultiplier in self.attachedToCam:
+			ori = attachedObj.worldOrientation.to_euler()
+			ori[2] = self.camera.worldOrientation.to_euler()[2]
+			attachedObj.worldPosition = self.camera.localPosition[:]
+			yLocalRelativePostion = decalX + (speed / 350) * speedMultiplier
+			xRelativePosition, yRelativePosition = self.__to3D(0, yLocalRelativePostion, ori[2])
+			attachedObj.worldPosition[0] += xRelativePosition
+			attachedObj.worldPosition[1] += yRelativePosition
+			attachedObj.worldPosition[2] += decalZ
+			attachedObj.worldOrientation = ori.to_matrix()
 
 	def reset(self):
 		self.lastSpeed = 0.0
@@ -136,6 +167,7 @@ class camera:
 			self.camera.localOrientation = Euler(
 				[camRot[0], camRot[1], (carRotZ + (3.14 / 2)) % 6.28], 'XYZ').to_matrix()
 			self.__dynamicLens()
+			self.__positionAttached(smoothSpeed)
 
 	def __dynamicLens(self):
 		self.camera.lens = self.lens - self.lens * \

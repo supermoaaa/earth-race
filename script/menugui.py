@@ -238,20 +238,20 @@ class MenuSelectionCircuitGui(BaseGui):
 
 ############///////////selection_circuit video \\\\\\\\\\\\\\#################
 
-		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.15, 0.8], options=bgui.BGUI_DEFAULT)
-		self.selection_circuit = bgui.Frame(self.frame, 'selection_circuit', sub_theme='ecran', border=1, size=[0.2, 0.3], pos=[0.15, 0.48], options=bgui.BGUI_DEFAULT)
+		self.circuit_label = bgui.Label(self.frame, 'circuit_text', text="nom du circuit:"+str(gl.mapName), pt_size=30, pos=[0.10, 0.8], options=bgui.BGUI_DEFAULT)
+		self.selection_circuit = bgui.Frame(self.frame, 'selection_circuit', sub_theme='ecran', border=1, size=[0.2, 0.3], pos=[0.10, 0.48], options=bgui.BGUI_DEFAULT)
 		self.selection_circuitVideo = bgui.Video(self.selection_circuit, 'menuItems/vidNonTrouver.avi', play_audio=False, repeat=-1, size=[1, 1], pos=[0, 0], options=bgui.BGUI_DEFAULT)
 
 
 
 #############bouton flecheVideoDR############################
-		self.flecheVdDR_button = bgui.ImageButton(self.frame, 'flecheVdDR', sub_theme='selFleche', size=[0.05, 0.30], pos=[0.35, 0.48])
+		self.flecheVdDR_button = bgui.ImageButton(self.frame, 'flecheVdDR', sub_theme='selFleche', size=[0.05, 0.30], pos=[0.30, 0.48])
 
 		# Setup an on_click callback
 		self.flecheVdDR_button.on_click = self.rightMap
 
 #############bouton flecheVideoGA############################
-		self.flecheVdGA_button = bgui.ImageButton(self.frame, 'flecheVdGA', sub_theme='selFlecheG', size=[0.05, 0.30], pos=[0.1, 0.48])
+		self.flecheVdGA_button = bgui.ImageButton(self.frame, 'flecheVdGA', sub_theme='selFlecheG', size=[0.05, 0.30], pos=[0.05, 0.48])
 
 		# Setup an on_click callback
 		self.flecheVdGA_button.on_click = self.leftMap
@@ -791,40 +791,44 @@ class jouerSoloGui(BaseGui):
 		self.frame = bgui.Frame(parent, 'cadre', size=[1, 1], pos=[0, 0],
 			sub_theme="Invisible", options =  bgui.BGUI_CENTERED | bgui.BGUI_DEFAULT)
 
-		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=31, pos=[0.67, 0.82], options=bgui.BGUI_DEFAULT)
+		self.introVoiture_label = bgui.Label(self.frame, 'introVoiture_label', text="Voiture:", pt_size=31, pos=[0.64, 0.82], options=bgui.BGUI_DEFAULT)
 		self.voiture_label = bgui.Label(self.frame, 'voiture_label', sub_theme='MenuInfo', text="voiture", pt_size=31, pos=[0.73, 0.82], options=bgui.BGUI_DEFAULT)
 
-		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=31, pos=[0.67, 0.78], options=bgui.BGUI_DEFAULT)
-		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=31, pos=[0.73, 0.78], options=bgui.BGUI_DEFAULT)
+		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=31, pos=[0.64, 0.77], options=bgui.BGUI_DEFAULT)
+		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=31, pos=[0.73, 0.77], options=bgui.BGUI_DEFAULT)
 
 
 #############bouton testSound############################
-		self.Sound_label = bgui.Label(self.frame, 'Sound', text="Sound:", pt_size=31, pos=[0.67, 0.58], options=bgui.BGUI_DEFAULT)
-		self.testSound_button = bgui.ImageButton(self.frame, 'testSound', sub_theme='menu', size=[0.10, 0.05], pos=[0.73, 0.58])
+		self.Sound_label = bgui.Label(self.frame, 'Sound', text="Sound:", pt_size=31, pos=[0.64, 0.6], options=bgui.BGUI_DEFAULT)
+		self.testSound_button = bgui.ImageButton(self.frame, 'testSound', sub_theme='menu', size=[0.10, 0.05], pos=[0.73, 0.6])
 		self.testSound_label = bgui.Label(self.testSound_button, 'testSound', text="play", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
 		self.testSound_button.on_click = self.testSound
 
+#############bouton couleurs############################
+		self.peinture_label = bgui.Label(self.frame, 'peinture', text="peinture:", pt_size=31, pos=[0.64, 0.51], options=bgui.BGUI_DEFAULT)
+		self.vitre_label = bgui.Label(self.frame, 'vitre', text="vitre:", pt_size=31, pos=[0.64, 0.38], options=bgui.BGUI_DEFAULT)
+
 #############bouton flecheG############################
-		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.38], pos=[0.05, 0.48])
+		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.26], pos=[0.03, 0.40])
 
 		# Setup an on_click callback
 		self.flecheG_button.on_click = self.leftcar
 
 #############bouton fleche############################
-		self.fleche_button = bgui.ImageButton(self.frame, 'fleche', sub_theme='selFleche', size=[0.05, 0.38], pos=[0.57, 0.48])
+		self.fleche_button = bgui.ImageButton(self.frame, 'fleche', sub_theme='selFleche', size=[0.05, 0.26], pos=[0.57, 0.40])
 
 		# Setup an on_click callback
 		self.fleche_button.on_click = self.rightcar
 
 #############bouton flecheGRoue############################
-		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.22], pos=[0.05, 0.25])
+		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.10], pos=[0.03, 0.27])
 
 		# Setup an on_click callback
 		self.flecheGRoue_button.on_click = self.leftwheels
 #############bouton flecheRoue############################
-		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.22], pos=[0.57, 0.25])
+		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.10], pos=[0.57, 0.27])
 
 		# Setup an on_click callback
 		self.flecheRoue_button.on_click = self.rightwheels

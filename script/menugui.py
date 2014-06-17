@@ -797,7 +797,6 @@ class jouerSoloGui(BaseGui):
 		self.introRoue_label = bgui.Label(self.frame, 'introRoue_label', text="Roue:", pt_size=31, pos=[0.64, 0.77], options=bgui.BGUI_DEFAULT)
 		self.roue_label = bgui.Label(self.frame, 'roue_label', sub_theme='MenuInfo', text="Roue", pt_size=31, pos=[0.73, 0.77], options=bgui.BGUI_DEFAULT)
 
-
 #############bouton testSound############################
 		self.Sound_label = bgui.Label(self.frame, 'Sound', text="Sound:", pt_size=31, pos=[0.64, 0.6], options=bgui.BGUI_DEFAULT)
 		self.testSound_button = bgui.ImageButton(self.frame, 'testSound', sub_theme='menu', size=[0.10, 0.05], pos=[0.73, 0.6])
@@ -808,8 +807,17 @@ class jouerSoloGui(BaseGui):
 
 #############bouton couleurs############################
 		self.peinture_label = bgui.Label(self.frame, 'peinture', text="peinture:", pt_size=31, pos=[0.64, 0.51], options=bgui.BGUI_DEFAULT)
-		self.vitre_label = bgui.Label(self.frame, 'vitre', text="vitre:", pt_size=31, pos=[0.64, 0.38], options=bgui.BGUI_DEFAULT)
+		self.peinture_button = bgui.FrameButton(self.frame, 'peintureB', base_color=(0.4, 0.4, 0.4, 0.0), size=[0.188, 0.05], pos=[0.73, 0.482])
 
+		# Setup an on_click callback
+		self.peinture_button.on_click = self.colorCar
+		
+		self.vitre_label = bgui.Label(self.frame, 'vitre', text="vitre:", pt_size=31, pos=[0.64, 0.38], options=bgui.BGUI_DEFAULT)
+		self.vitre_button = bgui.FrameButton(self.frame, 'vitreB', base_color=(0.4, 0.4, 0.4, 0.0), size=[0.188, 0.052], pos=[0.73, 0.359])
+
+		# Setup an on_click callback
+		self.vitre_button.on_click = self.colorCar
+		
 #############bouton flecheG############################
 		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.26], pos=[0.03, 0.40])
 
@@ -890,6 +898,12 @@ class jouerSoloGui(BaseGui):
 		elif self.testSound_label.text == "stop":
 			gl.voiture.stopSound()
 			self.testSound_label.text = "play"
+
+	def colorCar(self, widget):
+		print(gl.objectsCars)
+
+	def colorGlass(self, widget):
+		print(gl.objectsCars)
 
 	def testerVoiture(self, widget):
 		rd.showMouse(0)

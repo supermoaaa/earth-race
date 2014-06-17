@@ -184,6 +184,10 @@ def main (self):
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():
 					gl.LibFree(lib)
+				del gl.CurrentColor
+				del gl.listMaps
+				del gl.lstRoue
+				del gl.listeRadio
 				scene.replace('game')
 
 		elif gl.status == "MenuOptions" :

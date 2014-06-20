@@ -58,13 +58,13 @@ def main():
 		pass
 
 	gl.currentRadio = listRadio.index(gl.sound[2])
-	gl.listeRadio = coll.deque(listRadio)
+	gl.listeRadio = deque(listRadio)
 	gl.mapName = listMaps[0]
-	gl.listMaps = coll.deque(listMaps)
+	gl.listMaps = deque(listMaps)
 	gl.posVoitureJun = listVt.index(str(gl.conf[0][0][3]))
-	gl.lstVoiture = coll.deque(listVt)
+	gl.lstVoiture = deque(listVt)
 	gl.posRoueJun = listRoue.index(str(gl.conf[0][0][4]))
-	gl.lstRoue = coll.deque(listRoue)
+	gl.lstRoue = deque(listRoue)
 	gl.dispPlayers=[0, gl.conf[0][0][0]]
 	gl.nbLaps = 1
 	gl.CurrentColor = []

@@ -66,6 +66,7 @@ def main (self):
 	#print(gl.status)
 	own['sys'].main()
 	own['fond'].main()
+	scene = gl.getCurrentScene()
 
 	if not own["fond"].ouvert :
 		sys = own["fond"]
@@ -85,11 +86,10 @@ def main (self):
 
 				gl.dispPlayers[0] = 0
 				gl.LibLoad("carSelect.blend", "Scene")
-				scene = gl.getCurrentScene()
 				scene.active_camera = scene.objects['CameraPlayer1']
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])
-				gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
+				gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
 				gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 				gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 
@@ -171,11 +171,10 @@ def main (self):
 					gl.status = "MenuselectionVoiture1J"
 
 					gl.LibLoad("carSelect.blend", "Scene")
-					scene = gl.getCurrentScene()
 					scene.active_camera = scene.objects['CameraPlayer1']
 					own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 					own["sys"].roue_label.text = str(gl.conf[0][0][4])
-					gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)
+					gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
 					gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 
@@ -188,6 +187,7 @@ def main (self):
 				del gl.listMaps
 				del gl.lstRoue
 				del gl.listeRadio
+				del gl.posRoueJun
 				scene.replace('game')
 
 		elif gl.status == "MenuOptions" :
@@ -252,7 +252,6 @@ def main (self):
 				own["fond"].frame.img.visible = False
 
 				gl.LibLoad("carSelect.blend", "Scene")
-				scene = gl.getCurrentScene()
 				if gl.dispPlayers[0] == 1:
 					viewportDeuxDivision([scene.objects['CameraPlayer1'], scene.objects['CameraPlayer2']], gl.dispPlayers[0])
 

@@ -4,7 +4,7 @@ from bge import render as rd
 from bge import events as ev
 from bge import logic as gl
 import confParser
-import collections as coll
+from collections import deque
 import logs
 from vehicleLinker import vehicleLinker
 from sound import TestSoundVolume as TestSound
@@ -831,12 +831,12 @@ class jouerSoloGui(BaseGui):
 		self.fleche_button.on_click = self.rightcar
 
 #############bouton flecheGRoue############################
-		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.10], pos=[0.03, 0.27])
+		self.flecheGRoue_button = bgui.ImageButton(self.frame, 'flecheGRoue', sub_theme='selFlecheG', size=[0.05, 0.12], pos=[0.03, 0.27])
 
 		# Setup an on_click callback
 		self.flecheGRoue_button.on_click = self.leftwheels
 #############bouton flecheRoue############################
-		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.10], pos=[0.57, 0.27])
+		self.flecheRoue_button = bgui.ImageButton(self.frame, 'flecheRoue', sub_theme='selFleche', size=[0.05, 0.12], pos=[0.57, 0.27])
 
 		# Setup an on_click callback
 		self.flecheRoue_button.on_click = self.rightwheels

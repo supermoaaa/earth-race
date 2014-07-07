@@ -46,6 +46,15 @@ class vehicleLinker(object):
 			conf.loadVehicle(vehicle_type, self.onFinishVehicleLoaded)
 			self.vehicle_type = vehicle_type
 
+	def getVehicle(self):
+		return self.car.getMainObject()
+
+	def setVehicleColor(self, r, g, b):
+		self.car.setCarColor(r, g, b)
+
+	def setVehicleWindowsColor(self, r, g, b):
+		self.car.setWindowsColor(r, g, b)
+
 	def onFinishVehicleLoaded(self, st):
 		log("debug", "finish loading vehicle : " + self.vehicle_type)
 		conf.setFinishLoadedVehicle(self.vehicle_type)

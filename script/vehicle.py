@@ -48,6 +48,8 @@ class vehicleSimulation(object):
 		self.defaultCam = None
 		self.cams = []
 		self.currentCam = 0
+		self.carMat = []
+		self.windowsMat = []
 		logs.log('debug', 'vehicle init')
 		logs.log("debug", 'type du véhicule : ' + vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
@@ -81,6 +83,10 @@ class vehicleSimulation(object):
 							" comme fils de : " + str(self.main))
 			elif param[0] == "motorSound":
 				self.motorSound.load(param[1])
+			elif param[0] == "carMat":
+				self.carMat.append(param[1])
+			elif param[0] == "windowsMat":
+				self.windowsMat.append(param[1])
 		self.main.suspendDynamics()
 		self.respawned = 0
 
@@ -446,3 +452,13 @@ class vehicleSimulation(object):
 		newCam.useViewport = True
 		gl.getCurrentScene().active_camera = newCam
 		oldCam.useViewport = False
+
+	def setCarColor(self, r, g, b):
+		for idx_mat in self.carMat:
+			for i in range(mesh.getVertexArrayLength(idx_mat)):
+				mesh.getVertex(idx_mat, i).setRGBA(col)
+
+	def setWindowsColor(self, r, g, b):
+		for idx_mat in self.windowsMat:
+			for i in range(mesh.getVertexArrayLength(idx_mat)):
+				mesh.getVertex(idx_mat, i).setRGBA(col)

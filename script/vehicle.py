@@ -455,10 +455,13 @@ class vehicleSimulation(object):
 
 	def setCarColor(self, r, g, b):
 		for idx_mat in self.carMat:
-			for i in range(mesh.getVertexArrayLength(idx_mat)):
-				mesh.getVertex(idx_mat, i).setRGBA(col)
+			self._setColor(idx_mat, [r, g, b])
 
 	def setWindowsColor(self, r, g, b):
 		for idx_mat in self.windowsMat:
+			self._setColor(idx_mat, [r, g, b])
+
+	def _setColor(idx_mat, col):
+		for mesh in self.main.meshes:
 			for i in range(mesh.getVertexArrayLength(idx_mat)):
 				mesh.getVertex(idx_mat, i).setRGBA(col)

@@ -81,6 +81,7 @@ def loadVehicle(vehicleType, endFunction, onlyConf=False):
 		for param in gl.conf[1][vehicleType]:
 			if param[0] == "users":
 				param[1] += 1
+		endFunction("")
 
 
 def setFinishLoadedVehicle(vehicleType):
@@ -132,6 +133,7 @@ def loadWheel(wheelsType, endFunction):
 		for param in gl.conf[2][wheelsType]:
 			if param[0] == "users":
 				param[1] += 1
+		endFunction("")
 
 
 def setFinishLoadedWheel(wheelsType):

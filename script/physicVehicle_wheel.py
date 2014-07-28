@@ -113,12 +113,6 @@ class r_wheel:
 	def __init__(self, main_ob, pos_ob, wheel_type, steer,
 			creator=None, powered=True, handbrake=False):
 
-		# load wheel scene
-		path = gl.expandPath("//") + "objects" + os.sep + \
-			"wheels" + os.sep + wheel_type + os.sep
-		if path + wheel_type + ".blend" not in gl.LibList():
-			objects.libLoad(path + wheel_type + ".blend", "Scene")
-
 		if powered == "1" or powered == 1 or powered is True:
 			powered = True
 		else:
@@ -129,7 +123,7 @@ class r_wheel:
 		self.skidSound = Sound(buffered=True, looped=True)
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
-				child = objects.addObject(pos_ob, param[1], creator)
+				child = objects.addObject(pos_ob, param[1], self.creator)
 				log("debug", child)
 				if child is not None:
 					child.scaling = pos_ob.scaling
@@ -179,10 +173,10 @@ class r_wheel:
 				self.skidSound.load(param[1])
 
 	def __del__(self):
-		if hasattr(self, "mainObject"):
-			self.wheel.endObject()
-		#~ for child in self.childs:
-			#~ child.endObject()
+		log("debug", "__del__ wheel")
+		self.wheel.endObject()
+		for child in self.childs:
+			child.endObject()
 
 	def setSteer(self, steer):
 		steer_rate = (self.w_steer_state - 0.001) * \

@@ -4,6 +4,8 @@ import confParser as conf
 from physicVehicle_wheel import r_wheel
 from camera import camera
 from logs import log
+from lib import weakMethod
+import weakref
 
 
 class vehicleLinker(object):
@@ -42,7 +44,10 @@ class vehicleLinker(object):
 	def setVehicle(self, vehicle_type):
 		if self.vehicle_type != vehicle_type:
 			if self.car is not None:
+				obName = self.car.main.name
 				self.delVehicle()
+				log("debug", "ob persist " + str(gl.getCurrentScene().objects.get(obName)))
+			log("debug", "setVehicle")
 			conf.loadVehicle(vehicle_type, self.onFinishVehicleLoaded)
 			self.vehicle_type = vehicle_type
 
@@ -60,7 +65,7 @@ class vehicleLinker(object):
 		conf.setFinishLoadedVehicle(self.vehicle_type)
 		self.car = vehicle.vehicleSimulation(
 				self.vehicle_type, self.objPos,
-				self.physic, self.parent, self.shadowObj, self)
+				self.physic, self.parent, self.shadowObj, weakref.ref(self))
 		self.__updateWheels()
 		self.camera.setParams(car=self.car)
 
@@ -69,8 +74,9 @@ class vehicleLinker(object):
 			if self.wheels_type is not None:
 				self.delWheels()
 				self.wheels_type = None
-			conf.loadWheel(wheels_type, self.onFinishWheelsLoaded)
 			self.wheels_type = wheels_type
+			conf.loadWheel(wheels_type, self.onFinishWheelsLoaded)
+
 
 	def onFinishWheelsLoaded(self, st):
 		log("debug", "finish loading wheels : " + self.wheels_type)
@@ -100,7 +106,7 @@ class vehicleLinker(object):
 			for wheel_conf in self.car.getWheelsConf():
 				wheel = r_wheel(
 						self.car.getMainObject(), wheel_conf[0],
-						self.wheels_type, wheel_conf[1], self,
+						self.wheels_type, wheel_conf[1], weakref.ref(self),
 						wheel_conf[2], wheel_conf[3])
 				self.car.addWheel(wheel)
 			self.wheels_free = False
@@ -111,9 +117,12 @@ class vehicleLinker(object):
 			self.camera.updateCam()
 
 	def delVehicle(self):
+		log("debug", "del vehicle")
+		self.car = None
 		conf.freeVehicle(self.vehicle_type)
 
 	def delWheels(self):
+		print("del wheel")
 		if self.car is not None:
 			self.car.unloadWheel()
 		conf.freeWheels(self.wheels_type)

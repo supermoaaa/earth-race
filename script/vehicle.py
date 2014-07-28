@@ -7,6 +7,7 @@
 USE_MOUSE_STEERING = False
 
 from bge import logic as gl
+from bge import texture
 from time import time
 from datetime import timedelta
 from mathutils import Vector
@@ -91,7 +92,9 @@ class vehicleSimulation(object):
 		self.respawned = 0
 
 	def __del__(self):
+		logs.log("debug", "__del__ vehicle")
 		self.unloadWheel()
+		self.main.endObject()
 
 	def setParent(self, parent):
 		if parent:
@@ -454,14 +457,19 @@ class vehicleSimulation(object):
 		oldCam.useViewport = False
 
 	def setCarColor(self, r, g, b):
-		for idx_mat in self.carMat:
-			self._setColor(idx_mat, [r, g, b])
+		for matName in self.carMat:
+			texture.materialID(self.main, "MA" + matName)
+			self._setColor(idx_mat, r, g, b)
 
 	def setWindowsColor(self, r, g, b):
-		for idx_mat in self.windowsMat:
-			self._setColor(idx_mat, [r, g, b])
+		for matName in self.windowsMat:
+			texture.materialID(self.main, "MA" + matName)
+			self._setColor(idx_mat, r, g, b)
 
-	def _setColor(idx_mat, col):
+	def _setColor(idx_mat, r, g, b):
+		cola = [r, g, b, 1]
 		for mesh in self.main.meshes:
 			for i in range(mesh.getVertexArrayLength(idx_mat)):
-				mesh.getVertex(idx_mat, i).setRGBA(col)
+				vertex = mesh.getVertex(idx_mat, i)
+				cola[3] = vertex.a
+				mesh.getVertex(idx_mat, i).setRGBA(cola)

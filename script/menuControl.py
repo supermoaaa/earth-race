@@ -1,6 +1,5 @@
 from menugui import *
 
-
 cont = gl.getCurrentController()
 own = cont.owner
 
@@ -30,8 +29,7 @@ def viewportDeuxDivision(playerCams, mode):
 
         playerCams[0].setViewport( int(left_1), int(bottom_1), int(right_1), int(top_1))
         playerCams[1].setViewport( int(left_2), int(bottom_2), int(right_2), int(top_2))
-        playerCams[0].useViewport = True
-        playerCams[1].useViewport = True
+        playerCams[0].useViewport = playerCams[1].useViewport = True
 
 ####viewport 3 et 4 joueurs
 def viewportQuatreDivision(playerCams):
@@ -57,10 +55,8 @@ def viewportQuatreDivision(playerCams):
         playerCams[1].setViewport( int(left_2), int(bottom_2), int(right_2), int(top_2))
         playerCams[2].setViewport( int(left_3), int(bottom_3), int(right_3), int(top_3))
         playerCams[3].setViewport( int(left_4), int(bottom_4), int(right_4), int(top_4))
-        playerCams[0].useViewport = True
-        playerCams[1].useViewport = True
-        playerCams[2].useViewport = True
-        playerCams[3].useViewport = True
+        playerCams[0].useViewport = playerCams[1].useViewport = playerCams[2].useViewport = playerCams[3].useViewport = True
+
 
 def main (self):
 	#print(gl.status)
@@ -85,7 +81,7 @@ def main (self):
 				gl.status = "MenuselectionVoiture1J"
 
 				gl.dispPlayers[0] = 0
-				gl.LibLoad("carSelect.blend", "Scene")
+				gl.LibLoad("carSelect.blend", "Scene", load_scripts=True)
 				scene.active_camera = scene.objects['CameraPlayer1']
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])

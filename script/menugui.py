@@ -7,7 +7,6 @@ import confParser
 from collections import deque
 import logs
 from vehicleLinker import vehicleLinker
-from sound import TestSoundVolume as TestSound
 import sound
 
 cont = gl.getCurrentController()
@@ -900,7 +899,8 @@ class jouerSoloGui(BaseGui):
 			self.testSound_label.text = "play"
 
 	def colorCar(self, widget):
-		print(gl.objectsCars)
+		gl.voiture.setVehicleColor(gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2])
+
 
 	def colorGlass(self, widget):
 		print(gl.objectsCars)
@@ -1705,7 +1705,7 @@ class MenuOptionsSon(BaseGui):
 		# Initiate the system
 		BaseGui.__init__(self, gl.skin)
 
-		gl.testMotorSound = TestSound()
+		gl.testMotorSound = sound.TestSoundVolume()
 		gl.testMotorSound.start()
 
 		# Cadre général

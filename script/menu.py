@@ -28,7 +28,7 @@ def main():
 	with open(mainDir+"lang"+os.sep+listLangue[2], 'r') as f:
 		for element in f.readlines():
 			gl.word.append(element.rstrip('\n'))
-	print(listLangue, gl.word, currentLangue)
+	#print(listLangue, gl.word, currentLangue)
 	
 	
 	listVt = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"vehicles"))

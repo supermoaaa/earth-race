@@ -82,7 +82,7 @@ def main():
 	factory = aud.Factory('2748.wav')
 	# if the audio is not too big and will be used often you can buffer it
 	gl.factory_buffered = aud.Factory.buffer(factory)
-	gl.device.volume = 0.3
+	gl.device.volume = gl.sound[1]
 
 
 	if hasattr(gl, 'menuStat'):

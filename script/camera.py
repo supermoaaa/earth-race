@@ -76,7 +76,7 @@ class camera:
 
 	def __cleanAttached(self):
 		for attachedObj in self.attachedToCam:
-			attachedObj[0].endObject()
+			objects.endObject(attachedObj[0])
 		self.attachedToCam = []
 
 	def __setAttached(self):

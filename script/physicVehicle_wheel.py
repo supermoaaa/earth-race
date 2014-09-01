@@ -174,9 +174,9 @@ class r_wheel:
 
 	def __del__(self):
 		log("debug", "__del__ wheel")
-		self.wheel.endObject()
+		objects.endObject(self.wheel)
 		for child in self.childs:
-			child.endObject()
+			objects.endObject(child)
 
 	def setSteer(self, steer):
 		steer_rate = (self.w_steer_state - 0.001) * \

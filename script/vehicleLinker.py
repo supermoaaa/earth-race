@@ -47,9 +47,9 @@ class vehicleLinker(object):
 				obName = self.car.main.name
 				self.delVehicle()
 				log("debug", "ob persist " + str(gl.getCurrentScene().objects.get(obName)))
-			log("debug", "setVehicle")
-			conf.loadVehicle(vehicle_type, self.onFinishVehicleLoaded)
+			log("debug", "vehicleLinker setVehicle " + vehicle_type)
 			self.vehicle_type = vehicle_type
+			conf.loadVehicle(vehicle_type, self.onFinishVehicleLoaded)
 
 	def getVehicle(self):
 		return self.car.getMainObject()

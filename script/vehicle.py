@@ -90,11 +90,12 @@ class vehicleSimulation(object):
 				self.windowsMat.append(param[1])
 		self.main.suspendDynamics()
 		self.respawned = 0
+		logs.log("debug", "vehicle " + vehicle_type + " initiated")
 
 	def __del__(self):
 		logs.log("debug", "__del__ vehicle")
 		self.unloadWheel()
-		self.main.endObject()
+		objects.endObject(self.main)
 
 	def setParent(self, parent):
 		if parent:

@@ -19,7 +19,6 @@ def libFree(filePath):
 	if filePath in gl.LibList():
 			gl.LibFree(filePath)
 
-
 def addObject(pos_ob, objectName, creator=None):
 	try:
 		scene = gl.getCurrentScene()
@@ -36,6 +35,11 @@ def addObject(pos_ob, objectName, creator=None):
 		logs.log("error", "objet \"" + objectName + "\" non trouvé")
 		return None
 
+def endObject(obj):
+	try:
+		obj.endObject()
+	except RuntimeError:
+		logs.log("debug", "un object n'a pu être supprimé la cause est probablement qu'il a été déchargé durant la même frame")
 
 def copyRelatifOrientation(pos_ob, objectTarget, mainObject):
 	objectName = objectTarget.name

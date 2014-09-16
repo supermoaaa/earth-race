@@ -81,7 +81,7 @@ def main (self):
 				gl.status = "MenuselectionVoiture1J"
 
 				gl.dispPlayers[0] = 0
-				gl.LibLoad("carSelect.blend", "Scene", load_scripts=True)
+				gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene", load_scripts=True)
 				scene.active_camera = scene.objects['CameraPlayer1']
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])
@@ -166,7 +166,7 @@ def main (self):
 					own["fond"].frame.img.visible = False
 					gl.status = "MenuselectionVoiture1J"
 
-					gl.LibLoad("carSelect.blend", "Scene")
+					gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene")
 					scene.active_camera = scene.objects['CameraPlayer1']
 					own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 					own["sys"].roue_label.text = str(gl.conf[0][0][4])
@@ -211,7 +211,7 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = False
-				gl.LibLoad("son.blend", "Scene")
+				gl.LibLoad(gl.expandPath("//")+"son.blend", "Scene")
 				gl.status = "MenuSon"
 
 			elif sys.action == "commandes" :

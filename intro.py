@@ -17,12 +17,15 @@ obj = cont.owner
 def init():
 	sys.path.append(gl.expandPath("//")+'script')
 	sys.path.append(gl.expandPath("//")+'bgui')
+	sys.path.append(gl.expandPath("//"))
 	os.chdir(gl.expandPath("//"))
+	
 
 	import logs
 	logs.initLogs()
 
 	listFiles = os.listdir(os.path.expanduser(gl.expandPath("//")))
+	
 
 
 	if "menustat" in listFiles:

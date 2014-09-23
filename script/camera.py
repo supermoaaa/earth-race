@@ -125,7 +125,7 @@ class camera:
 			carRotZ, camRot[2], smoothSpeed = self.__autoReverseCam(speed>=0, carRotZ, camRot[2], smoothSpeed)
 
 			# le dernier chiffre est la distance min
-			xRelativePosition = smoothSpeed / 150 + 5
+			xRelativePosition = smoothSpeed / 150 + 7
 			yRelativePosition = 0
 			zRelativePosition = 3.2 - (smoothSpeed / 150) * 1.5
 

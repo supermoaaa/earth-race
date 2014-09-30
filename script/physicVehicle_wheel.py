@@ -1,10 +1,10 @@
 from bge import logic as gl
-from mathutils import *
-from physicVehicle_math import *
-from math import *
+from mathutils import Matrix, Vector
+from physicVehicle_math import vectrack, towards, vecplaneproject,\
+	dualplanelimit, lerp
+from math import fmod, pi
 from logs import log
-import objects
-import os
+from objects import addObject, endObject
 
 from sound import Sound
 
@@ -123,7 +123,7 @@ class r_wheel:
 		self.skidSound = Sound(buffered=True, looped=True)
 		for param in gl.conf[2][wheel_type]:
 			if param[0] == "wheel":
-				child = objects.addObject(pos_ob, param[1], self.creator)
+				child = addObject(pos_ob, param[1], self.creator)
 				log("debug", child)
 				if child is not None:
 					child.scaling = pos_ob.scaling
@@ -134,7 +134,7 @@ class r_wheel:
 				if param[1] in self.wheel.children:
 					self.childs.append(
 						self.wheel.childrenRecursive.get(param[1]))
-				#~ child = objects.addObject( mainObject, param[1] )
+				#~ child = addObject( mainObject, param[1] )
 				#~ self.childs.append(child)
 				#~ newOri = mainObject.orientation.to_euler()
 				#~ newOri[0] = 0
@@ -174,9 +174,9 @@ class r_wheel:
 
 	def __del__(self):
 		log("debug", "__del__ wheel")
-		objects.endObject(self.wheel)
+		endObject(self.wheel)
 		for child in self.childs:
-			objects.endObject(child)
+			endObject(child)
 
 	def setSteer(self, steer):
 		steer_rate = (self.w_steer_state - 0.001) * \

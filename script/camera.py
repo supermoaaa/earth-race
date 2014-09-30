@@ -1,13 +1,10 @@
 from bge import logic as gl
-from bge import render as render
+from bge import render
 from mathutils import Euler
-from math import cos
-from math import sin
-from math import sqrt
-from math import atan
+from math import cos, sin, sqrt, atan
 from logs import log
 from eulerCorrector import eulerCorrector
-import objects
+from objects import addObject, endObject
 
 class camera:
 

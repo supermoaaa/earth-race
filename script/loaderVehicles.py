@@ -1,13 +1,13 @@
 from bge import logic as gl
-from bge import render as render
+from bge import render
 from time import time
 from datetime import timedelta
 import confParser as conf
 from vehicleLinker import vehicleLinker
 from logs import log
-import objects
-import writeOnScreen
-import sound
+from objects import libLoad as objLibLoad
+from writeOnScreen import bflFactory
+from sound import musicPlayer
 
 
 def addVehicleLoader(source, playerId, playerName,
@@ -122,7 +122,7 @@ def speedometer(playerId, gear, speed, camera):
 	speedometerId = str(playerId + 1)
 	ob = scene.objects.get('gear Counter ' + speedometerId)
 	if not hasattr(ob, 'bflFactory'):
-		ob['bflFactory'] = writeOnScreen.bflFactory(
+		ob['bflFactory'] = bflFactory(
 			gl.counterPos[0][0], gl.counterPos[0][1], gl.counterPos[0][2], camera)
 	if gear == 0:
 		ob['bflFactory'].write('r')
@@ -154,7 +154,7 @@ def load():
 		gl.objectsCars = []
 		gl.camsCompteur = []
 		gl.keys = [[]]
-		objects.libLoad(gl.expandPath("//") + "counter.blend", "Scene")
+		objLibLoad(gl.expandPath("//") + "counter.blend", "Scene")
 		# conf.loadPlayer() #rechargement des configurations players
 		placeCars(own)
 		gl.carArrived = []
@@ -164,7 +164,7 @@ def load():
 	else:
 		countDownStart(own)  # to end it
 		keyMapper()
-		sound.musicPlayer()
+		musicPlayer()
 		checkArrived()
 
 
@@ -315,7 +315,7 @@ def __writer(saver, name, position, camera, text, lastText=None):
 				x = position[0]
 				y = position[1]
 			size = position[2]
-			saver[writerName] = writeOnScreen.bflFactory(x, y, size, camera)
+			saver[writerName] = bflFactory(x, y, size, camera)
 		return saver[writerName].write(text)
 
 

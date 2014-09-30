@@ -1,8 +1,8 @@
 import logging
-import sys
+from sys import excepthook
 import traceback
 
-from bge import logic
+from bge.logic import endGame
 
 
 def initLogs():
@@ -25,7 +25,7 @@ def initLogs():
 		log('critical', 'uncaught ' + ''.join(traceback.format_tb(tb)))
 		log('critical', 'trace ' + '{0}: {1}'.format(ex_cls, ex))
 
-	sys.excepthook = log_uncaught_exceptions  # log uncaught exception
+	excepthook = log_uncaught_exceptions  # log uncaught exception
 
 
 def rotateLog():
@@ -49,7 +49,7 @@ def log(level, *allMessages):
 		logger.error(message)
 	elif level == "critical":
 		logger.critical(message)
-		logic.endGame()
+		endGame()
 	else:
 		# si on ne reconnais pas le level on le met en niveau debug
 		logger.debug(message)

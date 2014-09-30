@@ -1,6 +1,6 @@
 from bge import logic as gl
-from bge import render as rd
-import os
+from bge.render import getAnisotropicFiltering
+from os import path as osPath, sep as pathSep
 from logs import log
 import objects
 import json
@@ -43,13 +43,13 @@ def lineParse(line):
 def parseConfFile(confFilePath, defaultPath = ""):
 	allParams = []
 	if defaultPath=="":
-		defaultPath = os.path.dirname(confFilePath)
-	if os.path.isfile(confFilePath):
+		defaultPath = osPath.dirname(confFilePath)
+	if osPath.isfile(confFilePath):
 		with open(confFilePath, "r") as propertieFile:
 			for line in propertieFile:
 				param = lineParse(line)
 				if param[0].endswith("Sound"):
-					param[1] = os.path.join(defaultPath, param[1])
+					param[1] = osPath.join(defaultPath, param[1])
 				allParams.append(param)
 	else:
 		log("error", "fichier " + str(confFilePath) + " non trouvé")
@@ -57,8 +57,8 @@ def parseConfFile(confFilePath, defaultPath = ""):
 
 
 def loadVehicle(vehicleType, endFunction, onlyConf=False):
-	path = gl.expandPath("//") + "objects" + os.sep + \
-		"vehicles" + os.sep + vehicleType + os.sep
+	path = gl.expandPath("//") + "objects" + pathSep + \
+		"vehicles" + pathSep + vehicleType + pathSep
 	if (vehicleType not in gl.conf[1] or
 			path + vehicleType + ".blend" not in objects.libList()):
 
@@ -97,8 +97,8 @@ def isLoadedVehicle(vehicleType):
 
 def freeVehicle(vehicleType):
 	if hasattr(gl, "conf"):
-		path = gl.expandPath("//") + "objects" + os.sep + \
-			"vehicles" + os.sep + vehicleType + os.sep
+		path = gl.expandPath("//") + "objects" + pathSep + \
+			"vehicles" + pathSep + vehicleType + pathSep
 		for param in gl.conf[1][vehicleType]:
 			if param[0] == "users":
 				param[1] -= 1
@@ -109,8 +109,8 @@ def freeVehicle(vehicleType):
 
 
 def loadWheel(wheelsType, endFunction):
-	path = gl.expandPath("//") + "objects" + os.sep + \
-		"wheels" + os.sep + wheelsType + os.sep
+	path = gl.expandPath("//") + "objects" + pathSep + \
+		"wheels" + pathSep + wheelsType + pathSep
 	if (wheelsType not in gl.conf[2] or
 			path + wheelsType + ".blend" not in objects.libList()):
 
@@ -149,8 +149,8 @@ def isLoadedWheel(wheelsType):
 
 def freeWheels(wheelsType):
 	if hasattr(gl, "conf"):
-		path = gl.expandPath("//") + "objects" + os.sep + \
-			"wheels" + os.sep + wheelsType + os.sep
+		path = gl.expandPath("//") + "objects" + pathSep + \
+			"wheels" + pathSep + wheelsType + pathSep
 		for param in gl.conf[2][wheelsType]:
 			if param[0] == "users":
 				param[1] -= 1
@@ -298,14 +298,14 @@ def loadConf():
 
 def checkConf():
 	if not hasattr(gl, 'graphic'):
-		gl.graphic = [True, rd.getAnisotropicFiltering(), 3]
+		gl.graphic = [True, getAnisotropicFiltering(), 3]
 	if not hasattr(gl, 'sound'):
 		gl.sound = [50, 50, "electro"]
 	if not hasattr(gl, 'skin'):
 		gl.skin = 'themes/default'
 	if not hasattr(gl, 'generalConf'):
 		# mirror, Anisotropic, mist start, mist end, language
-		gl.generalConf = [True, rd.getAnisotropicFiltering(),
+		gl.generalConf = [True, getAnisotropicFiltering(),
 				25, 50, 'sun', 'Francais']
 
 
@@ -327,10 +327,10 @@ def loadCounter():
 
 
 def loadScores(mapName):
-	scoresFile = gl.expandPath("//") + 'objects' + os.sep + \
-		'maps' + os.sep + str(mapName) + os.sep + 'scores.json'
+	scoresFile = gl.expandPath("//") + 'objects' + pathSep + \
+		'maps' + pathSep + str(mapName) + pathSep + 'scores.json'
 	gl.scores = Scores(mapName)
-	if os.path.isfile(scoresFile):
+	if osPath.isfile(scoresFile):
 		with open(scoresFile, 'r') as f:
 			try:
 				gl.scores.scores = json.load(f)
@@ -340,7 +340,7 @@ def loadScores(mapName):
 
 def saveScores():
 	if hasattr(gl, 'scores'):
-		confPath = os.path.join(gl.expandPath("//"), 'objects', 'maps',
+		confPath = osPath.join(gl.expandPath("//"), 'objects', 'maps',
 				str(gl.scores.mapName), 'scores.json')
 		with open(confPath, 'w') as f:
 			json.dump(gl.scores.scores, f, sort_keys=True, indent=4)

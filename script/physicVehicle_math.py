@@ -1,6 +1,5 @@
 import bge
-from mathutils import *
-from math import *
+from mathutils import Matrix
 
 
 #Generate an orientation with one definite (locked) axis

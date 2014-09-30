@@ -1,5 +1,5 @@
 from bge import logic as gl
-import os
+from os import path as osPath, sep as pathSep
 from logs import log
 import loaderVehicles
 import confParser
@@ -11,8 +11,8 @@ def loadMap():
 	if not hasattr(gl, 'mapName'):
 		gl.mapName = "routeDeTest"
 	gl.checkpoints = []
-	path = os.path.join(gl.expandPath("//"), "objects", "maps", gl.mapName)
-	path += os.sep
+	path = osPath.join(gl.expandPath("//"), "objects", "maps", gl.mapName)
+	path += pathSep
 	#~ gl.LibLoad( path+gl.mapName+".blend", "Scene", load_actions=True,
 	#~		load_scripts=True, async=True).onFinish = t
 	gl.LibLoad(path + gl.mapName + ".blend", "Scene",
@@ -22,11 +22,11 @@ def loadMap():
 
 def loadSky():
 	name = "skydome" + gl.generalConf[4][0].upper() + gl.generalConf[4][1:]
-	path = os.path.join(gl.expandPath("//"), "objects", "sky")
-	blend = os.path.join(path, name, name + ".blend")
-	if not os.path.isfile(blend):
+	path = osPath.join(gl.expandPath("//"), "objects", "sky")
+	blend = osPath.join(path, name, name + ".blend")
+	if not osPath.isfile(blend):
 		log("error", "couldn't find file " + str(blend))
-		blend = os.path.join(path, "skydomeCloud", "skydomeCloud.blend")
+		blend = osPath.join(path, "skydomeCloud", "skydomeCloud.blend")
 		gl.generalConf[4] = "cloud"
 	gl.LibLoad(blend, "Scene", load_actions=True, load_scripts=True, async=False)
 	onFinishSkyLoaded()
@@ -35,8 +35,8 @@ def loadSky():
 def onFinishSkyLoaded():
 	print("finishLoading : " + gl.generalConf[4][0].upper() + gl.generalConf[4][1:])
 	name = "skydome" + gl.generalConf[4][0].upper() + gl.generalConf[4][1:]
-	path = os.path.join(gl.expandPath("//"), "objects", "sky")
-	conf = os.path.join(path, name, name + ".cfg")
+	path = osPath.join(gl.expandPath("//"), "objects", "sky")
+	conf = osPath.join(path, name, name + ".cfg")
 	gl.sky = confParser.parseConfFile(conf)
 
 
@@ -48,8 +48,8 @@ def onFinishSkyLoaded():
 
 def onFinishMapLoaded():
 	print("finishLoading : " + gl.mapName)
-	path = os.path.join(gl.expandPath("//"), "objects", "maps", gl.mapName)
-	path += os.sep
+	path = osPath.join(gl.expandPath("//"), "objects", "maps", gl.mapName)
+	path += pathSep
 	propertieFile = open(path + gl.mapName + ".cfg")
 	for line in propertieFile:
 		if "start = " in line:

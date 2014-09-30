@@ -4,8 +4,7 @@ import confParser as conf
 from physicVehicle_wheel import r_wheel
 from camera import camera
 from logs import log
-from lib import weakMethod
-import weakref
+from weakref import proxy as weakInstance
 
 
 class vehicleLinker(object):
@@ -65,7 +64,7 @@ class vehicleLinker(object):
 		conf.setFinishLoadedVehicle(self.vehicle_type)
 		self.car = vehicle.vehicleSimulation(
 				self.vehicle_type, self.objPos,
-				self.physic, self.parent, self.shadowObj, weakref.proxy(self))
+				self.physic, self.parent, self.shadowObj, weakInstance(self))
 		self.__updateWheels()
 		self.camera.setParams(car=self.car)
 
@@ -106,7 +105,7 @@ class vehicleLinker(object):
 			for wheel_conf in self.car.getWheelsConf():
 				wheel = r_wheel(
 						self.car.getMainObject(), wheel_conf[0],
-						self.wheels_type, wheel_conf[1], weakref.proxy(self),
+						self.wheels_type, wheel_conf[1], weakInstance(self),
 						wheel_conf[2], wheel_conf[3])
 				self.car.addWheel(wheel)
 			self.wheels_free = False

@@ -7,7 +7,7 @@
 USE_MOUSE_STEERING = False
 
 from bge import logic as gl
-from bge import texture
+from bge.texture import materialID
 from time import time
 from datetime import timedelta
 from mathutils import Vector
@@ -459,12 +459,12 @@ class vehicleSimulation(object):
 
 	def setCarColor(self, r, g, b):
 		for matName in self.carMat:
-			texture.materialID(self.main, "MA" + matName)
+			materialID(self.main, "MA" + matName)
 			self._setColor(idx_mat, r, g, b)
 
 	def setWindowsColor(self, r, g, b):
 		for matName in self.windowsMat:
-			texture.materialID(self.main, "MA" + matName)
+			materialID(self.main, "MA" + matName)
 			self._setColor(idx_mat, r, g, b)
 
 	def _setColor(idx_mat, r, g, b):

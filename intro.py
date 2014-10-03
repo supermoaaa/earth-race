@@ -1,10 +1,10 @@
 from bge import texture as VT
 from bge import logic as gl
 from bge import events as ev
-import sys
+from sys import path
 import os
-sys.path.append(gl.expandPath("//")+'script')
-sys.path.append(gl.expandPath("//")+'bgui')
+path.append(gl.expandPath("//")+'script')
+path.append(gl.expandPath("//")+'bgui')
 os.chdir(gl.expandPath("//"))
 
 import logs
@@ -15,11 +15,11 @@ scene = gl.getCurrentScene()
 obj = cont.owner
 
 def init():
-	sys.path.append(gl.expandPath("//")+'script')
-	sys.path.append(gl.expandPath("//")+'bgui')
-	sys.path.append(gl.expandPath("//"))
+	path.append(gl.expandPath("//")+'script')
+	path.append(gl.expandPath("//")+'bgui')
+	path.append(gl.expandPath("//"))
 	os.chdir(gl.expandPath("//"))
-	
+	os.path.expanduser(gl.expandPath("//"))
 
 	import logs
 	logs.initLogs()

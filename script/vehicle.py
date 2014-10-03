@@ -326,7 +326,7 @@ class vehicleSimulation(object):
 		else:
 			pitch = 0
 		if pitch < 0.5:
-			pitch *= gas / maxPower + 1
+			pitch *= gas / maxPower + 0.7
 		else:
 			pitch *= 2
 		self.motorSound.setPitch(pitch + 0.2)

@@ -1,5 +1,8 @@
 from menugui import *
+from os import chdir, getcwd, sep
+#import objects
 
+chdir(gl.expandPath("//"))
 cont = gl.getCurrentController()
 own = cont.owner
 
@@ -81,7 +84,9 @@ def main (self):
 				gl.status = "MenuselectionVoiture1J"
 
 				gl.dispPlayers[0] = 0
-				gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene", load_scripts=True)
+				gl.LibLoad('//'+  "carSelect.blend", "Scene")
+				gl.colorCar1 = scene.addObject("color ramp", "car1")
+				gl.colorGlass1 = scene.addObject("color ramp", "glass1")
 				scene.active_camera = scene.objects['CameraPlayer1']
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])
@@ -115,7 +120,15 @@ def main (self):
 				own["fond"].retour_label.text = "Quitter"
 				own["fond"].frame.img.visible = True
 				gl.status = "MenuPrincipal"
-				gl.LibFree("carSelect.blend")
+				gl.colorCar1.endObject()
+				gl.colorGlass1.endObject()
+				try:
+					for lib in gl.LibList():
+						gl.LibFree(lib)
+				except:
+					pass
+				logs.log("info", gl.LibList())
+
 				if hasattr(gl , 'voiture'):
 					gl.voiture.__del__()
 					del gl.voiture
@@ -127,7 +140,9 @@ def main (self):
 				own["fond"].frame.img.visible = True
 				own["sys"].gPosJoueur1.img.texco = [(0,0.5), (0.5,0.5), (0.5,1), (0,1)]
 				gl.status = "MenuSelectionCircuit"
-				gl.LibFree("carSelect.blend")
+				objects.libFree(gl.expandPath("//")+"carSelect.blend")
+
+				print(gl.LibList())
 				if hasattr(gl , 'voiture'):
 					gl.voiture.__del__()
 					del gl.voiture
@@ -247,7 +262,7 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = False
 
-				gl.LibLoad("carSelect.blend", "Scene")
+				gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene")
 				if gl.dispPlayers[0] == 1:
 					viewportDeuxDivision([scene.objects['CameraPlayer1'], scene.objects['CameraPlayer2']], gl.dispPlayers[0])
 
@@ -312,4 +327,9 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 				own["fond"].frame.img.visible = True
-				gl.LibFree("son.blend")
+				try:
+					for lib in gl.LibList():
+						gl.LibFree(lib)
+				except:
+					pass
+				logs.log("info", gl.LibList())

@@ -1,8 +1,7 @@
 # -- coding: utf-8 --
 
-import sys
-import os
-import time
+
+from os import path, sep, listdir
 from menugui import *
 
 
@@ -23,35 +22,35 @@ def main():
 	confParser.loadCounter()
 	mainDir = gl.expandPath("//")
 	gl.word =[]
-	listLangue = os.listdir(os.path.expanduser(mainDir+"lang"))
+	listLangue = listdir(path.expanduser(mainDir+"lang"))
 	currentLangue = listLangue[2][:-4]
-	with open(mainDir+"lang"+os.sep+listLangue[2], 'r') as f:
+	with open(mainDir+"lang"+sep+listLangue[2], 'r') as f:
 		for element in f.readlines():
 			gl.word.append(element.rstrip('\n'))
 	#print(listLangue, gl.word, currentLangue)
 	
 	
-	listVt = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"vehicles"))
+	listVt = listdir(path.expanduser(mainDir+"objects"+sep+"vehicles"))
 	try:
 		listVt.remove('.svn')
 	except:
 		pass
 
 
-	listRoue = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"wheels"))
+	listRoue = listdir(path.expanduser(mainDir+"objects"+sep+"wheels"))
 	try:
 		listRoue.remove('.svn')
 	except:
 		pass
 
-	listMaps = os.listdir(os.path.expanduser(mainDir+"objects"+os.sep+"maps"))
+	listMaps = listdir(path.expanduser(mainDir+"objects"+sep+"maps"))
 	listMaps.remove('anneauDeTest')
 	try:
 		listMaps.remove('.svn')
 	except:
 		pass
 
-	listRadio = os.listdir(os.path.expanduser(mainDir+"music"))
+	listRadio = listdir(path.expanduser(mainDir+"music"))
 	try:
 		listRadio.remove('.svn')
 	except:
@@ -91,7 +90,7 @@ def main():
 		own["sys"] = jouerSoloGui(own["fond"].frame)
 		own["fond"].retour_label.text = "Retour"
 		own["fond"].frame.img.visible = False
-		gl.LibLoad("carSelect.blend", "Scene")
+		gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene")
 		own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 		own["sys"].roue_label.text = str(gl.conf[0][0][4])
 		gl.voiture = vehicleLinker(posObj = gl.getCurrentScene().objects['carpos1'], physic = False, parent = True)

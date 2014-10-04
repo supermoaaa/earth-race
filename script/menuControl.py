@@ -122,6 +122,8 @@ def main (self):
 				gl.status = "MenuPrincipal"
 				gl.colorCar1.endObject()
 				gl.colorGlass1.endObject()
+				del gl.colorCar1
+				del gl.colorGlass1
 				try:
 					for lib in gl.LibList():
 						gl.LibFree(lib)
@@ -226,7 +228,20 @@ def main (self):
 				own["fond"].reinit()
 				own["fond"].retour_label.text = "Retour"
 				own["fond"].frame.img.visible = False
-				gl.LibLoad(gl.expandPath("//")+"son.blend", "Scene")
+				gl.fondSon = scene.addObject("fondSon", "soundPos")
+				gl.cadreSon = scene.addObject("cadreSon", "soundPos")
+				gl.curseurSon = scene.addObject("cursor", "soundPos")
+				gl.barreVSon = scene.addObject("verticalBarre", "soundPos")
+				gl.barreHSon = scene.addObject("horizontalBarre", "soundPos")
+				hg = scene.objects["hautGauche"].position
+				bd = scene.objects["basDroit"].position
+				volX = (gl.sound[0] / 10) * (bd[0] - hg[0]) + hg[0]
+				volY = (gl.sound[1] / 10 -1 ) * (-1) * (bd[1]-hg[1]) + hg[1]
+				scene.objects["cursor"].position[0] = volX
+				scene.objects["cursor"].position[1] = volY
+				scene.objects["verticalBarre"].worldPosition[0] = volX
+				scene.objects["horizontalBarre"].worldPosition[1] = volY
+				own["soundCursorAc"] = True
 				gl.status = "MenuSon"
 
 			elif sys.action == "commandes" :
@@ -327,9 +342,14 @@ def main (self):
 				own["fond"].retour_label.text = "Retour"
 				gl.status = "MenuOptions"
 				own["fond"].frame.img.visible = True
-				try:
-					for lib in gl.LibList():
-						gl.LibFree(lib)
-				except:
-					pass
+				gl.fondSon.endObject()
+				gl.cadreSon.endObject()
+				gl.curseurSon.endObject()
+				gl.barreVSon.endObject()
+				gl.barreHSon.endObject()
+				del gl.fondSon
+				del gl.cadreSon
+				del gl.curseurSon
+				del gl.barreVSon
+				del gl.barreHSon
 				logs.log("info", gl.LibList())

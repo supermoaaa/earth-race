@@ -1,6 +1,5 @@
 from menugui import *
 from os import chdir, getcwd, sep
-#import objects
 
 chdir(gl.expandPath("//"))
 cont = gl.getCurrentController()
@@ -60,6 +59,8 @@ def viewportQuatreDivision(playerCams):
         playerCams[3].setViewport( int(left_4), int(bottom_4), int(right_4), int(top_4))
         playerCams[0].useViewport = playerCams[1].useViewport = playerCams[2].useViewport = playerCams[3].useViewport = True
 
+def setCam (cam):
+	gl.getCurrentScene().active_camera = gl.getCurrentScene().objects[cam]
 
 def main (self):
 	#print(gl.status)
@@ -85,14 +86,17 @@ def main (self):
 
 				gl.dispPlayers[0] = 0
 				gl.LibLoad('//'+  "carSelect.blend", "Scene")
+				setCam ('CameraPlayer1')
 				gl.colorCar1 = scene.addObject("color ramp", "car1")
 				gl.colorGlass1 = scene.addObject("color ramp", "glass1")
-				scene.active_camera = scene.objects['CameraPlayer1']
+
 				own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 				own["sys"].roue_label.text = str(gl.conf[0][0][4])
 				gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
 				gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 				gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+
+
 
 			elif sys.action == "MenuMultijoueurs" :
 				own["sys"] = MenuMultijoueursGui(own["fond"].frame)
@@ -120,10 +124,11 @@ def main (self):
 				own["fond"].retour_label.text = "Quitter"
 				own["fond"].frame.img.visible = True
 				gl.status = "MenuPrincipal"
+				setCam ('CamMenu')
 				gl.colorCar1.endObject()
 				gl.colorGlass1.endObject()
-				del gl.colorCar1
-				del gl.colorGlass1
+				del gl.colorCar1, gl.colorGlass1
+				
 				try:
 					for lib in gl.LibList():
 						gl.LibFree(lib)
@@ -142,7 +147,12 @@ def main (self):
 				own["fond"].frame.img.visible = True
 				own["sys"].gPosJoueur1.img.texco = [(0,0.5), (0.5,0.5), (0.5,1), (0,1)]
 				gl.status = "MenuSelectionCircuit"
-				objects.libFree(gl.expandPath("//")+"carSelect.blend")
+				try:
+					for lib in gl.LibList():
+						gl.LibFree(lib)
+				except:
+					pass
+				logs.log("info", gl.LibList())
 
 				print(gl.LibList())
 				if hasattr(gl , 'voiture'):
@@ -183,8 +193,8 @@ def main (self):
 					own["fond"].frame.img.visible = False
 					gl.status = "MenuselectionVoiture1J"
 
-					gl.LibLoad(gl.expandPath("//")+"carSelect.blend", "Scene")
-					scene.active_camera = scene.objects['CameraPlayer1']
+					gl.LibLoad('//'+"carSelect.blend", "Scene")
+					setCam ('CameraPlayer1')
 					own["sys"].voiture_label.text = str(gl.conf[0][0][3])
 					own["sys"].roue_label.text = str(gl.conf[0][0][4])
 					gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
@@ -196,11 +206,8 @@ def main (self):
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():
 					gl.LibFree(lib)
-				del gl.CurrentColor
-				del gl.listMaps
-				del gl.lstRoue
-				del gl.listeRadio
-				del gl.posRoueJun
+				del gl.CurrentColor, gl.listMaps, gl.lstRoue, gl.listeRadio, gl.posRoueJun
+
 				scene.replace('game')
 
 		elif gl.status == "MenuOptions" :

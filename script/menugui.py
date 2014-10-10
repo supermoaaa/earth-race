@@ -1771,5 +1771,5 @@ class MenuOptionsSon(BaseGui):
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)
 
-	#def __del__(self):
-		#del(gl.testMotorSound)
+	def __del__(self):
+		del(gl.testMotorSound)

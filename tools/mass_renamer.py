@@ -41,9 +41,9 @@ class MassRenamer(bpy.types.Operator):
         iFormat = '0' + str(int(len(obs) / 10)) + 'd'
         #avoid name conflict
         for ob in obs:
-        	ob.name = "tmpNameMassRename"
+            ob.name = "tmpNameMassRename"
         for i, ob in enumerate(obs):
-            ob.name = context.window_manager.mass_renamer.prefix + format(i+1, iFormat)
+            ob.name = context.window_manager.mass_renamer.newName + format(i+1, iFormat)
         return {'FINISHED'}
 
 
@@ -62,10 +62,36 @@ class MassSwitch(bpy.types.Operator):
             obs[j].name = obsNames[i]
         return {'FINISHED'}
 
+class MassPrefixer(bpy.types.Operator):
+    bl_idname = "mass_renamer.prefix"
+    bl_label = "Mass prefix name's of objects"
+
+    def execute(self, context):
+        obs = context.selected_editable_objects
+        for ob in obs:
+            ob.name = context.window_manager.mass_prefix.prefix + ob.name
+        return {'FINISHED'}
+
+class MassUnprefixer(bpy.types.Operator):
+    bl_idname = "mass_renamer.unprefix"
+    bl_label = "Mass unprefix name's of objects"
+
+    def execute(self, context):
+        obs = context.selected_editable_objects
+        prefixLen = len(context.window_manager.mass_prefix.prefix)
+        for ob in obs:
+            if ob.name[:prefixLen] == context.window_manager.mass_prefix.prefix:
+                ob.name = ob.name[prefixLen:]
+        return {'FINISHED'}
 
 class MassRenamerProps(bpy.types.PropertyGroup):
-    prefix = StringProperty(name='Prefix Name',
+    newName = StringProperty(name='Name',
                             default='New Name',
+                            description='Rename all with this String')
+
+class MassPrefixProps(bpy.types.PropertyGroup):
+    prefix = StringProperty(name='Prefix',
+                            default='add prefix',
                             description='Rename all with this String')
 
 class MassRenamerPanel(bpy.types.Panel):
@@ -74,18 +100,19 @@ class MassRenamerPanel(bpy.types.Panel):
     bl_region_type = "TOOLS"
 
     def draw(self, context):
-        #context.window_manager.mass_renamer = MassRenamerProps()
-        #prefix = StringProperty(name='Prefix Name',
-        #                               default='New Name',
-        #                               description='Rename all with this String')
-        self.layout.prop(context.window_manager.mass_renamer, 'prefix')
+        self.layout.prop(context.window_manager.mass_renamer, 'newName')
         self.layout.operator("mass_renamer.rename")
+        self.layout.prop(context.window_manager.mass_prefix, 'prefix')
+        self.layout.operator("mass_renamer.prefix")
+        self.layout.operator("mass_renamer.unprefix")
         self.layout.operator("mass_renamer.switch")
 
 def register():
     bpy.utils.register_module(__name__)
     bpy.types.WindowManager.mass_renamer = bpy.props.PointerProperty(\
         type=MassRenamerProps)
+    bpy.types.WindowManager.mass_prefix = bpy.props.PointerProperty(\
+        type=MassPrefixProps)
 
 def unregister():
     bpy.utils.unregister_module(__name__)

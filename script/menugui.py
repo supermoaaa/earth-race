@@ -226,14 +226,14 @@ class MenuSelectionCircuitGui(BaseGui):
 		self.ajouterIA_label = bgui.Label(self.ajouterIA_button, 'ajouterIA', text="ajouter IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
-		#self.ajouterIA_button.on_click = self.departSolo
+		self.ajouterIA_button.on_click = self.addIA
 
 #############bouton enlever ia############################
 		self.enleverIA_button = bgui.ImageButton(self.frame, 'enleverIA', sub_theme='menu', size=[0.12, 0.06], pos=[0.82, 0.6])
 		self.enleverIA_label = bgui.Label(self.enleverIA_button, 'enleverIA', text="enlever IA", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 
 				# Setup an on_click callback
-		#self.enleverIA_button.on_click = self.departSolo
+		self.enleverIA_button.on_click = self.removeIA
 
 ############///////////selection_circuit video \\\\\\\\\\\\\\#################
 
@@ -377,7 +377,47 @@ class MenuSelectionCircuitGui(BaseGui):
 		elif gl.generalConf[4] == 'cloud':
 			gl.generalConf[4] = 'sun'
 		self.climatText.img.update_image('menuItems/' + gl.generalConf[4] + '.png')
+		
+	def addIA(self, widget):
+		if gl.dispPlayers[0] == 0 and len(gl.IA)< 5:
+			gl.IA.append('ia')
+			if len(gl.IA) == 1:
+				own["sys"].gPosJoueur2.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
 
+			if len(gl.IA) == 2:
+				own["sys"].gPosJoueur3.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
+
+			if len(gl.IA) == 3:
+				own["sys"].gPosJoueur4.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
+
+			if len(gl.IA) == 4:
+				own["sys"].gPosJoueur5.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
+
+			if len(gl.IA) == 5:
+				own["sys"].gPosJoueur6.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]			
+			print(gl.IA)
+
+	def removeIA(self, widget):
+		if gl.dispPlayers[0] == 0 and len(gl.IA)> 0:
+			gl.IA.remove('ia')
+
+			if len(gl.IA) == 0:
+				own["sys"].gPosJoueur2.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
+
+			if len(gl.IA) == 1:
+				own["sys"].gPosJoueur3.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
+
+			if len(gl.IA) == 2:
+				own["sys"].gPosJoueur4.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
+
+			if len(gl.IA) == 3:
+				own["sys"].gPosJoueur5.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
+
+			if len(gl.IA) == 4:
+				own["sys"].gPosJoueur6.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
+				
+			print(gl.IA)
+	
 	def departSolo(self, widget):
 		rd.showMouse(0)
 		self.action = "depart"

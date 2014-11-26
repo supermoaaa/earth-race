@@ -68,6 +68,7 @@ def main():
 	gl.nbLaps = 1
 	gl.CurrentColor = []
 	gl.skin = 'themes/default'
+	gl.IA =[]
 
 	logs.log("info", gl.lstRoue)
 	logs.log("info", gl.dispPlayers)

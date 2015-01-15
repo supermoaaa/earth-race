@@ -66,7 +66,7 @@ def main():
 	gl.lstRoue = deque(listRoue)
 	gl.dispPlayers=[0, gl.conf[0][0][0]]
 	gl.nbLaps = 1
-	gl.CurrentColor = []
+	gl.CurrentColor = [0.1, 0.3, 0.5, 1.0]
 	gl.skin = 'themes/default'
 	gl.IA =[]
 

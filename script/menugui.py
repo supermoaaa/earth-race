@@ -855,7 +855,7 @@ class jouerSoloGui(BaseGui):
 		self.vitre_button = bgui.FrameButton(self.frame, 'vitreB', base_color=(0.4, 0.4, 0.4, 0.0), size=[0.188, 0.052], pos=[0.73, 0.359])
 
 		# Setup an on_click callback
-		self.vitre_button.on_click = self.colorCar
+		self.vitre_button.on_click = self.colorGlass
 		
 #############bouton flecheG############################
 		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.26], pos=[0.03, 0.40])
@@ -943,7 +943,7 @@ class jouerSoloGui(BaseGui):
 
 
 	def colorGlass(self, widget):
-		print(gl.objectsCars)
+		gl.voiture.setVehicleWindowsColor(gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2])
 
 	def testerVoiture(self, widget):
 		rd.showMouse(0)

@@ -17,7 +17,7 @@ def libList():
 
 def libFree(filePath):
 	if filePath in gl.LibList():
-			gl.LibFree(filePath)
+		gl.LibFree(filePath)
 
 def addObject(pos_ob, objectName, creator=None):
 	try:

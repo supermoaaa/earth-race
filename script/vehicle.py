@@ -49,8 +49,8 @@ class vehicleSimulation(object):
 		self.defaultCam = None
 		self.cams = []
 		self.currentCam = 0
-		self.carMat = []
-		self.windowsMat = []
+		self.carPartsColorObjs = []
+		self.windowsColorObjs = []
 		logs.log('debug', 'vehicle init')
 		logs.log("debug", 'type du véhicule : ' + vehicle_type)
 		for param in gl.conf[1][vehicle_type]:
@@ -84,10 +84,15 @@ class vehicleSimulation(object):
 							" comme fils de : " + str(self.main))
 			elif param[0] == "motorSound":
 				self.motorSound.load(param[1])
-			elif param[0] == "carMat":
-				self.carMat.append(param[1])
-			elif param[0] == "windowsMat":
-				self.windowsMat.append(param[1])
+			elif param[0] == "carPartsColorObj":
+				if param[1] == self.main.name:
+					obj = self.main
+				else:
+					obj = self.main.childrenRecursive.get(param[1])
+				self.carPartsColorObjs.append(obj)
+			elif param[0] == "windowsColorObj":
+				obj = self.main.childrenRecursive.get(param[1])
+				self.windowsColorObjs.append(obj)
 		self.main.suspendDynamics()
 		self.respawned = 0
 		logs.log("debug", "vehicle " + vehicle_type + " initiated")
@@ -458,19 +463,9 @@ class vehicleSimulation(object):
 		oldCam.useViewport = False
 
 	def setCarColor(self, r, g, b):
-		for matName in self.carMat:
-			materialID(self.main, "MA" + matName)
-			self._setColor(idx_mat, r, g, b)
+		for obj in self.carPartsColorObjs:
+			obj.color = [r, g, b, 1.0]
 
 	def setWindowsColor(self, r, g, b):
-		for matName in self.windowsMat:
-			materialID(self.main, "MA" + matName)
-			self._setColor(idx_mat, r, g, b)
-
-	def _setColor(idx_mat, r, g, b):
-		cola = [r, g, b, 1]
-		for mesh in self.main.meshes:
-			for i in range(mesh.getVertexArrayLength(idx_mat)):
-				vertex = mesh.getVertex(idx_mat, i)
-				cola[3] = vertex.a
-				mesh.getVertex(idx_mat, i).setRGBA(cola)
+		for obj in self.windowsColorObjs:
+			obj.color = [r, g, b, 1.0]

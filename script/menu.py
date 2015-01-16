@@ -98,6 +98,8 @@ def main():
 		gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 		gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 		gl.getCurrentScene().active_camera = gl.getCurrentScene().objects['CameraPlayer1']
+		gl.colorCar1 = gl.getCurrentScene().addObject("color ramp", "car1")
+		gl.colorGlass1 = gl.getCurrentScene().addObject("color ramp", "glass1")
 		delattr(gl, 'menuStat')
 
 	else:

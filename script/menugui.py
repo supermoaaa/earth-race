@@ -948,7 +948,7 @@ class jouerSoloGui(BaseGui):
 	def testerVoiture(self, widget):
 		rd.showMouse(0)
 		gl.dispPlayers=[0, gl.conf[0][0][0]]
-		del(gl.voiture)
+		del(gl.CurrentColor, gl.listMaps, gl.lstRoue, gl.listeRadio, gl.posRoueJun, gl.voiture)
 		confParser.savePlayer()
 		gl.mapName = "anneauDeTest"
 		scene = gl.getCurrentScene()

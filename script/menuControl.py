@@ -206,7 +206,6 @@ def main (self):
 				scene = gl.getCurrentScene()
 				for lib in gl.LibList():
 					gl.LibFree(lib)
-				del(gl.CurrentColor, gl.listMaps, gl.lstRoue, gl.listeRadio, gl.posRoueJun, gl.voiture)
 
 				scene.replace('game')
 

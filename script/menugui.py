@@ -204,7 +204,7 @@ class MenuOptionsGui(BaseGui):
 
 class MenuSelectionCircuitGui(BaseGui):
 	"""
-	Gui pour la selection dy circuit
+	Gui pour la selection du circuit
 	"""
 	def __init__(self, parent):
 		# Initiate the system
@@ -1739,7 +1739,7 @@ class MenuVoitureMultijoueursGui(BaseGui):
 
 class MenuOptionsSon(BaseGui):
 	"""
-	Gui pour
+	Gui pour la gestion du son
 	"""
 	def __init__(self, parent):
 		# Initiate the system

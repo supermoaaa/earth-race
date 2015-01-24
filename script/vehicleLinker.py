@@ -12,6 +12,8 @@ class vehicleLinker(object):
 				posObj=gl.getCurrentController().owner,
 				vehicle_type=None, wheels_type=None,
 				camera_object=None, viewPort=None, shadowObj=None):
+		self.carPartsColor = []
+		self.windowsColor = []
 		if not hasattr(gl, "objectsCars"):
 			gl.objectsCars = []
 		self.camera = camera()
@@ -54,10 +56,14 @@ class vehicleLinker(object):
 		return self.car.getMainObject()
 
 	def setVehicleColor(self, r, g, b):
-		self.car.setCarColor(r, g, b)
+		if self.car:
+			self.car.setCarColor(r, g, b)
+		self.carPartsColor = [r, g, b]
 
 	def setVehicleWindowsColor(self, r, g, b):
-		self.car.setWindowsColor(r, g, b)
+		if self.car:
+			self.car.setWindowsColor(r, g, b)
+		self.windowsColor = [r, g, b]
 
 	def onFinishVehicleLoaded(self, st):
 		log("debug", "finish loading vehicle : " + self.vehicle_type)
@@ -67,6 +73,10 @@ class vehicleLinker(object):
 				self.physic, self.parent, self.shadowObj, weakInstance(self))
 		self.__updateWheels()
 		self.camera.setParams(car=self.car)
+		if len(self.carPartsColor)==3:
+			self.setVehicleColor(*self.carPartsColor)
+		if len(self.windowsColor)==3:
+			self.setWindowsColor(*self.windowsColor)
 
 	def setWheels(self, wheels_type):
 		if self.wheels_type != wheels_type:

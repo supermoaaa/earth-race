@@ -191,7 +191,9 @@ def checkPlayerConf():
 				['changeCam', '99', True]
 			],
 			'caisse',
-			'rouepleine1'
+			'rouepleine1',
+			[],
+			[]
 		],
 		[
 			'player2',
@@ -209,7 +211,9 @@ def checkPlayerConf():
 				['changeCam', '99', True]
 			],
 			'caisse',
-			'rouepleine1'
+			'rouepleine1',
+			[],
+			[]
 		],
 		[
 			'player3',
@@ -227,7 +231,9 @@ def checkPlayerConf():
 				['changeCam', '99', True]
 			],
 			'caisse',
-			'rouepleine1'
+			'rouepleine1',
+			[],
+			[]
 		],
 		[
 			'player4',
@@ -245,7 +251,9 @@ def checkPlayerConf():
 				['changeCam', '99', True]
 			],
 			'caisse',
-			'rouepleine1'
+			'rouepleine1',
+			[],
+			[]
 		]
 	]
 	if not hasattr(gl, 'conf'):

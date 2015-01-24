@@ -11,7 +11,8 @@ from sound import musicPlayer
 
 
 def addVehicleLoader(source, playerId, playerName,
-					vehicleType, wheelsType, shadowObj=None):
+					vehicleType, wheelsType, shadowObj=None,
+					vehicleColor=None, windowsColor=None):
 	scene = gl.getCurrentScene()
 	child = scene.addObject('Car', source, 0)
 	child['id'] = playerId
@@ -36,6 +37,10 @@ def addVehicleLoader(source, playerId, playerName,
 	child['cam'] = child.childrenRecursive['Camera']
 	child['car'] = vehicleLinker(posObj=child, vehicle_type=vehicleType,
 								wheels_type=wheelsType, camera_object=child['cam'], shadowObj=shadowObj)
+	if vehicleColor and len(vehicleColor)==3:
+		child['car'].setVehicleColor(*vehicleColor)
+	if windowsColor and len(windowsColor)==3:
+		child['car'].setVehicleWindowsColor(*windowsColor)
 	gl.cars.append([child['id'], child])
 	log("debug", child.get('id'))
 	return child
@@ -236,7 +241,8 @@ def placeCars(own):
 				gl.conf[0][j][0] in gl.dispPlayers) or
 				gl.conf[0][j][0] == 'AI'):
 			child = addVehicleLoader(own, j, gl.conf[0][i][0], gl.conf[0][i][3],
-					gl.conf[0][i][4], scene.lights.get('sun'))
+					gl.conf[0][i][4], scene.lights.get('sun'),
+					gl.conf[0][i][5], gl.conf[0][i][6])
 			child['AI'] = child.childrenRecursive['AI']
 			child['AI'].removeParent()
 			if gl.conf[0][j][1] == 'human':

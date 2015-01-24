@@ -377,7 +377,7 @@ class MenuSelectionCircuitGui(BaseGui):
 		elif gl.generalConf[4] == 'cloud':
 			gl.generalConf[4] = 'sun'
 		self.climatText.img.update_image('menuItems/' + gl.generalConf[4] + '.png')
-		
+
 	def addIA(self, widget):
 		if gl.dispPlayers[0] == 0 and len(gl.IA)< 5:
 			gl.IA.append('ia')
@@ -394,7 +394,7 @@ class MenuSelectionCircuitGui(BaseGui):
 				own["sys"].gPosJoueur5.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
 
 			if len(gl.IA) == 5:
-				own["sys"].gPosJoueur6.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]			
+				own["sys"].gPosJoueur6.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
 			print(gl.IA)
 
 	def removeIA(self, widget):
@@ -415,9 +415,9 @@ class MenuSelectionCircuitGui(BaseGui):
 
 			if len(gl.IA) == 4:
 				own["sys"].gPosJoueur6.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
-				
+
 			print(gl.IA)
-	
+
 	def departSolo(self, widget):
 		rd.showMouse(0)
 		self.action = "depart"
@@ -850,13 +850,13 @@ class jouerSoloGui(BaseGui):
 
 		# Setup an on_click callback
 		self.peinture_button.on_click = self.colorCar
-		
+
 		self.vitre_label = bgui.Label(self.frame, 'vitre', text="vitre:", pt_size=31, pos=[0.64, 0.38], options=bgui.BGUI_DEFAULT)
 		self.vitre_button = bgui.FrameButton(self.frame, 'vitreB', base_color=(0.4, 0.4, 0.4, 0.0), size=[0.188, 0.052], pos=[0.73, 0.359])
 
 		# Setup an on_click callback
 		self.vitre_button.on_click = self.colorGlass
-		
+
 #############bouton flecheG############################
 		self.flecheG_button = bgui.ImageButton(self.frame, 'flecheG', sub_theme='selFlecheG', size=[0.05, 0.26], pos=[0.03, 0.40])
 
@@ -939,11 +939,13 @@ class jouerSoloGui(BaseGui):
 			self.testSound_label.text = "play"
 
 	def colorCar(self, widget):
-		gl.voiture.setVehicleColor(gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2])
+		gl.conf[0][0][5] = [gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2]]
+		gl.voiture.setVehicleColor(*gl.conf[0][0][5])
 
 
 	def colorGlass(self, widget):
-		gl.voiture.setVehicleWindowsColor(gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2])
+		gl.conf[0][0][6] = [gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2]]
+		gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
 
 	def testerVoiture(self, widget):
 		rd.showMouse(0)
@@ -1212,7 +1214,7 @@ class MenuCommandesGui(BaseGui):
 				# Setup an on_click callback
 		self.Modifierupcam_button.on_click = self.Modifierupcam
 
-		
+
 #############bouton sauvgarderComm############################
 		self.sauvgarderComm_button = bgui.ImageButton(self.frame, 'sauvgarderComm', sub_theme='menu', size=[0.24, 0.08], pos=[0.45, 0.08])
 		self.sauvgarderComm_label = bgui.Label(self.sauvgarderComm_button, 'sauvgarderComm', text="SAUVEGARDER", pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
@@ -1436,7 +1438,7 @@ class MenuCommandesGui(BaseGui):
 		elif self.cur_upcam_label.state == 1:
 			self.cur_respawn_label.color = 0.95,0.23,0.0,1
 			self.cur_respawn_label.state = 0
-	
+
 	def updateKeys(self, key) :
 		#print(self.cur_respawn_label.state, ev.EventToString(key))
 		if self.cur_accelerateur_label.state == 1:
@@ -1479,10 +1481,10 @@ class MenuCommandesGui(BaseGui):
 		if self.cur_respawn_label.state == 1:
 			self.cur_respawn_label.text = ev.EventToString(key)
 			gl.conf[0][gl.configurablePlayers.index(self.joueur_label.text)][2][8][1] = key
-			
+
 	def sauvgarderComm(self, widget):
 		confParser.savePlayer()
-	
+
 	def detruire(self) :
 		"""Détruit les widgets"""
 		self.frame.parent._remove_widget(self.frame)

@@ -95,6 +95,8 @@ def main (self):
 				gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
 				gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 				gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+				gl.voiture.setVehicleColor(*gl.conf[0][0][5])
+				gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
 
 
 
@@ -137,7 +139,6 @@ def main (self):
 				logs.log("info", gl.LibList())
 
 				if hasattr(gl , 'voiture'):
-					gl.voiture.__del__()
 					del gl.voiture
 
 			elif sys.action == "MenuSelectionCircuit" :
@@ -156,8 +157,8 @@ def main (self):
 
 				print(gl.LibList())
 				if hasattr(gl , 'voiture'):
-					gl.voiture.__del__()
 					del gl.voiture
+
 
 		elif gl.status == "MenuMultijoueurs" :
 			if sys.action == "retour" :
@@ -200,6 +201,8 @@ def main (self):
 					gl.voiture = vehicleLinker(posObj = scene.objects['carpos1'], physic = False, parent = True)
 					gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
+					gl.voiture.setVehicleColor(*gl.conf[0][0][5])
+					gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
 
 			if sys.action == "depart" :
 				confParser.savePlayer()

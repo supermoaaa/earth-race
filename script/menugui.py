@@ -945,7 +945,7 @@ class jouerSoloGui(BaseGui):
 
 	def colorGlass(self, widget):
 		gl.conf[0][0][6] = [gl.CurrentColor[0], gl.CurrentColor[1], gl.CurrentColor[2]]
-		gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
+		gl.voiture.setWindowsColor(*gl.conf[0][0][6])
 
 	def testerVoiture(self, widget):
 		rd.showMouse(0)

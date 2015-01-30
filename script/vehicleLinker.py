@@ -55,15 +55,17 @@ class vehicleLinker(object):
 	def getVehicle(self):
 		return self.car.getMainObject()
 
-	def setVehicleColor(self, r, g, b):
-		if self.car:
-			self.car.setCarColor(r, g, b)
-		self.carPartsColor = [r, g, b]
+	def setVehicleColor(self, r=None, g=None, b=None):
+		if r!=None and g!=None or b!=None:
+			if self.car:
+				self.car.setCarColor(r, g, b)
+			self.carPartsColor = [r, g, b]
 
-	def setVehicleWindowsColor(self, r, g, b):
-		if self.car:
-			self.car.setWindowsColor(r, g, b)
-		self.windowsColor = [r, g, b]
+	def setWindowsColor(self, r=None, g=None, b=None):
+		if r!=None and g!=None or b!=None:
+			if self.car:
+				self.car.setWindowsColor(r, g, b)
+			self.windowsColor = [r, g, b]
 
 	def onFinishVehicleLoaded(self, st):
 		log("debug", "finish loading vehicle : " + self.vehicle_type)

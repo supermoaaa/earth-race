@@ -40,7 +40,7 @@ def addVehicleLoader(source, playerId, playerName,
 	if vehicleColor and len(vehicleColor)==3:
 		child['car'].setVehicleColor(*vehicleColor)
 	if windowsColor and len(windowsColor)==3:
-		child['car'].setVehicleWindowsColor(*windowsColor)
+		child['car'].setWindowsColor(*windowsColor)
 	gl.cars.append([child['id'], child])
 	log("debug", child.get('id'))
 	return child

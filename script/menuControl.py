@@ -96,7 +96,7 @@ def main (self):
 				gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 				gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 				gl.voiture.setVehicleColor(*gl.conf[0][0][5])
-				gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
+				gl.voiture.setWindowsColor(*gl.conf[0][0][6])
 
 
 
@@ -130,7 +130,7 @@ def main (self):
 				gl.colorCar1.endObject()
 				gl.colorGlass1.endObject()
 				del gl.colorCar1, gl.colorGlass1
-				
+
 				try:
 					for lib in gl.LibList():
 						gl.LibFree(lib)
@@ -202,7 +202,7 @@ def main (self):
 					gl.voiture.setVehicle( str(gl.conf[0][0][3]) )
 					gl.voiture.setWheels( str(gl.conf[0][0][4]) )
 					gl.voiture.setVehicleColor(*gl.conf[0][0][5])
-					gl.voiture.setVehicleWindowsColor(*gl.conf[0][0][6])
+					gl.voiture.setWindowsColor(*gl.conf[0][0][6])
 
 			if sys.action == "depart" :
 				confParser.savePlayer()

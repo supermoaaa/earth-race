@@ -395,7 +395,7 @@ class MenuSelectionCircuitGui(BaseGui):
 
 			if len(gl.IA) == 5:
 				own["sys"].gPosJoueur6.img.texco = [(0,0), (0.5,0.0), (0.5,0.5), (0,0.5)]
-			print(gl.IA)
+
 
 	def removeIA(self, widget):
 		if gl.dispPlayers[0] == 0 and len(gl.IA)> 0:
@@ -416,7 +416,6 @@ class MenuSelectionCircuitGui(BaseGui):
 			if len(gl.IA) == 4:
 				own["sys"].gPosJoueur6.img.texco = [(0.5, 0.5), (1, 0.5), (1, 1), (0.5, 1)]
 
-			print(gl.IA)
 
 	def departSolo(self, widget):
 		rd.showMouse(0)
@@ -784,7 +783,10 @@ class MenuPrincipalGui(BaseGui):
 		# Setup an on_click callback
 		self.options_button.on_click = self.optionsM
 
-
+#############bouton choix de la langue############################
+		self.langue = bgui.Label(self.frame, 'langue_choise', text=gl.word[0]+": ", pt_size=24, pos=[0.72, 0.94], options=bgui.BGUI_DEFAULT)
+		self.langue_button = bgui.FrameButton(self.frame, 'langue_button', base_color=(0.4, 0.4, 0.4, 0.3), size=[0.108, 0.025], pos=[0.84, 0.94])
+		self.langue_label = bgui.Label(self.langue_button, 'langue_buttonL', text=gl.generalConf[5], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
 		# Autres attributs
 		self.action = None
 		self.selection = None

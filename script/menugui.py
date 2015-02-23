@@ -784,9 +784,12 @@ class MenuPrincipalGui(BaseGui):
 		self.options_button.on_click = self.optionsM
 
 #############bouton choix de la langue############################
-		self.langue = bgui.Label(self.frame, 'langue_choise', text=gl.word[0]+": ", pt_size=24, pos=[0.72, 0.94], options=bgui.BGUI_DEFAULT)
+		self.langueC = bgui.Label(self.frame, 'langue_choise', text=gl.word[0]+": ", pt_size=24, pos=[0.72, 0.94], options=bgui.BGUI_DEFAULT)
 		self.langue_button = bgui.FrameButton(self.frame, 'langue_button', base_color=(0.4, 0.4, 0.4, 0.3), size=[0.108, 0.025], pos=[0.84, 0.94])
-		self.langue_label = bgui.Label(self.langue_button, 'langue_buttonL', text=gl.generalConf[5], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.langue_label = bgui.Label(self.langue_button, 'buttonL', text=gl.generalConf[5], pt_size=24, options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		# Setup an on_click callback
+		self.langue_button.on_click = self.langue
+		
 		# Autres attributs
 		self.action = None
 		self.selection = None
@@ -816,6 +819,15 @@ class MenuPrincipalGui(BaseGui):
 		self.action = "MenuOptions"
 		self.ouvert = False
 
+	def langue(self, widget) :
+		if gl.generalConf[5] == "Francais":
+			gl.generalConf[5] = "English"
+		elif gl.generalConf[5] == "English":
+			gl.generalConf[5] = "Deutsch"
+		elif gl.generalConf[5] == "Deutsch":
+			gl.generalConf[5] = "Francais"
+		confParser.saveConf()
+		gl.restartGame()
 	def main(self) :
 		"""Refresh des events et de l'affichage"""
 		BaseGui.main(self)

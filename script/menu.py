@@ -27,7 +27,6 @@ def main():
 	with open(mainDir+"lang"+sep+gl.generalConf[5]+".txt", 'r') as f:
 		for element in f.readlines():
 			gl.word.append(element.rstrip('\n'))
-	print(gl.generalConf[5])
 	
 	
 	listVt = listdir(path.expanduser(mainDir+"objects"+sep+"vehicles"))
